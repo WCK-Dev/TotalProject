@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+    	<!-- 계층 / 알림형 게시판 프로젝트 -->
+		<typeAlias type="egovframework.rte.psl.dataaccess.util.EgovMap" alias="egovMap"/>
+		<typeAlias type="egovframework.example.board.service.BoardDefaultVO" alias="searchVO"/>
+		<typeAlias type="egovframework.example.board.service.BoardVO" alias="boardVO"/>
+		<typeAlias type="egovframework.example.board.service.UserVO" alias="userVO"/>
+		<typeAlias type="egovframework.example.board.service.CommentVO" alias="commentVO"/>
+		<typeAlias type="egovframework.example.board.service.HistoryVO" alias="historyVO"/>
+		
+    	<!-- 태그 갤러리 게시판 프로젝트 -->
+		<typeAlias type="egovframework.rte.psl.dataaccess.util.EgovMap" alias="egovMap"/>
+		<typeAlias type="egovframework.example.gallery.service.GalleryVO" alias="galleryVO"/>
+		<typeAlias type="egovframework.example.gallery.service.FilesVO" alias="filesVO"/>
+		<typeAlias type="egovframework.example.gallery.service.TagVO" alias="tagVO"/>
+		
+		<!-- 체크리스트 게시판 프로젝트 -->
+		<typeAlias type="egovframework.rte.psl.dataaccess.util.EgovMap" alias="egovMap"/>
+		<typeAlias type="egovframework.example.checklist.service.CheckBoardVO" alias="checkBoardVO"/>
+		<typeAlias type="egovframework.example.checklist.service.CheckListVO" alias="checkListVO"/>
+		<typeAlias type="egovframework.example.checklist.service.AnswerVO" alias="answerVO"/>
+		<typeAlias type="egovframework.example.checklist.service.LogVO" alias="logVO"/>
+		<typeAlias type="egovframework.example.checklist.service.ShowListVO" alias="showListVO"/>
+		
+    </typeAliases>
+</configuration>

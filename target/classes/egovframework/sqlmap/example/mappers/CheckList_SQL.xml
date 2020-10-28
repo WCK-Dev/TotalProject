@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.checklist.service.impl.CheckListMapper">
+	
+	<!-- <select id="login" resultType="userVO">
+		SELECT u_id, u_name, u_roll
+		FROM user
+		WHERE u_id = #{u_id }
+			AND u_pwd = #{u_pwd }
+	</select>-->
+	
+	
+	<select id="selectUserList" resultType="userVO">
+		SELECT user_id, user_name
+		FROM user
+		WHERE admin_YN != 'Y'
+	</select>
+	
+	<insert id="insertCheckBoard" useGeneratedKeys="true" keyProperty="b_seq">
+		INSERT INTO 
+			checkboard(
+				  b_title
+				 ,b_comment
+				 ,b_writer
+				 ,b_topYN
+				 )
+		VALUES(
+			   #{b_title}
+			  ,#{b_comment}
+			  ,#{b_writer}
+			  ,#{b_topYN}
+			  )
+	</insert>
+	
+	<update id="updateCheckBoard">
+		UPDATE checkboard
+			SET b_title = #{b_title}
+			   ,b_comment = #{b_comment}
+			   ,b_topYN = #{b_topYN}
+			   ,b_modifier = #{b_modifier}
+			   ,b_modifydate = sysdate()
+		WHERE b_seq = #{b_seq}
+	</update>
+	
+	<delete id="deleteCheckBoard">
+		DELETE FROM checkboard
+		WHERE b_seq = #{b_seq}
+	</delete>
+	
+	<insert id="insertCheckList">
+		INSERT INTO
+			checklist(
+					  c_name
+					 ,b_seq
+					 )
+		VALUES(
+			   #{c_name}
+			  ,#{b_seq}
+			  )
+	</insert>
+	
+	<delete id="deleteCheckList">
+		DELETE FROM checklist
+		WHERE c_seq = #{c_seq}
+	</delete>
+	
+	<insert id="insertShowList">
+		INSERT INTO
+			showlist(
+				 user_id
+				,b_seq
+				 )
+		VALUES(
+			   #{user_id}
+			  ,#{b_seq}
+			  )
+	</insert>
+	
+	<insert id="deleteShowList">
+		DELETE FROM showlist
+		WHERE b_seq = #{b_seq}
+	</insert>
+	
+	
+	<select id="selectCheckBoardListAll" resultType="checkBoardVO">
+		SELECT *
+		FROM checkboard
+		WHERE b_topYN != 'Y'
+		ORDER BY b_seq DESC
+		LIMIT #{firstIndex}, #{recordCountPerPage}
+	</select>
+	
+	<select id="selectCheckBoardListAllTotCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM checkboard
+		WHERE b_topYN != 'Y'
+	</select>
+	
+	<select id="selectCheckBoardTopListAll" resultType="checkBoardVO">
+		SELECT *
+		FROM checkboard
+		WHERE b_topYN = 'Y'
+		ORDER BY b_seq DESC
+	</select>
+	
+	<select id="selectCheckBoardList" resultType="checkBoardVO">
+		SELECT b.b_seq, b_title, b_comment, b_regdate, b_writer, b_topYN, b_modifier, b_modifydate
+		FROM checkboard b, showlist s 
+		WHERE b.b_seq = s.b_seq AND s.user_id = #{user_id} AND b.b_topYN != 'Y'
+		ORDER BY b_seq DESC
+		LIMIT #{firstIndex}, #{recordCountPerPage}
+	</select>
+	
+	<select id="selectCheckBoardListTotCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM checkboard b, showlist s
+		WHERE b.b_seq = s.b_seq AND s.user_id = #{user_id} AND b.b_topYN != 'Y'
+	</select>
+	
+	<select id="selectCheckBoardTopList" resultType="checkBoardVO">
+		SELECT b.b_seq, b_title, b_comment, b_regdate, b_writer, b_topYN, b_modifier, b_modifydate
+		FROM checkboard b, showlist s
+		WHERE b.b_seq = s.b_seq AND s.user_id = #{user_id} AND b_topYN = 'Y'
+		ORDER BY b.b_seq DESC
+	</select>
+	
+	<select id="selectCheckBoard" resultType="checkBoardVO">
+		SELECT *
+		FROM checkboard
+		WHERE b_seq = #{b_seq}
+	</select>
+	
+	<select id="selectCheckList" resultType="checkListVO">
+		SELECT c_seq, c_name
+		FROM checklist
+		WHERE b_seq = #{b_seq}
+	</select>
+	
+	<select id="selectShowList" resultType="showListVO">
+		SELECT user_id
+		FROM showlist
+		WHERE b_seq = #{b_seq}
+	</select>
+	
+	<select id="selectAnswerList" resultType="answerVO">
+		SELECT a_checked, a_regdate, a_modifier, a_modifydate, user_id, c.c_seq
+		FROM answer a, checklist c
+		WHERE c.c_seq = a.c_seq AND c.b_seq = #{b_seq} AND a.user_id = #{user_id}
+	</select>
+	
+	<select id="selectAnswerOne" resultType="answerVO">
+		SELECT a_checked, a_regdate, user_id, c_seq
+		FROM answer
+		WHERE user_id = #{user_id}
+			AND c_seq = #{c_seq}
+	</select>
+	
+	<insert id="insertAnswer">
+		INSERT INTO 
+			answer(
+				   a_checked
+				  ,a_regdate
+				  ,user_id
+				  ,c_seq
+				  )
+			VALUES(
+				   #{a_checked}
+				  ,sysdate()
+				  ,#{user_id}
+				  ,#{c_seq}
+				  )
+	</insert>
+	
+	<update id="updateAnswer">
+		update answer
+			SET a_checked = #{a_checked}
+			   ,a_modifier = #{user_id}
+			   ,a_modifydate = sysdate()
+			WHERE user_id = #{answer_id}
+			AND c_seq = #{c_seq} 
+	</update>
+	
+	
+	<select id="selectLog" resultType="logVO">
+		SELECT *
+		FROM log
+		WHERE user_id = #{user_id}
+			AND b_seq = #{b_seq}
+	</select>
+	
+	<insert id="insertLog">
+		INSERT INTO 
+					log(
+						user_id
+					   ,b_seq
+					   ,l_readdate
+						)
+				VALUES(
+						#{user_id}
+					   ,#{b_seq}
+					   ,sysdate()
+					  )
+	</insert>
+	
+	<update id="updateLog">
+		UPDATE log
+			SET l_readdate = sysdate()
+			WHERE user_id = #{user_id} AND b_seq = #{b_seq} 
+	</update>
+	
+	<select id="selectLogList" resultType="logVO">
+		SELECT *
+		FROM log
+		WHERE b_seq = #{b_seq}
+	</select>
+	
+	<select id="selectUserAnswerList" resultType="answerVO">
+		SELECT user_id, a_regdate, a_modifier, a_modifydate
+		FROM answer a, checklist c
+		WHERE c.c_seq = a.c_seq AND c.b_seq = #{b_seq}
+		GROUP BY user_id
+	</select>
+</mapper>

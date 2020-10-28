@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.board.service.impl.BoardMapper">
+
+	
+	
+	<select id="selectBoardKinds" parameterType="boardVO" resultType="boardVO">
+	
+			SELECT * FROM boardkinds
+			WHERE bk_bseq = #{bk_bseq}
+	
+	</select>
+	
+	<select id="selectBoardKindsList" parameterType="boardVO" resultType="egovMap">
+
+			SELECT * FROM boardkinds
+			
+			ORDER BY bk_order
+
+	</select>
+	
+	<select id="selectMaxBseq" resultType="int">
+	
+			SELECT IFNULL(MAX(bk_bseq), 0) FROM boardkinds
+			
+	</select>
+	
+	<select id="selectMaxBkOrder" resultType="int">
+			
+			SELECT IFNULL(MAX(bk_order), 0) FROM boardkinds
+	
+	</select>
+	
+	<insert id="insertBoardKinds" parameterType="boardVO">
+	
+			INSERT INTO boardkinds
+				( bk_bseq
+				 ,bk_type
+				 ,bk_order
+				 ,bk_bname
+				 ,bk_breply_YN
+				 ,bk_bcomment_YN
+				 ,bk_bsecret_YN
+				)
+			VALUES ( #{bk_bseq}
+					,#{bk_type}
+					,#{bk_order}
+					,#{bk_bname}
+					,#{bk_breply_YN}
+					,#{bk_bcomment_YN}
+					,#{bk_bsecret_YN}
+					)
+	
+	</insert>
+	
+	<update id="reOrderBoardKinds">
+	
+			UPDATE boardkinds
+			SET bk_order = #{bk_order}
+			WHERE bk_bseq = #{bk_bseq}
+			
+	</update>
+	
+	<update id="updateBoardKinds" parameterType="boardVO">
+
+		UPDATE boardkinds
+		SET bk_bname = #{bk_bname}
+		   ,bk_type = #{bk_type}
+		   ,bk_breply_YN = #{bk_breply_YN}
+		   ,bk_bcomment_YN = #{bk_bcomment_YN}
+		   ,bk_bsecret_YN = #{bk_bsecret_YN}
+		WHERE bk_bseq = #{bk_bseq} 
+	
+	</update>
+	
+	<delete id="deleteBoardKinds" parameterType="boardVO">
+	
+		DELETE FROM boardkinds
+		WHERE bk_bseq = #{bk_bseq}
+	
+	</delete>
+	
+	<insert id="insertBoard" parameterType="boardVO">
+
+			INSERT INTO BOARD
+				( b_no
+				  ,	b_title
+				  , b_writer
+				  , b_content
+				  , b_refno
+				  , b_notice
+				  , b_depth
+				  , b_readcnt
+				  , b_origin
+				  , b_secret
+				  , b_pwd
+				  , b_bseq
+				   )
+			VALUES ( #{b_no}
+				  ,	#{b_title}
+				  , #{b_writer}
+				  , #{b_content}
+				  , #{b_refno}
+				  , #{b_notice}
+				  , 1
+				  , 0
+				  , #{b_origin}
+				  , #{b_secret}
+				  , #{b_pwd}
+				  , #{b_bseq}
+				   )
+
+	</insert>
+
+	<update id="updateBoard">
+
+			UPDATE BOARD
+			SET b_title=#{b_title}
+				, b_content=#{b_content}
+			WHERE b_no=#{b_no}
+
+	</update>
+
+	<delete id="deleteBoard">
+
+			<if test="b_refno == 0">
+				DELETE FROM BOARD
+				WHERE b_no = #{b_no} OR b_origin = #{b_no}
+			</if>
+			<if test="b_refno != 0">
+				DELETE FROM BOARD
+				WHERE b_no = #{b_no}
+			</if>
+			
+	</delete>
+
+	<select id="selectBoard" resultType="boardVO">
+
+			SELECT
+				*
+			FROM BOARD
+			WHERE b_no=#{b_no}
+
+	</select>
+	
+	<update id="updateReadCnt">
+			
+			UPDATE board 
+			SET b_readcnt = b_readcnt + 1
+			WHERE b_no = #{b_no}
+			
+	</update>
+
+	<select id="selectBoardList" parameterType="boardVO" resultType="egovMap">
+
+			WITH RECURSIVE CTE AS (
+				SELECT b_no 
+						,b_title
+						,b_writer
+						,b_regdate
+						,b_content
+						,b_readcnt
+						,b_refno
+						,b_depth
+						,b_notice
+						,CAST(LPAD(b_no, 10, 0) AS CHAR(3000)) path
+						,b_origin
+						,b_secret
+						,b_pwd
+						,b_bseq
+				FROM board
+				WHERE b_refno = 0
+				UNION ALL
+				SELECT b.b_no
+						,b.b_title
+						,b.b_writer
+						,b.b_regdate
+						,b.b_content
+						,b.b_readcnt
+						,b.b_refno
+						,b.b_depth
+						,b.b_notice
+						,CONCAT(a.path, ',', b.b_no) AS path
+						,b.b_origin
+						,b.b_secret
+						,b.b_pwd
+						,b.b_bseq
+				FROM CTE a
+				INNER JOIN board b ON a.b_no = b.b_refno
+			)
+			
+			SELECT b_no, b_title, b_writer, b_regdate, b_content, b_readcnt, b_refno, b_depth, path, b_origin, b_secret, b_pwd, b_bseq, (SELECT COUNT(*) FROM comment c WHERE c.b_no = cte.b_no ) AS b_commentCnt 
+			FROM CTE cte
+			WHERE b_notice != 1 AND b_bseq = #{b_bseq}
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition == 0">
+						AND b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 2">
+						AND b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 3">
+		            	AND
+		            	(
+		            	b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+		            	b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+						b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+					</when>
+				</choose>
+			</if>
+			ORDER BY b_origin DESC, path ASC
+			LIMIT #{firstIndex}, #{recordCountPerPage}
+
+	</select>
+
+	<select id="selectBoardListTotCnt" parameterType="boardVO" resultType="int">
+
+			SELECT COUNT(*) totcnt
+			FROM BOARD
+			WHERE b_notice != 1 AND b_bseq = #{b_bseq}
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition == 0">
+						AND b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 2">
+						AND b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 3">
+		            	AND
+		            	(
+		            	b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+		            	b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+						b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<select id="selectAlarmList" parameterType="boardVO" resultType="egovMap">
+
+			WITH RECURSIVE CTE AS (
+				SELECT b_no 
+						,b_title
+						,b_writer
+						,b_regdate
+						,b_content
+						,b_readcnt
+						,b_refno
+						,b_depth
+						,b_notice
+						,CAST(LPAD(b_no, 10, 0) AS CHAR(3000)) path
+						,b_origin
+						,b_secret
+						,b_pwd
+						,b_bseq
+				FROM board
+				WHERE b_refno = 0
+				UNION ALL
+				SELECT b.b_no
+						,b.b_title
+						,b.b_writer
+						,b.b_regdate
+						,b.b_content
+						,b.b_readcnt
+						,b.b_refno
+						,b.b_depth
+						,b.b_notice
+						,CONCAT(a.path, ',', b.b_no) AS path
+						,b.b_origin
+						,b.b_secret
+						,b.b_pwd
+						,b.b_bseq
+				FROM CTE a
+				INNER JOIN board b ON a.b_no = b.b_refno
+			)
+			
+			SELECT b_no, b_title, b_writer, b_regdate, b_content, b_readcnt, b_refno, b_depth, path, b_origin, b_secret, b_pwd, b_bseq, (SELECT COUNT(*) FROM comment c WHERE c.b_no = cte.b_no ) AS b_commentCnt 
+			FROM CTE cte
+			WHERE b_notice != 1 AND b_bseq = #{b_bseq}
+			<if test="bk_type == 1">
+				AND b_no NOT IN (SELECT b_no FROM history WHERE user_id = #{loginId})
+			</if>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition == 0">
+						AND b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 2">
+						AND b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 3">
+		            	AND
+		            	(
+		            	b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+		            	b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+						b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+					</when>
+				</choose>
+			</if>
+			ORDER BY b_origin DESC, path ASC
+			<if test="bk_type == 0">
+			LIMIT #{firstIndex}, #{recordCountPerPage}
+			</if>
+			
+
+	</select>
+
+	<select id="selectAlarmListTotCnt" parameterType="boardVO" resultType="int">
+
+			SELECT COUNT(*) totcnt
+			FROM BOARD
+			WHERE b_notice != 1 AND b_bseq = #{b_bseq}
+			<if test="bk_type == 1">
+				AND b_no NOT IN (SELECT b_no FROM history WHERE user_id = #{loginId})
+			</if>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition == 0">
+						AND b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 2">
+						AND b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 3">
+		            	AND
+		            	(
+		            	b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+		            	b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+						b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<select id="selectNoticeList" resultType="egovMap">
+			SELECT
+				b_no, b_title, b_writer, b_content, b_regdate, b_readcnt, b_refno, b_depth, b_notice
+			FROM BOARD
+			WHERE b_notice=1 AND b_bseq = #{b_bseq}
+			ORDER BY b_no DESC
+			LIMIT 3
+	</select>
+	
+	<select id="userIdCheck" parameterType="userVO" resultType="String">
+	
+			SELECT count(*) FROM user
+			WHERE user_id = #{user_id}
+			
+	</select>
+	
+	<insert id="insertUser" parameterType="userVO">
+	
+			INSERT INTO user
+				( user_id
+					,user_pwd
+					,user_name		
+				)
+			VALUES ( #{user_id}
+					,#{user_pwd}
+					,#{user_name}
+				)	
+	
+	</insert>
+	
+	
+	<select id="loginCheck" parameterType="userVO" resultType="userVO">
+
+			SELECT *
+			FROM USER
+			WHERE user_id = #{user_id}
+			AND user_pwd = #{user_pwd}
+			
+	</select>
+	
+	<select id="selectMaxBno" resultType="int">
+	
+			SELECT IFNULL(MAX(b_no), 0) FROM board
+			
+	</select>
+	
+	<insert id="insertReply" parameterType="boardVO">
+
+			INSERT INTO BOARD
+				( b_no
+				  , b_title
+				  , b_writer
+				  , b_content
+				  , b_refno
+				  , b_notice
+				  , b_depth
+				  , b_readcnt
+				  , b_origin
+				  , b_bseq
+				   )
+			VALUES ( #{b_no} 
+			      , #{b_title}
+				  , #{b_writer}
+				  , #{b_content}
+				  , #{b_refno}
+				  , #{b_notice}
+				  , #{b_depth} + 1
+				  , 0
+				  , #{b_origin}
+				  , #{b_bseq}
+				   )
+
+	</insert>
+	
+	<select id="selectUserList" parameterType="userVO" resultType="egovMap">
+
+			SELECT * 
+			FROM user
+			WHERE user_id != 'master'
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition == 0">
+						AND user_id LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND user_name LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+				</choose>
+			</if>
+			LIMIT #{firstIndex}, #{recordCountPerPage}
+
+	</select>
+	
+	<select id="selectUserListTotCnt" parameterType="userVO" resultType="int">
+
+
+			SELECT COUNT(*) totcnt
+			FROM user
+			WHERE user_id != 'master'
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+		            <when test="searchCondition == 0">
+						AND user_id LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND user_name LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+				</choose>
+			</if>
+			
+	</select>
+	
+	<select id="selectUser" parameterType="userVO" resultType="userVO">
+	
+			SELECT *
+			FROM user
+			WHERE user_id = #{user_id}
+			
+	</select>
+	
+	<update id="updateUser" parameterType="userVO">
+		
+			UPDATE user 
+			SET write_YN = #{write_YN}
+			   ,update_YN = #{update_YN}
+			   ,delete_YN = #{delete_YN}
+			   ,reply_YN = #{reply_YN}
+			   ,comment_YN = #{comment_YN}
+			   ,read_YN = #{read_YN}
+			   ,admin_YN = #{admin_YN}
+			WHERE user_id = #{user_id} 
+		
+	</update>
+	
+	<select id="selectMaxCno" resultType="int">
+	
+			SELECT IFNULL(MAX(c_no), 0) FROM comment
+			
+	</select>
+	
+	<insert id="insertComment" parameterType="commentVO">
+		
+			INSERT INTO comment
+				( c_no
+				 ,c_writer
+				 ,c_content
+				 ,b_no
+				 ,c_origin
+				 ,c_depth
+				 )
+			VALUES 
+				( #{c_no}
+				 ,#{c_writer}
+				 ,#{c_content}
+				 ,#{b_no}
+				 ,#{c_no}
+				 ,1
+				)
+				
+	</insert>
+	
+	<insert id="insertRecomment" parameterType="commentVO">
+		
+			INSERT INTO comment
+				( c_no
+				 ,c_writer
+				 ,c_content
+				 ,b_no
+				 ,c_parent
+				 ,c_origin
+				 ,c_depth
+				 )
+			VALUES 
+				( #{c_no}
+				 ,#{c_writer}
+				 ,#{c_content}
+				 ,#{b_no}
+				 ,#{c_parent}
+				 ,#{c_origin}
+				 ,#{c_depth} + 1
+				)
+				
+	</insert>
+	
+	<delete id="deleteComment" parameterType="commentVO">
+	
+			DELETE FROM comment
+			WHERE c_no = #{c_no} AND c_writer = #{c_writer}
+	
+	</delete>
+	
+	<select id="selectCommentList" parameterType="boardVO" resultType="egovMap">
+			
+			WITH RECURSIVE CTE AS (
+				SELECT c_no 
+						,c_writer
+						,c_content
+						,c_regdate
+						,c_parent
+						,c_origin
+						,CAST(LPAD(c_no, 10, 0) AS CHAR(3000)) path
+						,b_no
+						,c_depth
+				FROM comment
+				WHERE c_parent = 0
+				UNION ALL
+				SELECT c.c_no
+						,c.c_writer
+						,c.c_content
+						,c.c_regdate
+						,c.c_parent
+						,c.c_origin
+						,CONCAT(a.path, ',', c.c_no) AS path
+						,c.b_no
+						,c.c_depth
+				FROM CTE a
+				INNER JOIN comment c ON a.c_no = c.c_parent
+			)
+			
+			SELECT * 
+			FROM CTE
+			WHERE b_no = #{b_no}
+			ORDER BY c_origin, path
+	
+	</select>
+	
+	<insert id="insertHistory" parameterType="historyVO">
+	
+			INSERT INTO history
+				( b_no
+				 ,user_id
+				)
+			VALUES 
+				( #{b_no}
+				 ,#{user_id}
+				)
+	
+	</insert> 
+	
+	<select id="checkHistory" parameterType="historyVO" resultType="int">
+	
+			SELECT COUNT(*)
+			FROM history
+			WHERE user_id = #{user_id} AND b_no = #{b_no}
+	</select>
+	
+</mapper>
