@@ -59,10 +59,7 @@
 			</div>
 		</div>
 	
-		<div class="text-right">
-			${user.user_name }(${user.user_id })님 어서오세요! 
-			<button class="btn btn-danger" type="button" onclick="location.href='logout.do'">로그아웃</button>
-		</div>
+		<jsp:include page="../cmmn/pageHeader.jsp"></jsp:include>
 		
 		<h2 style="margin-top: 60px; display: inline-block;">${user.user_id }님의 체크리스트</h2>
 		

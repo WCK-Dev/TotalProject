@@ -19,7 +19,7 @@
 <body>
 
 	<div class="container wrapper">
-	<form class="text-center border border-light p-5" action="writeBoard.do" method="post" onsubmit="return validationCheck()">
+	<form class="text-center border border-light p-5" action="writeCheckBoard.do" method="post" onsubmit="return validationCheck()">
 	
 	    <p class="h4 mb-4">체크리스트 추가</p>
 	    <input type="hidden" name="c_nameList" value="">

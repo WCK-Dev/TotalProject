@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.baseball.service.impl.BaseBallMapper">
+
+	<insert id="insertBaseball" parameterType="baseballVO" useGeneratedKeys="true" keyProperty="baseball_seq">
+	
+			INSERT INTO baseball
+					(
+					 baseball_regdate,
+					 baseball_num,
+					 user_id
+					)
+				
+			VALUES ( 
+					 now()
+					,#{baseball_num}
+					,#{user_id}
+					)
+	</insert>
+</mapper>

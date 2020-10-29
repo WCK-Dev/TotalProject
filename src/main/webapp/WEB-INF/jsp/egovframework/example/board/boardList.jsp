@@ -163,7 +163,11 @@ function fn_link_page(pageNo){
 		     <span class="b-close">X</span>
 			<div class="content2" style="height:auto; width:100%;"> 
 				<div>
-					<h3>공지사항</h3>
+					<h3>
+					<c:forEach items="${boardKindsList }" var="boardKinds">
+						<c:if test="${boardKinds.bkBseq == board.b_bseq}">${boardKinds.bkBname}</c:if>
+					</c:forEach>
+					공지사항</h3>
 					<table class="table table-hover mb-3" width="">
 						<!--Table head-->
 						<thead>
@@ -224,7 +228,7 @@ function fn_link_page(pageNo){
 					</select>
 					<div class="form-group">
 					  	<input type="text" class="form-control" name="searchKeyword" value="${board.searchKeyword}">
-					 </div>
+					</div>
 					 <button type="submit" class="btn btn-primary">검색</button>
 			</nav>
 		</div>

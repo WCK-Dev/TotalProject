@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
 	* { box-shadow: 0 0!important;}
-	.container { width: 100%; margin: 250px auto;}
+	.container { width: 100%; margin: 200px auto;}
 </style>
 <!-- JQuery -->
 <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -31,9 +31,14 @@
 					회원 관리</button>
 				</div>
 				<div class="row-sm">
-					<button type="button" class="btn waves-effect mx-0 my-0 w-100"
+					<button type="button" class="h4 btn border-bottom border-linght waves-effect mx-0 my-0 w-100"
 						onclick="location='managementBoard.do'">
 	  				게시판 관리</button>
+				</div>
+				<div class="row-sm">
+					<button type="button" class="h4 btn border-bottom border-linght waves-effect mx-0 my-0 w-100"
+						onclick="location='checkListAdmin.do'">
+	  				체크리스트 관리</button>
 				</div>
 			</div>
 		</div>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import egovframework.example.board.service.BoardService;
 import egovframework.example.board.service.UserVO;
 import egovframework.example.checklist.service.AnswerVO;
 import egovframework.example.checklist.service.CheckBoardVO;
@@ -27,9 +28,11 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 @Controller
 public class CheckListController {
 	
-	/** EgovSampleService */
 	@Resource(name = "checkListService")
 	private CheckListService checkListService;
+	
+	@Resource(name = "boardService")
+	private BoardService boardService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -38,6 +41,8 @@ public class CheckListController {
 	//유저 로그인시 체크리스트 메인페이지
 	@RequestMapping(value="checkListMain.do")
 	public String checkListMain(HttpSession session, ModelMap model, CheckBoardVO bvo) {
+		
+		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
 		
 		String user_id = ((UserVO)session.getAttribute("user")).getUser_id();
 		bvo.setUser_id(user_id);

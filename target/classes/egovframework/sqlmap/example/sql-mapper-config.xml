@@ -12,18 +12,18 @@
 		<typeAlias type="egovframework.example.board.service.HistoryVO" alias="historyVO"/>
 		
     	<!-- 태그 갤러리 게시판 프로젝트 -->
-		<typeAlias type="egovframework.rte.psl.dataaccess.util.EgovMap" alias="egovMap"/>
 		<typeAlias type="egovframework.example.gallery.service.GalleryVO" alias="galleryVO"/>
 		<typeAlias type="egovframework.example.gallery.service.FilesVO" alias="filesVO"/>
 		<typeAlias type="egovframework.example.gallery.service.TagVO" alias="tagVO"/>
 		
 		<!-- 체크리스트 게시판 프로젝트 -->
-		<typeAlias type="egovframework.rte.psl.dataaccess.util.EgovMap" alias="egovMap"/>
 		<typeAlias type="egovframework.example.checklist.service.CheckBoardVO" alias="checkBoardVO"/>
 		<typeAlias type="egovframework.example.checklist.service.CheckListVO" alias="checkListVO"/>
 		<typeAlias type="egovframework.example.checklist.service.AnswerVO" alias="answerVO"/>
 		<typeAlias type="egovframework.example.checklist.service.LogVO" alias="logVO"/>
 		<typeAlias type="egovframework.example.checklist.service.ShowListVO" alias="showListVO"/>
 		
+		<!-- 숫자야구 게시판 프로젝트 -->
+		<typeAlias type="egovframework.example.baseball.service.BaseBallVO" alias="baseballVO"/>
     </typeAliases>
 </configuration>

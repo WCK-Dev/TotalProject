@@ -2,14 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.example.checklist.service.impl.CheckListMapper">
 	
-	<!-- <select id="login" resultType="userVO">
-		SELECT u_id, u_name, u_roll
-		FROM user
-		WHERE u_id = #{u_id }
-			AND u_pwd = #{u_pwd }
-	</select>-->
-	
-	
 	<select id="selectUserList" resultType="userVO">
 		SELECT user_id, user_name
 		FROM user

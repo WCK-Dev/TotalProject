@@ -59,7 +59,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body class="container">
-	<h1 class="text-center">게시글 등록</h1>
+	<h1 class="text-center">게시글 수정</h1>
 	
 	<hr>
 	<div class="panel panel-default">

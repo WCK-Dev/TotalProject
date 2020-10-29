@@ -134,7 +134,7 @@ $(document).ready(function() {
        	<form >
 		
 		<div class="text-right">
-			<button type="button" class="btn btn-dark" onclick="location.href='writeBoard.do'">새 체크리스트 작성</button>
+			<button type="button" class="btn btn-dark" onclick="location.href='writeCheckBoard.do'">새 체크리스트 작성</button>
 		</div>
 	</div>
 </body>

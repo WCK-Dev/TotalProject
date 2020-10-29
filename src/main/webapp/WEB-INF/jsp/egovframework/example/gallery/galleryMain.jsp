@@ -12,7 +12,6 @@
 <%@include file="../cmmn/common_top.jsp"%>
 
 <style>
-* { font-family: 'Noto Sans KR', sans-serif; }
 * { box-shadow: 0 0!important;}
 
 .wrapper { min-height: 70vh;}
