@@ -15,7 +15,19 @@
  */
 package egovframework.example.baseball.service;
 
+import java.util.List;
+
 public interface BaseBallService {
 	
 	int insertBaseball(BaseBallVO bvo);
+	
+	List<BaseBallVO> selectBaseballList(String user_id);
+	
+	BaseBallVO selectBaseball(BaseBallVO bvo);
+	
+	int insertBaseballTry(BaseBallTryVO btvo);
+	
+	List<BaseBallTryVO> selectBaseballTryList(BaseBallVO bvo);
+	
+	int doneBaseball(BaseBallVO bvo);
 }

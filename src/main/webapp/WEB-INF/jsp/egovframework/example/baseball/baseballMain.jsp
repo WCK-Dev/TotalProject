@@ -49,7 +49,7 @@
 				
 				<h4>숫자 야구게임을 시작하여 정답을 맞추고, 몇회만에 정답을 맞출 수 있는지 기록을 채점해보세요</h4>
 			</p>
-			<button class="btn btn-primary btn-block" onclick="location.href='baseballPlay.do'">숫자 야구게임 시작</button>
+			<button class="btn btn-primary btn-block" onclick="location.href='insertBaseball.do'">숫자 야구게임 시작</button>
 		</div>
 	</div>
 </body>

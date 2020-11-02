@@ -12,6 +12,15 @@
 <%@include file="../cmmn/common_top.jsp"%>
 
 <script type="text/javascript"src="${pageContext.request.contextPath }/js/checkListMain.js"></script>
+<style>
+	.baseballList { cursor: pointer;}
+</style>
+
+<script>
+if('${baseballErrMsg}' == 'true'){
+	alert("존재하지 않거나, 접근권한이 없는 게임 번호입니다.");
+}
+</script>
 </head>
 <body>
 
@@ -27,16 +36,26 @@
 				<tr>
 					<th class="text-center" scope="col">게임번호</th>
 					<th class="text-center" scope="col">게임생성날짜</th>
+					<th class="text-center" scope="col">게임완료여부</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th class="text-center" scope="row">1</th>
-					<td class="text-center">
-						2020-10-29
-						<%-- <fmt:formatDate pattern="yyyy-MM-dd" value="${board.b_regdate }"/> --%>
-					</td>
-				</tr>
+				<c:forEach items="${baseballList}" var="baseball" varStatus="i">
+					<tr onclick="location.href='baseballPlay.do?baseball_seq=${baseball.baseball_seq}'" class="baseballList">
+						<th class="text-center" scope="row">${baseball.baseball_seq }</th>
+						<td class="text-center">
+							<fmt:formatDate pattern="yyyy-MM-dd" value="${baseball.baseball_regdate }"/>
+						</td>
+						<td class="text-center">
+							<c:if test="${baseball.baseball_done == 'Y' }">
+								<b class="text-primary">완료</b>
+							</c:if>
+							<c:if test="${baseball.baseball_done == 'N' }">
+								<b class="text-danger">미완료</b>
+							</c:if>
+						</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 		
@@ -45,6 +64,5 @@
 		</div>
 		
 	</div>
-	
 </body>
 </html>

@@ -25,5 +25,6 @@
 		
 		<!-- 숫자야구 게시판 프로젝트 -->
 		<typeAlias type="egovframework.example.baseball.service.BaseBallVO" alias="baseballVO"/>
+		<typeAlias type="egovframework.example.baseball.service.BaseBallTryVO" alias="baseballTryVO"/>
     </typeAliases>
 </configuration>

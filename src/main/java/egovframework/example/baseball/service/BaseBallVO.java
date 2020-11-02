@@ -28,6 +28,9 @@ public class BaseBallVO {
 	/** 생성된 난수 */
 	private int baseball_num;
 	
+	/** 해당 게임 완료 여부 */
+	private String baseball_done;
+	
 	/** 유저 아이디 */
 	private String user_id;
 
@@ -53,6 +56,14 @@ public class BaseBallVO {
 
 	public void setBaseball_num(int baseball_num) {
 		this.baseball_num = baseball_num;
+	}
+
+	public String getBaseball_done() {
+		return baseball_done;
+	}
+
+	public void setBaseball_done(String baseball_done) {
+		this.baseball_done = baseball_done;
 	}
 
 	public String getUser_id() {

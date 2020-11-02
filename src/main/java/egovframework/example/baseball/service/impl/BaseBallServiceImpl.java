@@ -15,6 +15,8 @@
  */
 package egovframework.example.baseball.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.example.baseball.service.BaseBallService;
+import egovframework.example.baseball.service.BaseBallTryVO;
 import egovframework.example.baseball.service.BaseBallVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -42,5 +45,29 @@ public class BaseBallServiceImpl extends EgovAbstractServiceImpl implements Base
 	public int insertBaseball(BaseBallVO bvo) {
 		return baseballDAO.insertBaseball(bvo);
 	}
-
+	
+	@Override
+	public List<BaseBallVO> selectBaseballList(String user_id) {
+		return baseballDAO.selectBaseballList(user_id);
+	}
+	
+	@Override
+	public BaseBallVO selectBaseball(BaseBallVO bvo) {
+		return baseballDAO.selectBaseball(bvo);
+	}
+	
+	@Override
+	public int insertBaseballTry(BaseBallTryVO btvo) {
+		return baseballDAO.insertBaseballTry(btvo);
+	}
+	
+	@Override
+	public List<BaseBallTryVO> selectBaseballTryList(BaseBallVO bvo) {
+		return baseballDAO.selectBaseballTryList(bvo);
+	}
+	
+	@Override
+	public int doneBaseball(BaseBallVO bvo) {
+		return baseballDAO.doneBaseball(bvo);
+	}
 }

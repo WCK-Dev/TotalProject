@@ -15,6 +15,9 @@
  */
 package egovframework.example.baseball.service.impl;
 
+import java.util.List;
+
+import egovframework.example.baseball.service.BaseBallTryVO;
 import egovframework.example.baseball.service.BaseBallVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -22,4 +25,14 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface BaseBallMapper {
 	
 	int insertBaseball(BaseBallVO bvo);
+	
+	List<BaseBallVO> selectBaseballList(String user_id);
+	
+	BaseBallVO selectBaseball(BaseBallVO bvo);
+	
+	int insertBaseballTry(BaseBallTryVO btvo);
+	
+	List<BaseBallTryVO> selectBaseballTryList(BaseBallVO bvo);
+	
+	int doneBaseball(BaseBallVO bvo);
 }

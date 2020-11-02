@@ -55,11 +55,12 @@
     
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
     <!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
+    
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
         <property name="paramName" value="language" />
     </bean>
     
-    <!-- 로그인 체크 인터셉터 설정 -->
+     <!-- 로그인 체크 인터셉터 설정 -->
 	<bean class="egovframework.example.cmmn.web.AuthInterceptor" id="loginAuthInterceptor"/>
 	<bean class="egovframework.example.cmmn.web.AdminAuthInterceptor" id="adminAuthInterceptor"/>
     
@@ -74,14 +75,32 @@
 			<mvc:mapping path="/writeReply.do" />
 			<mvc:mapping path="/insertReply.do" />
 			
+			<mvc:mapping path="/galleryMain.do" />
+			<mvc:mapping path="/readGallery.do" />
+			<mvc:mapping path="/writeGallery.do" />
+			<mvc:mapping path="/updateGallery.do" />
+			<mvc:mapping path="/tagStatusMenu.do" />
+			
 			<mvc:mapping path="/checkListMain.do"/>
+			
+			<mvc:mapping path="/baseballList.do"/>
+			<mvc:mapping path="/baseballMain.do"/>
+			<mvc:mapping path="/baseballPlay.do"/>
 			<ref bean="loginAuthInterceptor"/>
 		</mvc:interceptor>
 		
 		<mvc:interceptor>
 
+			<mvc:mapping path="/adminMain.do"/>
+			<mvc:mapping path="/managementUser.do"/>
+			<mvc:mapping path="/newBoardKinds.do"/>
+			<mvc:mapping path="/updateUser.do"/>
+			<mvc:mapping path="/managementBoard.do"/>
+			<mvc:mapping path="/managementBoardKinds.do"/>
+			
 			<mvc:mapping path="/checkListAdmin.do"/>
-			<mvc:mapping path="/modifyBoard.do"/>
+			<mvc:mapping path="/writeCheckBoard.do"/>
+			<mvc:mapping path="/modifyCheckBoard.do"/>
 			<mvc:mapping path="/selectUserLog.do"/>
 			<mvc:mapping path="/selectUserAnswer.do"/>
 			
@@ -89,7 +108,7 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	<!-- 인터셉터 설정 종료-->
-
+   
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="defaultErrorView" value="cmmn/egovError"/>
         <property name="exceptionMappings">

@@ -413,4 +413,14 @@ public class BoardController {
 		
 		return "board/boardPwdCheck";
 	}
+	
+	@RequestMapping(value="totalSearch.do")
+	public String totalSearch(BoardVO boardVO, ModelMap model) {
+		
+		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		
+		String searchKeyword = boardVO.getSearchKeyword();
+		
+		return "cmmn/totalSearch";
+	}
 }

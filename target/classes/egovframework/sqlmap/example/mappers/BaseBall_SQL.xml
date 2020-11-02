@@ -17,4 +17,47 @@
 					,#{user_id}
 					)
 	</insert>
+	
+	<select id="selectBaseballList" resultType="baseballVO">
+	
+			SELECT * FROM baseball
+			WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="selectBaseball" resultType="baseballVO">
+	
+			SELECT * FROM baseball
+			WHERE baseball_seq = #{baseball_seq}
+	</select>
+	
+	<insert id="insertBaseballTry">
+			
+			INSERT INTO baseballtry
+					(
+						bt_num,
+						bt_strike,
+						bt_ball,
+						baseball_seq
+					)
+			VALUES (
+						#{bt_num},
+						#{bt_strike},
+						#{bt_ball},
+						#{baseball_seq}
+					)
+	</insert>
+	
+	<update id="doneBaseball">
+			
+			UPDATE baseball
+				SET baseball_done = 'Y'
+			WHERE baseball_seq = #{baseball_seq}
+	</update>
+	
+	<select id="selectBaseballTryList" resultType="baseballTryVO">
+	
+			SELECT *
+			FROM baseballtry
+			WHERE baseball_seq = #{baseball_seq}
+	</select>
 </mapper>
