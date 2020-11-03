@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시판 메인</title>
+<title>체크리스트 메인</title>
 <%@include file="../cmmn/common_top.jsp"%>
 
 <script type="text/javascript"src="${pageContext.request.contextPath }/js/checkListMain.js"></script>

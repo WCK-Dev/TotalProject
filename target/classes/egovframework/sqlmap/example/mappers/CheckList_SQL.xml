@@ -212,4 +212,39 @@
 		WHERE c.c_seq = a.c_seq AND c.b_seq = #{b_seq}
 		GROUP BY user_id
 	</select>
+	
+	<select id="checkSearchList" resultType="checkBoardVO">
+		SELECT cb.b_seq, b_title, b_comment, b_regdate, b_writer, b_modifier, b_modifydate
+		FROM checkboard cb, showlist sl
+		WHERE cb.b_seq = sl.b_seq AND sl.user_id = #{loginId}
+		
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND
+            	(
+            	b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+            	b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+				b_comment LIKE CONCAT('%', #{searchKeyword}, '%')
+				)
+		</if>
+	</select>
+	
+	<select id="checkSearchCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM checkboard cb, showlist sl
+		WHERE cb.b_seq = sl.b_seq AND sl.user_id = #{loginId}
+		
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND
+            	(
+            	b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+            	b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+				b_comment LIKE CONCAT('%', #{searchKeyword}, '%')
+				)
+		</if>
+	</select>
+	
 </mapper>

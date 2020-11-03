@@ -2,6 +2,7 @@ package egovframework.example.checklist.service;
 
 import java.util.List;
 
+import egovframework.example.board.service.BoardVO;
 import egovframework.example.board.service.UserVO;
 
 public interface CheckListService {
@@ -57,5 +58,9 @@ public interface CheckListService {
 	List<LogVO> selectLogList(CheckBoardVO vo);
 	
 	List<AnswerVO> selectUserAnswerList(CheckBoardVO vo);
+	
+	List<?> checkSearchList(BoardVO bvo);
+	
+	int checkSearchCnt(BoardVO bvo);
 	
 }

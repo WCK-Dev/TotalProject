@@ -2,6 +2,8 @@ package egovframework.example.gallery.service;
 
 import java.util.List;
 
+import egovframework.example.board.service.BoardVO;
+
 public interface GalleryService {
 	
 	int selectMaxGseq();
@@ -35,5 +37,9 @@ public interface GalleryService {
 	int deleteFile(FilesVO vo);
 	
 	int deleteGallery(GalleryVO vo);
+	
+	List<?> gallerySearchList(BoardVO bvo);
+	
+	int gallerySearchCnt(BoardVO bvo);
 	
 }

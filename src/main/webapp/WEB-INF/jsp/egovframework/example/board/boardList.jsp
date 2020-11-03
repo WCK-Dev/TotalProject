@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Board List</title>
+<title>게시판 메인</title>
 <!-- JQuery -->
 <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- bpopup -->
@@ -106,16 +106,7 @@ function writeNotice(b_bseq){
 function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 	if(b_secret == 1 && b_writer != login_id && '${sessionScope.user.admin_YN}' == 'N'){
 		//확인 윈도우 오픈
-		var newwin = window.open("<c:url value='/boardPwdCheck.do' />", "popUpBoard", "width=400, height=250, left=500, top=50, scrollbars=1");
-		
-		var formObj = $('<form>', {'id': 'formObj' ,'action': 'boardPwdCheck.do', 'method' : 'post', 'target':'popUpBoard'});
-		var inpb_no = $('<input>', {'name': 'b_no', 'value': b_no, 'type': 'hidden' });
-		var inpb_pwd = $('<input>', {'name': 'b_pwd', 'value': b_pwd, 'type': 'hidden'  });
-		
-		formObj.append(inpb_no);
-		formObj.append(inpb_pwd);
-		$(document.body).append(formObj);
-		$("#formObj").submit();
+		var newwin = window.open("<c:url value='/boardPwdCheck.do' />?b_no="+b_no, "popUpBoard", "width=400, height=250, left=500, top=50, scrollbars=1");
 		
 	} else {
 		var newwin = window.open("<c:url value='/readBoard.do' />?b_no="+b_no , "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
@@ -265,7 +256,7 @@ function fn_link_page(pageNo){
 			        		<div class="badge badge-primary text-wrap">비밀글</div>
 			        	</c:if>			        	
 			        	<a href="javascript:readBoard(${board.bNo }, '${board.bWriter }', '${board.bSecret }', '${sessionScope.user.user_id }' , '${board.bPwd }');">
-				        	<c:forEach begin="2" end="${board.bDepth }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach>
+<%-- 				        	<c:forEach begin="2" end="${board.bDepth }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach> --%>
 				        	<c:if test="${board.bDepth > 1 }">RE: </c:if><c:out value="${board.bTitle }" /> 
 				        	<c:if test="${board.bCommentcnt != 0}"> <small class="text-danger">[${board.bCommentcnt }]</small></c:if>
 				        </a>

@@ -11,6 +11,23 @@
 <title>게시판 통합검색</title>
 <%@include file="../cmmn/common_top.jsp"%>
 
+<script type="text/javascript"src="${pageContext.request.contextPath }/js/checkListMain.js"></script>
+<script>
+function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
+	if(b_secret == 1 && b_writer != login_id && '${sessionScope.user.admin_YN}' == 'N'){
+		//확인 윈도우 오픈
+		var newwin = window.open("<c:url value='/boardPwdCheck.do' />?b_no="+b_no, "popUpBoard", "width=400, height=250, left=500, top=50, scrollbars=1");
+		
+	} else {
+		var newwin = window.open("<c:url value='/readBoard.do' />?b_no="+b_no , "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
+	}
+	
+	newwin.focus();
+}
+</script>
+<style>
+	.titles { font-size: 1.2em}
+</style>
 </head>
 <body>
 	<div class="container wrapper">
@@ -59,7 +76,62 @@
 	
 		<jsp:include page="../cmmn/pageHeader.jsp"></jsp:include>
 		
-		<hr>
+		
+		<h3>[게시판] 검색결과
+			<c:if test="${boardSearchCnt != 0 }">
+				<small class="text-danger">( ${boardSearchCnt } 개 검색됨 )</small>
+			</c:if>
+			<c:if test="${boardSearchCnt == 0 }">
+				<small class="text-danger">( 검색결과없음 )</small>
+			</c:if>
+		</h3>
+		<ul>
+			<c:forEach items="${boardSearchList }" var="board">
+				<li>
+		        	<c:if test="${board.b_secret == 1 }">
+		        		<div class="badge badge-primary text-wrap">비밀글</div>
+		        	</c:if>			        	
+		        	<a href="javascript:readBoard(${board.b_no }, '${board.b_writer }', '${board.b_secret }', '${sessionScope.user.user_id }' , '${board.b_pwd }');" class="titles">
+			        	${board.b_title }<c:if test="${board.b_commentCnt != 0}"> <small class="text-danger">[${board.b_commentCnt }]</small></c:if>
+			        </a><br>
+			              작성자 : ${board.b_writer } &nbsp;/ &nbsp; 작성일 : ${board.b_regdate }
+				</li>
+		    </c:forEach>
+		</ul>
+		
+		<h3>[갤러리] 검색결과
+			<c:if test="${gallerySearchCnt != 0 }">
+				<small class="text-danger">( ${gallerySearchCnt } 개 검색됨 )</small>
+			</c:if>
+			<c:if test="${gallerySearchCnt == 0 }">
+				<small class="text-danger">( 검색결과없음 )</small>
+			</c:if>
+		</h3>
+		<ul>
+			<c:forEach items="${gallerySearchList }" var="gallery">
+				<li class="mb-3">
+					<a href="readGallery.do?g_seq=${gallery.g_seq }" class="titles">${gallery.g_title }</a><br>
+					작성자 : ${gallery.g_writer } &nbsp;/ &nbsp; 작성일 : ${gallery.g_regdate }
+				</li>
+			</c:forEach>
+		</ul>
+			
+		<h3>[체크리스트] 검색결과
+			<c:if test="${checkSearchCnt != 0 }">
+				<small class="text-danger">( ${checkSearchCnt } 개 검색됨 )</small><br>
+			</c:if>
+			<c:if test="${checkSearchCnt == 0 }">
+				<small class="text-danger">( 검색결과없음 )</small><br>
+			</c:if>
+		</h3>
+		<ul>
+			<c:forEach items="${checkSearchList }" var="check">
+				<li class="mb-3">
+					<a href='' onclick="openBoardModal('${check.b_seq }')" data-toggle="modal" data-target="#selectModal" class="titles">${check.b_title }</a><br>
+					작성자 : ${check.b_writer } &nbsp;/ &nbsp; 작성일 : <fmt:formatDate value="${check.b_regdate }" pattern="yyyy-MM-dd"/>
+				</li>
+			</c:forEach>
+		</ul>
 	</div>
 	
 </body>

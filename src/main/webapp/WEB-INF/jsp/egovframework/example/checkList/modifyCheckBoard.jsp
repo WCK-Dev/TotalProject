@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>새 체크리스트 수정</title>
+<title>체크리스트 수정</title>
 <%@include file="../cmmn/common_top.jsp"%>
 
 <style>

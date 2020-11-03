@@ -604,4 +604,38 @@
 			WHERE user_id = #{user_id} AND b_no = #{b_no}
 	</select>
 	
+	<select id="boardSearchList" resultType="boardVO">
+			
+			SELECT b_no, b_title, b_writer, b_regdate, b_content, b_readcnt, b_refno, b_secret, b_pwd, b_bseq, (SELECT COUNT(*) FROM comment c WHERE c.b_no = board.b_no ) AS b_commentCnt 
+			FROM board
+			WHERE b_notice != 1
+			<if test="searchKeyword != null and searchKeyword != ''">
+            	AND
+            	(
+            	b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+            	b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+				b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+				)
+			</if>
+			ORDER BY b_regdate DESC
+	</select>
+	
+	<select id="boardSearchCnt" resultType="int">
+			
+			SELECT COUNT(*)
+			FROM board
+			WHERE b_notice != 1
+			<if test="searchKeyword != null and searchKeyword != ''">
+            	AND
+            	(
+            	b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+            	b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+				b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+				)
+			</if>
+	</select>
 </mapper>

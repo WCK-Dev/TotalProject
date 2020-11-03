@@ -224,5 +224,14 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	public int checkHistory(HistoryVO vo) throws Exception {
 		return boardDAO.checkHistory(vo);
 	}
-
+	
+	@Override
+	public List<?> boardSearchList(BoardVO vo) throws Exception {
+		return boardDAO.boardSearchList(vo);
+	}
+	
+	@Override
+	public int boardSearchCnt(BoardVO vo) throws Exception {
+		return boardDAO.boardSearchCnt(vo);
+	}
 }

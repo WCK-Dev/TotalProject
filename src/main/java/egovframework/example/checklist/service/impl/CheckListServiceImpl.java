@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.example.board.service.BoardVO;
 import egovframework.example.board.service.UserVO;
 import egovframework.example.checklist.service.AnswerVO;
 import egovframework.example.checklist.service.CheckBoardVO;
@@ -173,5 +174,15 @@ public class CheckListServiceImpl extends EgovAbstractServiceImpl implements Che
 	@Override
 	public List<AnswerVO> selectUserAnswerList(CheckBoardVO vo) {
 		return checkListDAO.selectUserAnswerList(vo);
+	}
+	
+	@Override
+	public List<?> checkSearchList(BoardVO bvo) {
+		return checkListDAO.checkSearchList(bvo);
+	}
+	
+	@Override
+	public int checkSearchCnt(BoardVO bvo) {
+		return checkListDAO.checkSearchCnt(bvo);
 	}
 }

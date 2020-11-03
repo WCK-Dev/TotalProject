@@ -154,4 +154,38 @@
 		DELETE FROM gallery
 		WHERE g_seq = ${g_seq} AND g_writer = #{g_writer}
 	</delete>
+	
+	<select id="gallerySearchList" resultType="galleryVO">
+		SELECT g_seq, g_title, g_content, g_regdate, g_readcnt, g_tag, g_writer
+		FROM gallery g
+		WHERE 1 = 1
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND
+            	(
+            	g_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+            	g_title LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+				g_content LIKE CONCAT('%', #{searchKeyword}, '%')
+				)
+		</if>
+		ORDER BY g_seq DESC
+	</select>
+	
+	<select id="gallerySearchCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM gallery g
+		WHERE 1 = 1
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND
+            	(
+            	g_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+            	g_title LIKE CONCAT('%', #{searchKeyword}, '%')
+            	OR
+				g_content LIKE CONCAT('%', #{searchKeyword}, '%')
+				)
+		</if>
+		ORDER BY g_seq DESC
+	</select>
 </mapper>

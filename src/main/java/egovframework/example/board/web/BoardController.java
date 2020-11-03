@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,8 @@ import egovframework.example.board.service.BoardVO;
 import egovframework.example.board.service.CommentVO;
 import egovframework.example.board.service.HistoryVO;
 import egovframework.example.board.service.UserVO;
+import egovframework.example.checklist.service.CheckListService;
+import egovframework.example.gallery.service.GalleryService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -29,6 +32,12 @@ public class BoardController {
 	/** EgovSampleService */
 	@Resource(name = "boardService")
 	private BoardService boardService;
+	
+	@Resource(name = "galleryService")
+	private GalleryService galleryService;
+	
+	@Resource(name = "checkListService")
+	private CheckListService checkListService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -407,19 +416,35 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="boardPwdCheck.do")
-	public String boardPwdCheck(BoardVO boardVO, ModelMap model) {
+	public String boardPwdCheck(BoardVO boardVO, ModelMap model) throws Exception {
 		
-		model.addAttribute("board", boardVO);
+		model.addAttribute("board", boardService.selectBoard(boardVO));
 		
 		return "board/boardPwdCheck";
 	}
 	
 	@RequestMapping(value="totalSearch.do")
-	public String totalSearch(BoardVO boardVO, ModelMap model) {
+	public String totalSearch(BoardVO boardVO, ModelMap model, HttpSession session) throws Exception{
 		
 		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
 		
 		String searchKeyword = boardVO.getSearchKeyword();
+		
+		boardVO.setLoginId(((UserVO)session.getAttribute("user")).getUser_id());
+		
+		model.addAttribute("searchKeyword", searchKeyword);
+		
+		model.addAttribute("boardSearchList", boardService.boardSearchList(boardVO));
+		
+		model.addAttribute("boardSearchCnt", boardService.boardSearchCnt(boardVO));
+		
+		model.addAttribute("gallerySearchList", galleryService.gallerySearchList(boardVO));
+		
+		model.addAttribute("gallerySearchCnt", galleryService.gallerySearchCnt(boardVO));
+		
+		model.addAttribute("checkSearchList", checkListService.checkSearchList(boardVO));
+		
+		model.addAttribute("checkSearchCnt", checkListService.checkSearchCnt(boardVO));
 		
 		return "cmmn/totalSearch";
 	}

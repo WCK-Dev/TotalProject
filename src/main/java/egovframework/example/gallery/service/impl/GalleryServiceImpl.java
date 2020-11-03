@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.example.board.service.BoardVO;
 import egovframework.example.gallery.service.FilesVO;
 import egovframework.example.gallery.service.GalleryService;
 import egovframework.example.gallery.service.GalleryVO;
@@ -123,5 +124,14 @@ public class GalleryServiceImpl extends EgovAbstractServiceImpl implements Galle
 	public int selectTagDownCnt(TagVO vo) {
 		return galleryDAO.selectTagDownCnt(vo);
 	}
+	
+	@Override
+	public List<?> gallerySearchList(BoardVO bvo) {
+		return galleryDAO.gallerySearchList(bvo);
+	}
 
+	@Override
+	public int gallerySearchCnt(BoardVO bvo) {
+		return galleryDAO.gallerySearchCnt(bvo);
+	}
 }

@@ -10,6 +10,13 @@
 		<typeAlias type="egovframework.example.board.service.UserVO" alias="userVO"/>
 		<typeAlias type="egovframework.example.board.service.CommentVO" alias="commentVO"/>
 		<typeAlias type="egovframework.example.board.service.HistoryVO" alias="historyVO"/>
+
+		<!-- 설문조사 프로젝트 -->		
+		<typeAlias type="egovframework.example.servey.service.ServeyVO" alias="serveyVO"/>
+		<typeAlias type="egovframework.example.servey.service.ServeyQuestionVO" alias="serveyQuestionVO"/>
+		<typeAlias type="egovframework.example.servey.service.ServeyChoiceVO" alias="serveyChoiceVO"/>
+		<typeAlias type="egovframework.example.servey.service.ServeyAnswerVO" alias="serveyAnswerVO"/>
+		<typeAlias type="egovframework.example.servey.service.ServeyLogVO" alias="serveyLogVO"/>
 		
     	<!-- 태그 갤러리 게시판 프로젝트 -->
 		<typeAlias type="egovframework.example.gallery.service.GalleryVO" alias="galleryVO"/>

@@ -17,6 +17,7 @@ package egovframework.example.gallery.service.impl;
 
 import java.util.List;
 
+import egovframework.example.board.service.BoardVO;
 import egovframework.example.gallery.service.FilesVO;
 import egovframework.example.gallery.service.GalleryVO;
 import egovframework.example.gallery.service.TagVO;
@@ -60,4 +61,8 @@ public interface GalleryMapper {
 	int deleteFile(FilesVO vo);
 	
 	int deleteGallery(GalleryVO vo);
+	
+	List<?> gallerySearchList(BoardVO bvo);
+	
+	int gallerySearchCnt(BoardVO bvo);
 }

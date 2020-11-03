@@ -88,4 +88,8 @@ public interface BoardService {
 	int insertHistory(HistoryVO vo) throws Exception;
 	
 	int checkHistory(HistoryVO vo) throws Exception;
+	
+	List<?> boardSearchList(BoardVO vo) throws Exception;
+	
+	int boardSearchCnt(BoardVO vo) throws Exception;
 }

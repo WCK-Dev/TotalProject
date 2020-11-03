@@ -96,4 +96,7 @@ public interface BoardMapper {
 
 	int checkHistory(HistoryVO vo) throws Exception;
 	
+	List<?> boardSearchList(BoardVO vo) throws Exception;
+	
+	int boardSearchCnt(BoardVO vo) throws Exception;
 }

@@ -17,6 +17,7 @@ package egovframework.example.checklist.service.impl;
 
 import java.util.List;
 
+import egovframework.example.board.service.BoardVO;
 import egovframework.example.board.service.UserVO;
 import egovframework.example.checklist.service.AnswerVO;
 import egovframework.example.checklist.service.CheckBoardVO;
@@ -80,4 +81,7 @@ public interface CheckListMapper {
 	
 	List<AnswerVO> selectUserAnswerList(CheckBoardVO vo);
 	
+	List<?> checkSearchList(BoardVO bvo);
+	
+	int checkSearchCnt(BoardVO bvo);
 }

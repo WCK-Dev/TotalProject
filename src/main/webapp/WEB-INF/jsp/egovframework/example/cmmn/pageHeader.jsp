@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"		uri="http://java.sun.com/jsp/jstl/core" %>
+
+<script>
+function checkKeyword(){
+	var searchKeyword = $("#searchKeyword").val();
+	
+	if(searchKeyword == '' || searchKeyword.trim() == '') {
+		alert("검색어를 입력해주세요.");
+		return false;
+	}
+}
+</script>
     
 <a href="boardMain.do"><h1 style="display: inline;">eGov Board 메인</h1></a>
 
@@ -14,11 +25,11 @@
 </div>
 
 <!-- 통합검색 영역 -->
-<form action="totalSearch.do" method="post" id="totalSearchForm" name="totalSearchForm" style="clear:both;">
+<form action="totalSearch.do" method="post" id="totalSearchForm" name="totalSearchForm" style="clear:both;" onsubmit="return checkKeyword()">
    <div class="form-group row">
     <label for="searchKeyword" class="col-sm-2 col-form-label col-form-label-lg">게시판 통합검색</label>
     <div class="col-sm-8">
-      <input type="text" class="form-control form-control-lg" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력해주세요">
+      <input type="text" class="form-control form-control-lg" id="searchKeyword" name="searchKeyword" placeholder="검색어를 입력해주세요" value="${searchKeyword }">
     </div>
       <button type="submit" class="btn btn-primary">통합검색</button>
   </div>
@@ -29,6 +40,7 @@
 	<c:forEach items="${boardKindsList }" var="boardKinds">
 		<a href='boardList.do?b_bseq=${boardKinds.bkBseq }'><b>${boardKinds.bkBname }</b> &nbsp;&nbsp;&nbsp;</a>
 	</c:forEach>
+	<a href='#'><b>설문조사</b> &nbsp;&nbsp;&nbsp;</a>
 	<a href='galleryMain.do'><b>갤러리</b> &nbsp;&nbsp;&nbsp;</a>
 	<c:if test="${sessionScope.user.admin_YN != 'Y' }">
 		<a href='checkListMain.do'><b>체크리스트</b> &nbsp;&nbsp;&nbsp;</a>
