@@ -40,7 +40,7 @@ function checkKeyword(){
 	<c:forEach items="${boardKindsList }" var="boardKinds">
 		<a href='boardList.do?b_bseq=${boardKinds.bkBseq }'><b>${boardKinds.bkBname }</b> &nbsp;&nbsp;&nbsp;</a>
 	</c:forEach>
-	<a href='#'><b>설문조사</b> &nbsp;&nbsp;&nbsp;</a>
+	<a href='serveyList.do'><b>설문조사</b> &nbsp;&nbsp;&nbsp;</a>
 	<a href='galleryMain.do'><b>갤러리</b> &nbsp;&nbsp;&nbsp;</a>
 	<c:if test="${sessionScope.user.admin_YN != 'Y' }">
 		<a href='checkListMain.do'><b>체크리스트</b> &nbsp;&nbsp;&nbsp;</a>

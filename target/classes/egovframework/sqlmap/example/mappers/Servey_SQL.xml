@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.servey.service.impl.ServeyMapper">
+	
+	<select id="selectServeyList" resultType="egovMap">
+		SELECT * 
+		FROM servey
+		ORDER BY s_seq;
+	</select>
+	
+	<select id="checkServey" resultType="int">
+		SELECT COUNT(*)
+		FROM servey
+		WHERE s_seq = #{s_seq }
+	</select>
+
+	<select id="selectServey" resultType="serveyVO">
+		SELECT * 
+		FROM servey
+		WHERE s_seq = #{s_seq }
+	</select>
+	
+	<select id="selectServeyQuestionList" resultType="serveyQuestionVO">
+		SELECT *
+		FROM serveyquestion
+		WHERE s_seq = #{s_seq }
+	</select>
+	
+	<select id="selectServeyChoiceList" resultType="serveyChoiceVO">
+		SELECT *
+		FROM serveychoice
+		ORDER BY c_type ASC, c_value ASC
+	</select>
+	
+	<insert id="insertServeyAnswer" parameterType="serveyAnswerVO">
+		INSERT INTO serveyanswer(q_no
+						  ,user_id
+						  ,a_answer
+						  ,s_seq)
+					VALUES(#{q_no}
+						  ,#{user_id}
+					      ,#{a_answer}
+					      ,#{s_seq}
+						)
+	</insert>
+	
+	<insert id="updateServeyAnswer" parameterType="serveyAnswerVO">
+		UPDATE serveyanswer 
+		SET a_answer = #{a_answer}
+		WHERE q_no = #{q_no} 
+			AND user_id = #{user_id}
+			AND s_seq = #{s_seq};
+	</insert>
+	
+	<insert id="insertServeyLog" parameterType="serveyLogVO">
+		INSERT INTO serveylog(user_id
+					   ,inputdate
+					   ,s_seq
+						)
+				VALUES(#{user_id}
+					  ,sysdate()
+					  ,#{s_seq}
+					  )
+	</insert>
+	
+	<insert id="updateServeyLog" parameterType="serveyLogVO">
+		UPDATE serveylog
+		SET inputdate = sysdate()
+		WHERE user_id=#{user_id} 
+			AND s_seq = #{s_seq}
+	</insert>
+	
+	<select id="checkServeyLog" parameterType="serveyLogVO" resultType="int">
+		SELECT COUNT(*)
+		FROM serveylog
+		WHERE user_id = #{user_id} AND s_seq = #{s_seq}
+	</select>
+	
+	<select id="selectServeyAnswerList" parameterType="serveyAnswerVO" resultType="serveyAnswerVO">
+		SELECT *
+		FROM serveyanswer
+		WHERE user_id = #{user_id} AND s_seq = #{s_seq}
+	</select>
+	
+</mapper>

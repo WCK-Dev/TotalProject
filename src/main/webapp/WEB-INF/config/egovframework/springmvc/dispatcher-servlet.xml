@@ -75,6 +75,11 @@
 			<mvc:mapping path="/writeReply.do" />
 			<mvc:mapping path="/insertReply.do" />
 			
+			<mvc:mapping path="/serveyMain.do"/>
+			<mvc:mapping path="/serveyList.do"/>
+			<mvc:mapping path="/serveyForm.do"/>
+			<mvc:mapping path="/serveyModify.do"/>
+			
 			<mvc:mapping path="/galleryMain.do" />
 			<mvc:mapping path="/readGallery.do" />
 			<mvc:mapping path="/writeGallery.do" />
