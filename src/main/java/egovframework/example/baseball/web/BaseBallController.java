@@ -106,9 +106,6 @@ public class BaseBallController {
 		//사용자가 입력한 정답확인 번호와 정답의 숫자를 비교하여 스트라이크, 볼의 갯수를 체크한뒤 해당 정답 확인기록을 DB에 저장
 		int[] result = checkNum(bvo.getBaseball_num(), btvo.getBt_num());
 		
-		System.out.println("Strike : " + result[0]);
-		System.out.println("Ball : " + result[1]);
-		
 		btvo.setBt_strike(result[0]);
 		btvo.setBt_ball(result[1]);
 		baseballService.insertBaseballTry(btvo);
