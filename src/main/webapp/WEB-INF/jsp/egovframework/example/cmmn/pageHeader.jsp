@@ -25,7 +25,7 @@ function checkKeyword(){
 </div>
 
 <!-- 통합검색 영역 -->
-<form action="totalSearch.do" method="post" id="totalSearchForm" name="totalSearchForm" style="clear:both;" onsubmit="return checkKeyword()">
+<form action="totalSearch.do" method="get" id="totalSearchForm" name="totalSearchForm" style="clear:both;" onsubmit="return checkKeyword()">
    <div class="form-group row">
     <label for="searchKeyword" class="col-sm-2 col-form-label col-form-label-lg">게시판 통합검색</label>
     <div class="col-sm-8">

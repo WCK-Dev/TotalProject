@@ -256,8 +256,8 @@ function fn_link_page(pageNo){
 			        		<div class="badge badge-primary text-wrap">비밀글</div>
 			        	</c:if>			        	
 			        	<a href="javascript:readBoard(${board.bNo }, '${board.bWriter }', '${board.bSecret }', '${sessionScope.user.user_id }' , '${board.bPwd }');">
-<%-- 				        	<c:forEach begin="2" end="${board.bDepth }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach> --%>
-				        	<c:if test="${board.bDepth > 1 }">RE: </c:if><c:out value="${board.bTitle }" /> 
+ 				        	<c:forEach begin="2" end="${board.bDepth }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach>
+				        	<c:if test="${board.bDepth > 1 }"><div class="badge badge-danger text-wrap">RE: </div>&nbsp;&nbsp;</c:if><c:out value="${board.bTitle }" /> 
 				        	<c:if test="${board.bCommentcnt != 0}"> <small class="text-danger">[${board.bCommentcnt }]</small></c:if>
 				        </a>
 			        </td>

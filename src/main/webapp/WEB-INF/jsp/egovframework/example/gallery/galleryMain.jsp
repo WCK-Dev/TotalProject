@@ -69,6 +69,7 @@ if('${updateErrorMsg}' == 'true'){
 				  <option value="g_content" <c:if test="${gallery.searchCondition=='g_content'}">selected</c:if>>내용</option>
 				  <option value="g_tag" <c:if test="${gallery.searchCondition=='g_tag'}">selected</c:if>>태그</option>
 				  <option value="f_originname" <c:if test="${gallery.searchCondition=='f_originname'}">selected</c:if>>첨부파일명</option>
+				  <option value="total" <c:if test="${gallery.searchCondition=='total'}">selected</c:if>>전체</option>
 				</select>
 				<div class="row mx-0">
 					<input class="col-7 form-control mt-1" type="text" name="searchKeyword" placeholder="Search" value="${gallery.searchKeyword }">

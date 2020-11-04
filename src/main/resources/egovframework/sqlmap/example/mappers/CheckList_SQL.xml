@@ -228,6 +228,8 @@
 				b_comment LIKE CONCAT('%', #{searchKeyword}, '%')
 				)
 		</if>
+		
+		ORDER BY b_regdate DESC
 	</select>
 	
 	<select id="checkSearchCnt" resultType="int">

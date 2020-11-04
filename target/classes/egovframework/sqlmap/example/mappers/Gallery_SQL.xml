@@ -56,7 +56,19 @@
 		WHERE 1 = 1
 		<if test="searchKeyword != null and searchKeyword != ''">
 			<if test="searchCondition != 'f_originname'">
-				AND ${searchCondition} LIKE CONCAT('%', #{searchKeyword}, '%')
+				<if test="searchCondition != 'total'">
+					AND ${searchCondition} LIKE CONCAT('%', #{searchKeyword}, '%')
+				</if>
+				<if test="searchCondition == 'total'">
+					AND
+		            	(
+		            	g_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+		            	g_title LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+						g_content LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+				</if>
 			</if>
 			<if test="searchCondition == 'f_originname'">
 				AND (SELECT GROUP_CONCAT(f_originname SEPARATOR ',') FROM files f WHERE f.g_seq = g.g_seq GROUP BY g_seq) LIKE CONCAT('%', #{searchKeyword}, '%')
@@ -72,11 +84,23 @@
 			WHERE 1 = 1
 			<if test="searchKeyword != null and searchKeyword != ''">
 				<if test="searchCondition != 'f_originname'">
+				<if test="searchCondition != 'total'">
 					AND ${searchCondition} LIKE CONCAT('%', #{searchKeyword}, '%')
 				</if>
-				<if test="searchCondition == 'f_originname'">
-					AND (SELECT GROUP_CONCAT(f_originname SEPARATOR ',') FROM files f WHERE f.g_seq = g.g_seq GROUP BY g_seq) LIKE CONCAT('%', #{searchKeyword}, '%')
+				<if test="searchCondition == 'total'">
+					AND
+		            	(
+		            	g_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+		            	g_title LIKE CONCAT('%', #{searchKeyword}, '%')
+		            	OR
+						g_content LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
 				</if>
+			</if>
+			<if test="searchCondition == 'f_originname'">
+				AND (SELECT GROUP_CONCAT(f_originname SEPARATOR ',') FROM files f WHERE f.g_seq = g.g_seq GROUP BY g_seq) LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
 			</if>
 	</select>
 	
@@ -170,6 +194,7 @@
 				)
 		</if>
 		ORDER BY g_seq DESC
+		LIMIT 10
 	</select>
 	
 	<select id="gallerySearchCnt" resultType="int">

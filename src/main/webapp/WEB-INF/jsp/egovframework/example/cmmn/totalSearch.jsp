@@ -77,7 +77,7 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 		<jsp:include page="../cmmn/pageHeader.jsp"></jsp:include>
 		
 		
-		<h3>[게시판] 검색결과
+		<h3 class="mt-2">[게시판] 검색결과
 			<c:if test="${boardSearchCnt != 0 }">
 				<small class="text-danger">( ${boardSearchCnt } 개 검색됨 )</small>
 			</c:if>
@@ -85,21 +85,29 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 				<small class="text-danger">( 검색결과없음 )</small>
 			</c:if>
 		</h3>
+		
 		<ul>
-			<c:forEach items="${boardSearchList }" var="board">
-				<li>
-		        	<c:if test="${board.b_secret == 1 }">
-		        		<div class="badge badge-primary text-wrap">비밀글</div>
-		        	</c:if>			        	
-		        	<a href="javascript:readBoard(${board.b_no }, '${board.b_writer }', '${board.b_secret }', '${sessionScope.user.user_id }' , '${board.b_pwd }');" class="titles">
-			        	${board.b_title }<c:if test="${board.b_commentCnt != 0}"> <small class="text-danger">[${board.b_commentCnt }]</small></c:if>
-			        </a><br>
-			              작성자 : ${board.b_writer } &nbsp;/ &nbsp; 작성일 : ${board.b_regdate }
-				</li>
-		    </c:forEach>
+			<c:forEach items="${boardKindsList }" var="bk">
+				<h4>${bk.bkBname }의 검색 결과</h4>
+				<c:forEach items="${boardSearchList }" var="board">
+					<c:if test="${bk.bkBseq == board.b_bseq}">
+						
+						<li class="mb-3">
+				        	<c:if test="${board.b_secret == 1 }">
+				        		<div class="badge badge-primary text-wrap">비밀글</div>
+				        	</c:if>			        	
+				        	<a href="javascript:readBoard(${board.b_no }, '${board.b_writer }', '${board.b_secret }', '${sessionScope.user.user_id }' , '${board.b_pwd }');" class="titles">
+					        	${board.b_title }<c:if test="${board.b_commentCnt != 0}"> <small class="text-danger">[${board.b_commentCnt }]</small></c:if>
+					        </a><br>
+					              작성자 : ${board.b_writer } &nbsp;/ &nbsp; 작성일 : <fmt:formatDate value="${board.b_regdate }" pattern="yyyy-MM-dd"/>
+						</li>
+						
+					</c:if>
+				</c:forEach>
+			</c:forEach>
 		</ul>
 		
-		<h3>[갤러리] 검색결과
+		<h3 class="mt-5">[갤러리] 검색결과
 			<c:if test="${gallerySearchCnt != 0 }">
 				<small class="text-danger">( ${gallerySearchCnt } 개 검색됨 )</small>
 			</c:if>
@@ -108,15 +116,18 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 			</c:if>
 		</h3>
 		<ul>
-			<c:forEach items="${gallerySearchList }" var="gallery">
+			<c:forEach items="${gallerySearchList }" var="gallery" varStatus="gi">
 				<li class="mb-3">
 					<a href="readGallery.do?g_seq=${gallery.g_seq }" class="titles">${gallery.g_title }</a><br>
 					작성자 : ${gallery.g_writer } &nbsp;/ &nbsp; 작성일 : ${gallery.g_regdate }
 				</li>
 			</c:forEach>
 		</ul>
+		<c:if test="${gallerySearchCnt > 10 }">
+			<button type="button" class="btn btn-danger" onclick="location.href='galleryMain.do?searchCondition=total&searchKeyword=${searchKeyword }'">갤러리 검색결과 전체보기</button>
+		</c:if>
 			
-		<h3>[체크리스트] 검색결과
+		<h3 class="mt-5">[체크리스트] 검색결과
 			<c:if test="${checkSearchCnt != 0 }">
 				<small class="text-danger">( ${checkSearchCnt } 개 검색됨 )</small><br>
 			</c:if>
