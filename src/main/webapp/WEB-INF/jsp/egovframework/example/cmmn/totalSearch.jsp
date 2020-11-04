@@ -87,12 +87,13 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 		</h3>
 		
 		<ul>
-			<c:forEach items="${boardKindsList }" var="bk">
-				<h4>${bk.bkBname }의 검색 결과</h4>
+			<c:forEach items="${boardKindsList }" var="bk" varStatus="i">
+				<h4 class="mt-4">[${bk.bkBname }] 검색 결과</h4>
+				
 				<c:forEach items="${boardSearchList }" var="board">
-					<c:if test="${bk.bkBseq == board.b_bseq}">
-						
-						<li class="mb-3">
+				<c:if test="${bk.bkBseq == board.b_bseq}">
+				
+						<li class="mb-3 ml-4">
 				        	<c:if test="${board.b_secret == 1 }">
 				        		<div class="badge badge-primary text-wrap">비밀글</div>
 				        	</c:if>			        	
