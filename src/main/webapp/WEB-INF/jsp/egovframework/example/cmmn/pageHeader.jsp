@@ -38,7 +38,7 @@ function checkKeyword(){
 <!-- 게시판 리스트 영역 -->
 <div class="mt-4 mb-2">
 	<c:forEach items="${boardKindsList }" var="boardKinds">
-		<a href='boardList.do?b_bseq=${boardKinds.bkBseq }'><b>${boardKinds.bkBname }</b> &nbsp;&nbsp;&nbsp;</a>
+		<a href='boardList.do?b_bseq=${boardKinds.bk_bseq }'><b>${boardKinds.bk_bname }</b> &nbsp;&nbsp;&nbsp;</a>
 	</c:forEach>
 	<a href='serveyList.do'><b>설문조사</b> &nbsp;&nbsp;&nbsp;</a>
 	<a href='galleryMain.do'><b>갤러리</b> &nbsp;&nbsp;&nbsp;</a>

@@ -88,11 +88,12 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 		
 		<ul>
 			<c:forEach items="${boardKindsList }" var="bk" varStatus="i">
-				
-				<h4 class="mt-4">[${bk.bkBname }] 검색 결과</h4>
-				<c:forEach items="${boardSearchList }" var="board">
-					<c:if test="${bk.bkBseq == board.b_bseq}">
-						
+				<c:forEach items="${boardSearchList[i.index] }" var="board" varStatus="bSts" begin="0" end="4">
+					<c:if test="${bSts.index == 0}">
+						<h4 class="mt-4">[${bk.bk_bname }] 검색 결과  (${fn:length(boardSearchList[i.index])}건)</h4>
+					</c:if>
+					
+					<c:if test="${bk.bk_bseq == board.b_bseq}">
 						<li class="mb-3 ml-4">
 				        	<c:if test="${board.b_secret == 1 }">
 				        		<div class="badge badge-primary text-wrap">비밀글</div>
@@ -102,7 +103,6 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 					        </a><br>
 					              작성자 : ${board.b_writer } &nbsp;/ &nbsp; 작성일 : <fmt:formatDate value="${board.b_regdate }" pattern="yyyy-MM-dd"/>
 						</li>
-						
 					</c:if>
 				</c:forEach>
 			</c:forEach>

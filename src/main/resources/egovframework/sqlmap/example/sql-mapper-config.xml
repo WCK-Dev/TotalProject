@@ -7,6 +7,7 @@
 		<typeAlias type="egovframework.rte.psl.dataaccess.util.EgovMap" alias="egovMap"/>
 		<typeAlias type="egovframework.example.board.service.BoardDefaultVO" alias="searchVO"/>
 		<typeAlias type="egovframework.example.board.service.BoardVO" alias="boardVO"/>
+		<typeAlias type="egovframework.example.board.service.BoardKindsVO" alias="boardKindsVO"/>
 		<typeAlias type="egovframework.example.board.service.UserVO" alias="userVO"/>
 		<typeAlias type="egovframework.example.board.service.CommentVO" alias="commentVO"/>
 		<typeAlias type="egovframework.example.board.service.HistoryVO" alias="historyVO"/>

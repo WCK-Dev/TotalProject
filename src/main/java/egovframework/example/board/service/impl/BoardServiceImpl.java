@@ -226,7 +226,7 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	}
 	
 	@Override
-	public List<?> boardSearchList(BoardVO vo) throws Exception {
+	public List<BoardVO> boardSearchList(BoardVO vo) throws Exception {
 		return boardDAO.boardSearchList(vo);
 	}
 	

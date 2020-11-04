@@ -11,7 +11,7 @@
 	
 	</select>
 	
-	<select id="selectBoardKindsList" parameterType="boardVO" resultType="egovMap">
+	<select id="selectBoardKindsList" parameterType="boardVO" resultType="boardKindsVO">
 
 			SELECT * FROM boardkinds
 			
@@ -608,7 +608,8 @@
 			
 			SELECT b_no, b_title, b_writer, b_regdate, b_content, b_readcnt, b_refno, b_secret, b_pwd, b_bseq, (SELECT COUNT(*) FROM comment c WHERE c.b_no = board.b_no ) AS b_commentCnt 
 			FROM board
-			WHERE b_notice != 1
+			WHERE b_notice != 1 
+				AND b_bseq = #{b_bseq}
 			<if test="searchKeyword != null and searchKeyword != ''">
             	AND
             	(

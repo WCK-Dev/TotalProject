@@ -18,19 +18,19 @@ package egovframework.example.board.service;
 import java.util.List;
 
 public interface BoardService {
-	
+
 	BoardVO selectBoardKinds(BoardVO vo) throws Exception;
-	
+
 	List<?> selectBoardKindsList();
-	
+
 	int selectMaxBseq() throws Exception;
-	
+
 	int selectMaxBkOrder() throws Exception;
-	
+
 	int insertBoardKinds(BoardVO vo) throws Exception;
-	
+
 	int updateBoardKinds(BoardVO vo) throws Exception;
-	
+
 	int reOrderBoardKinds(BoardVO vo) throws Exception;
 
 	int deleteBoardKinds(BoardVO vo) throws Exception;
@@ -42,54 +42,54 @@ public interface BoardService {
 	int deleteBoard(BoardVO vo) throws Exception;
 
 	BoardVO selectBoard(BoardVO vo) throws Exception;
-	
+
 	void updateReadCnt(BoardVO vo) throws Exception;
 
 	List<?> selectBoardList(BoardVO vo) throws Exception;
-	
+
 	int selectBoardListTotCnt(BoardVO vo);
-	
+
 	List<?> selectAlarmList(BoardVO vo) throws Exception;
-	
+
 	int selectAlarmListTotCnt(BoardVO vo) throws Exception;
-	
-	int selectMaxBno()throws Exception;
-	
+
+	int selectMaxBno() throws Exception;
+
 	int updateGrpord(BoardVO vo) throws Exception;
-	
+
 	int insertReply(BoardVO vo) throws Exception;
-	
+
 	List<?> selectNoticeList(BoardVO vo) throws Exception;
-	
+
 	String userIdCheck(String vo) throws Exception;
-	
+
 	int insertUser(UserVO vo) throws Exception;
-	
+
 	UserVO loginCheck(UserVO vo) throws Exception;
-	
+
 	List<?> selectUserList(UserVO vo) throws Exception;
-	
+
 	int selectUserListTotCnt(UserVO vo) throws Exception;
 
 	UserVO selectUser(UserVO vo) throws Exception;
 
 	int updateUser(UserVO vo) throws Exception;
-	
+
 	int selectMaxCno() throws Exception;
-	
+
 	int insertComment(CommentVO vo) throws Exception;
-	
+
 	int insertRecomment(CommentVO vo) throws Exception;
-	
+
 	int deleteComment(CommentVO vo) throws Exception;
-	
+
 	List<?> selectCommentList(BoardVO vo) throws Exception;
-	
+
 	int insertHistory(HistoryVO vo) throws Exception;
-	
+
 	int checkHistory(HistoryVO vo) throws Exception;
-	
-	List<?> boardSearchList(BoardVO vo) throws Exception;
-	
+
+	List<BoardVO> boardSearchList(BoardVO vo) throws Exception;
+
 	int boardSearchCnt(BoardVO vo) throws Exception;
 }

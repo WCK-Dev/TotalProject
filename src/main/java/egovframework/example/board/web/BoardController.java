@@ -1,5 +1,6 @@
 package egovframework.example.board.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import egovframework.example.board.service.BoardKindsVO;
 import egovframework.example.board.service.BoardService;
 import egovframework.example.board.service.BoardVO;
 import egovframework.example.board.service.CommentVO;
@@ -426,7 +428,9 @@ public class BoardController {
 	@RequestMapping(value="totalSearch.do")
 	public String totalSearch(BoardVO boardVO, ModelMap model, HttpSession session) throws Exception{
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		List<BoardKindsVO> boardKindsList = (List<BoardKindsVO>) boardService.selectBoardKindsList();
+		
+		model.addAttribute("boardKindsList", boardKindsList);
 		
 		String searchKeyword = boardVO.getSearchKeyword();
 		
@@ -434,16 +438,30 @@ public class BoardController {
 		
 		model.addAttribute("searchKeyword", searchKeyword);
 		
-		model.addAttribute("boardSearchList", boardService.boardSearchList(boardVO));
+		//게시판 (통합게시판) 검색정보 추가
+		//일반게시판들의 검색결과를 (게시판별로 List를 하나씩 가짐) 모두 포함하는 List를 생성
+		List<List<BoardVO>> boardSearchList = new ArrayList<>();
+		List<BoardVO> eachList = null;
 		
+		for(BoardKindsVO bk : boardKindsList) {
+			boardVO.setB_bseq(bk.getBk_bseq());
+			eachList = (List<BoardVO>) boardService.boardSearchList(boardVO);
+			
+			if(eachList != null) {
+				System.out.print(eachList);
+				boardSearchList.add(eachList);
+			}
+		}
+		
+		model.addAttribute("boardSearchList", boardSearchList);
 		model.addAttribute("boardSearchCnt", boardService.boardSearchCnt(boardVO));
 		
+		//갤러리 검색정보 추가
 		model.addAttribute("gallerySearchList", galleryService.gallerySearchList(boardVO));
-		
 		model.addAttribute("gallerySearchCnt", galleryService.gallerySearchCnt(boardVO));
-		
+
+		//체크리스트 검색정보 추가
 		model.addAttribute("checkSearchList", checkListService.checkSearchList(boardVO));
-		
 		model.addAttribute("checkSearchCnt", checkListService.checkSearchCnt(boardVO));
 		
 		return "cmmn/totalSearch";

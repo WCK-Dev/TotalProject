@@ -91,24 +91,24 @@
 			<tbody id="bkTableBody">
 				<c:forEach items="${boardKindsList }" var="boardKinds" varStatus="i">
 					<tr>
-						<td class="h6 orderChageValue">${boardKinds.bkBname}<input type="hidden" value="${boardKinds.bkBseq }"></td>
+						<td class="h6 orderChageValue">${boardKinds.bk_bname}<input type="hidden" value="${boardKinds.bk_bseq }"></td>
 						<td class="h6">
-							<c:if test="${boardKinds.bkType == 0}">일반형</c:if>
-							<c:if test="${boardKinds.bkType == 1}">알림형</c:if>
+							<c:if test="${boardKinds.bk_type == 0}">일반형</c:if>
+							<c:if test="${boardKinds.bk_type == 1}">알림형</c:if>
 						</td>
 						<td class="h6">
-							<c:if test="${boardKinds.bkBreplyYn == 'Y'}">허용</c:if>
-							<c:if test="${boardKinds.bkBreplyYn == 'N'}">비허용</c:if>
+							<c:if test="${boardKinds.bk_breply_YN == 'Y'}">허용</c:if>
+							<c:if test="${boardKinds.bk_breply_YN == 'N'}">비허용</c:if>
 						</td>
 						<td class="h6">
-							<c:if test="${boardKinds.bkBcommentYn == 'Y'}">허용</c:if>
-							<c:if test="${boardKinds.bkBcommentYn == 'N'}">비허용</c:if>
+							<c:if test="${boardKinds.bk_bcomment_YN == 'Y'}">허용</c:if>
+							<c:if test="${boardKinds.bk_bcomment_YN == 'N'}">비허용</c:if>
 						</td>
 						<td class="h6">
-							<c:if test="${boardKinds.bkBsecretYn == 'Y'}">허용</c:if>
-							<c:if test="${boardKinds.bkBsecretYn == 'N'}">비허용</c:if>
+							<c:if test="${boardKinds.bk_bsecret_YN == 'Y'}">허용</c:if>
+							<c:if test="${boardKinds.bk_bsecret_YN == 'N'}">비허용</c:if>
 						</td>
-						<td><button type="button" class="btn btn-primary" onclick="managementBoardKinds(${boardKinds.bkBseq})">변경</button></td>
+						<td><button type="button" class="btn btn-primary" onclick="managementBoardKinds(${boardKinds.bk_bseq})">변경</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>

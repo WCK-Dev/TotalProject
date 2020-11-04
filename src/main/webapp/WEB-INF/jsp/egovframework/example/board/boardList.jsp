@@ -156,7 +156,7 @@ function fn_link_page(pageNo){
 				<div>
 					<h3>
 					<c:forEach items="${boardKindsList }" var="boardKinds">
-						<c:if test="${boardKinds.bkBseq == board.b_bseq}">${boardKinds.bkBname}</c:if>
+						<c:if test="${boardKinds.bk_bseq == board.b_bseq}">${boardKinds.bk_bname}</c:if>
 					</c:forEach>
 					공지사항</h3>
 					<table class="table table-hover mb-3" width="">
