@@ -291,6 +291,16 @@ public class BoardController {
 		return "redirect:/login.do";
 	}
 	
+	@RequestMapping(value="sessionCheck.do")
+	@ResponseBody
+	public UserVO sessionCheck(HttpSession session) throws Exception {
+		UserVO uvo = new UserVO();
+		uvo.setUser_id(((UserVO)session.getAttribute("user")).getUser_id()); 
+		
+		uvo = boardService.sessionCheck(uvo);
+		
+		return uvo;
+	}
 	@RequestMapping(value="adminMain.do")
 	public String adminMain() {
 		
@@ -429,12 +439,9 @@ public class BoardController {
 		List<BoardKindsVO> boardKindsList = (List<BoardKindsVO>) boardService.selectBoardKindsList();
 		
 		model.addAttribute("boardKindsList", boardKindsList);
-		
-		String searchKeyword = boardVO.getSearchKeyword();
+		model.addAttribute("searchKeyword", boardVO.getSearchKeyword());
 		
 		boardVO.setLoginId(((UserVO)session.getAttribute("user")).getUser_id());
-		
-		model.addAttribute("searchKeyword", searchKeyword);
 		
 		//게시판 (통합게시판) 검색정보 추가
 		//일반게시판들의 검색결과를 (게시판별로 List를 하나씩 가짐) 모두 포함하는 List를 생성
@@ -446,7 +453,6 @@ public class BoardController {
 			eachList = (List<BoardVO>) boardService.boardSearchList(boardVO);
 			
 			if(eachList != null) {
-				System.out.print(eachList);
 				boardSearchList.add(eachList);
 			}
 		}

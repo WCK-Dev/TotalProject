@@ -62,37 +62,51 @@
 	}
 	
 	function insertBoard(){
-		var b_bseq = $("#b_bseq").val();
-		var b_title = $("#b_title").val();
-		var b_writer = $("#b_writer").val();
-		var b_content = $("#b_content").val();
-		var b_category = $("#b_category").val();
-		var b_secret = $(":radio[name='b_secret']:checked").val();
-		var b_pwd = $("#b_pwd").val();
 		
 		$.ajax({
 			type : 'POST',
-			url : "<c:url value='/writeBoard.do'/>",
-			dataType : "text",
-			data : {"b_bseq": b_bseq
-				   ,"b_title": b_title
-				   ,"b_writer": b_writer
-				   ,"b_content": b_content
-				   ,"b_category": b_category
-				   ,"b_secret": b_secret
-				   ,"b_pwd": b_pwd
-					},
-			
+			url : "sessionCheck.do",
+			dataType : "json",
+					
 			success : function(result) {
-				alert("글이 정상적으로 등록되었습니다.");
-				opener.location.reload();
-				window.close();
+				
+				var b_bseq = $("#b_bseq").val();
+				var b_title = $("#b_title").val();
+				var b_writer = $("#b_writer").val();
+				var b_content = $("#b_content").val();
+				var b_category = $("#b_category").val();
+				var b_secret = $(":radio[name='b_secret']:checked").val();
+				var b_pwd = $("#b_pwd").val();
+				
+				$.ajax({
+					type : 'POST',
+					url : "<c:url value='/writeBoard.do'/>",
+					dataType : "text",
+					data : {"b_bseq": b_bseq
+						   ,"b_title": b_title
+						   ,"b_writer": b_writer
+						   ,"b_content": b_content
+						   ,"b_category": b_category
+						   ,"b_secret": b_secret
+						   ,"b_pwd": b_pwd
+							},
+					
+					success : function(result) {
+						alert("글이 정상적으로 등록되었습니다.");
+						opener.location.reload();
+						window.close();
+					},
+					error : function(error) {
+				        alert("글 등록에 에러가 발생했습니다.");
+						opener.location.reload();
+						window.close();
+				    }
+				});
 			},
-			error : function(error) {
-		        alert("글 등록에 에러가 발생했습니다.");
+			error: function(){
 				opener.location.reload();
-				window.close();
-		    }
+			    window.close();
+			}
 		});
 	}
 </script>

@@ -74,6 +74,8 @@ public interface BoardMapper {
 	
 	UserVO loginCheck(UserVO vo) throws Exception;
 	
+	UserVO sessionCheck(UserVO vo) throws Exception;
+	
 	List<?> selectUserList(UserVO vo) throws Exception;
 	
 	int selectUserListTotCnt(UserVO vo) throws Exception;

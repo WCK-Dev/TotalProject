@@ -94,30 +94,74 @@ function adminMain(){
 }
 
 function writeBoard(b_bseq){
-	var newwin = window.open("<c:url value='/writeBoard.do' />?b_bseq="+ b_bseq, "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
-	newwin.focus();
+	$.ajax({
+		type : 'POST',
+		url : "sessionCheck.do",
+		dataType : "json",
+				
+		success : function(result) {
+			var newwin = window.open("<c:url value='/writeBoard.do' />?b_bseq="+ b_bseq, "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
+			newwin.focus();
+		},
+		error: function(){
+			location.reload();
+		}
+	});
 }
 
 function writeNotice(b_bseq){
-	var newwin = window.open("<c:url value='/writeNotice.do' />?b_bseq="+ b_bseq, "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
-	newwin.focus();
+	$.ajax({
+		type : 'POST',
+		url : "sessionCheck.do",
+		dataType : "json",
+				
+		success : function(result) {
+			var newwin = window.open("<c:url value='/writeNotice.do' />?b_bseq="+ b_bseq, "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
+			newwin.focus();
+		},
+		error: function(){
+			location.reload();
+		}
+	});
 }
 
 function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
-	if(b_secret == 1 && b_writer != login_id && '${sessionScope.user.admin_YN}' == 'N'){
-		//확인 윈도우 오픈
-		var newwin = window.open("<c:url value='/boardPwdCheck.do' />?b_no="+b_no, "popUpBoard", "width=400, height=250, left=500, top=50, scrollbars=1");
-		
-	} else {
-		var newwin = window.open("<c:url value='/readBoard.do' />?b_no="+b_no , "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
-	}
-	
-	newwin.focus();
+	$.ajax({
+		type : 'POST',
+		url : "sessionCheck.do",
+		dataType : "json",
+				
+		success : function(result) {
+			if(b_secret == 1 && b_writer != login_id && '${sessionScope.user.admin_YN}' == 'N'){
+				//확인 윈도우 오픈
+				var newwin = window.open("<c:url value='/boardPwdCheck.do' />?b_no="+b_no, "popUpBoard", "width=400, height=250, left=500, top=50, scrollbars=1");
+				
+			} else {
+				var newwin = window.open("<c:url value='/readBoard.do' />?b_no="+b_no , "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
+			}
+			
+			newwin.focus();
+		},
+		error: function(){
+			location.reload();
+		}
+	});
 }
 
 function updateNotice(b_no) {
-	var newwin = window.open("<c:url value='/updateBoard.do'/>?b_no=" + b_no , "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
-	newwin.focus();
+	$.ajax({
+		type : 'POST',
+		url : "sessionCheck.do",
+		dataType : "json",
+				
+		success : function(result) {
+			var newwin = window.open("<c:url value='/updateBoard.do'/>?b_no=" + b_no , "popUpBoard", "width=500, height=900, left=500, top=50, scrollbars=1");
+			newwin.focus();
+		},
+		error: function(){
+			location.reload();
+		}
+	});
 }
 
 function logout(){
@@ -125,7 +169,18 @@ function logout(){
 }
 
 function alarmList(b_bseq, loginId) {
-	var newwin = window.open("<c:url value='/alarmList.do'/>?b_bseq=" + b_bseq +"&loginId=" + loginId , "popUpBoard", "width=500, height=400, left=500, top=50, scrollbars=1");
+	$.ajax({
+		type : 'POST',
+		url : "sessionCheck.do",
+		dataType : "json",
+				
+		success : function(result) {
+			var newwin = window.open("<c:url value='/alarmList.do'/>?b_bseq=" + b_bseq +"&loginId=" + loginId , "popUpBoard", "width=500, height=400, left=500, top=50, scrollbars=1");
+		},
+		error: function(){
+			location.reload();
+		}
+	});
 }
 
 

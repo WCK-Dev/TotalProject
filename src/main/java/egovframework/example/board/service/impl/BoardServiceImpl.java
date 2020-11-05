@@ -169,6 +169,11 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	public UserVO loginCheck(UserVO vo) throws Exception {
 		return boardDAO.loginCheck(vo);
 	}
+	
+	@Override
+	public UserVO sessionCheck(UserVO vo) throws Exception {
+		return boardDAO.sessionCheck(vo);
+	}
 
 	@Override
 	public List<?> selectUserList(UserVO vo) throws Exception {

@@ -74,6 +74,7 @@
 			<mvc:mapping path="/deleteBoard.do" />
 			<mvc:mapping path="/writeReply.do" />
 			<mvc:mapping path="/insertReply.do" />
+			<mvc:mapping path="/alarmList.do" />
 			
 			<mvc:mapping path="/serveyMain.do"/>
 			<mvc:mapping path="/serveyList.do"/>

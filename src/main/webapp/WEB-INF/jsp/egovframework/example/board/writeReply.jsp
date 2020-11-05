@@ -36,38 +36,46 @@
 	}
 	
 	function insertReply(){
-		var b_no = $("#b_no").val();
-		var b_title = $("#b_title").val();
-		var b_writer = $("#b_writer").val();
-		var b_content = $("#b_content").val();
-		var b_depth = $("#b_depth").val();
-		var b_origin = $("#b_origin").val();
-		var b_bseq = $("#b_bseq").val()
-		
 		$.ajax({
 			type : 'POST',
-			url : "<c:url value='/insertReply.do' />",
-			dataType : "text",
-			data : {"b_title": b_title
-				   ,"b_writer": b_writer
-				   ,"b_content": b_content
-				   ,"b_refno": b_no
-				   ,"b_depth": b_depth
-				   ,"b_origin": b_origin
-				   ,"b_bseq": b_bseq
+			url : "sessionCheck.do",
+			dataType : "json",
 					
-			},
-			
 			success : function(result) {
-				alert("답글이 정상적으로 등록되었습니다.");
-				opener.location.reload();
-				window.close();
+				
+				var b_no = $("#b_no").val();
+				var b_title = $("#b_title").val();
+				var b_writer = $("#b_writer").val();
+				var b_content = $("#b_content").val();
+				var b_depth = $("#b_depth").val();
+				var b_origin = $("#b_origin").val();
+				var b_bseq = $("#b_bseq").val()
+				
+				$.ajax({
+					type : 'POST',
+					url : "<c:url value='/insertReply.do' />",
+					dataType : "text",
+					data : {"b_title": b_title
+						   ,"b_writer": b_writer
+						   ,"b_content": b_content
+						   ,"b_refno": b_no
+						   ,"b_depth": b_depth
+						   ,"b_origin": b_origin
+						   ,"b_bseq": b_bseq
+							
+					},
+					
+					success : function(result) {
+						alert("답글이 정상적으로 등록되었습니다.");
+						opener.location.reload();
+						window.close();
+					}
+				});
 			},
-			error : function(error) {
-		        alert("글 등록에 에러가 발생했습니다.");
+			error: function(){
 				opener.location.reload();
-				window.close();
-		    }
+			    window.close();
+			}
 		});
 	}
 

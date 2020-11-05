@@ -30,42 +30,79 @@ $(document).ready(function(){
 });
 
 function reply(b_no) {
-	location.href = "<c:url value='/writeReply.do'/>?b_no=" + b_no;
-	
+	$.ajax({
+		type : 'POST',
+		url : "sessionCheck.do",
+		dataType : "json",
+				
+		success : function(result) {
+			location.href = "<c:url value='/writeReply.do'/>?b_no=" + b_no;
+		},
+		error: function(){
+			opener.location.reload();
+		    window.close();
+		}
+	});
 }
 
 function update(b_no) {
-	location.href = "<c:url value='/updateBoard.do'/>?b_no=" + b_no;
+	$.ajax({
+		type : 'POST',
+		url : "sessionCheck.do",
+		dataType : "json",
+				
+		success : function(result) {
+			location.href = "<c:url value='/updateBoard.do'/>?b_no=" + b_no;
+		},
+		error: function(){
+			opener.location.reload();
+		    window.close();
+		}
+	});
 }
 
 function del(b_no, b_refno) {
 	
-	if('${boardVO.b_secret}' == '1' && '${sessionScope.user.admin_YN}' != 'Y'){
-		var inputPwd = prompt("비밀글 삭제를 위해 게시글 비밀번호를 입력해주세요.");
-		
-		if(inputPwd != '${boardVO.b_pwd}'){
-			alert("게시글 비밀번호를 확인해주세요.");
-			return false;
-		}
-	}
-	
-	if(confirm("해당글을 삭제하시겠습니까?\r\n원본 게시글인 경우, 답글까지 모두 삭제됩니다.")){
-		
-		$.ajax({
-			type : 'POST',
-			url : "deleteBoard.do",
-			dataType : "text",
-			data : { "b_no" : b_no,
-					 "b_refno": b_refno},
-			
-			success : function(result) {
+	$.ajax({
+		type : 'POST',
+		url : "sessionCheck.do",
+		dataType : "json",
 				
-				alert("글 삭제가 정상적으로 수행되었습니다.");
-				opener.location.reload();
-				window.close();
+		success : function(result) {
+			
+			if('${boardVO.b_secret}' == '1' && '${sessionScope.user.admin_YN}' != 'Y'){
+				var inputPwd = prompt("비밀글 삭제를 위해 게시글 비밀번호를 입력해주세요.");
+				
+				if(inputPwd != '${boardVO.b_pwd}'){
+					alert("게시글 비밀번호를 확인해주세요.");
+					return false;
+				}
 			}
-		}); 
-	}
+			
+			if(confirm("해당글을 삭제하시겠습니까?\r\n원본 게시글인 경우, 답글까지 모두 삭제됩니다.")){
+				
+				$.ajax({
+					type : 'POST',
+					url : "deleteBoard.do",
+					dataType : "text",
+					data : { "b_no" : b_no,
+							 "b_refno": b_refno},
+					
+					success : function(result) {
+						
+						alert("글 삭제가 정상적으로 수행되었습니다.");
+						opener.location.reload();
+						window.close();
+					}
+				}); 
+			}
+			
+		},
+		error: function(){
+			opener.location.reload();
+		    window.close();
+		}
+	});
 }
 
 function writeComment(b_no) {
@@ -75,19 +112,32 @@ function writeComment(b_no) {
 	if(!c_content){
 		alert("댓글내용을 입력해야합니다.");
 	} else {
+		
 		$.ajax({
 			type : 'POST',
-			url : "<c:url value='/insertComment.do'/>",
-			dataType : "text",
-			data : {"b_no" : b_no,
-					"c_writer": c_writer,
-					"c_content": c_content
-					},
-			
-			success : function (result) {
-				
-				alert("댓글을 등록했습니다.");
-				location.reload(true);
+			url : "sessionCheck.do",
+			dataType : "json",
+					
+			success : function(result) {
+				$.ajax({
+					type : 'POST',
+					url : "<c:url value='/insertComment.do'/>",
+					dataType : "text",
+					data : {"b_no" : b_no,
+							"c_writer": c_writer,
+							"c_content": c_content
+							},
+					
+					success : function (result) {
+						
+						alert("댓글을 등록했습니다.");
+						location.reload(true);
+					}
+				});
+			},
+			error: function(){
+				opener.location.reload();
+			    window.close();
 			}
 		});
 	}
@@ -101,23 +151,36 @@ function insertRecomment(b_no, c_parent, c_origin, c_depth, index) {
 	if(!c_content){
 		alert("댓글내용을 입력해야합니다.");
 	} else {
+		
 		$.ajax({
 			type : 'POST',
-			url : "<c:url value='/insertRecomment.do'/>",
-			dataType : "text",
-			data : {"b_no" : b_no
-				   ,"c_writer": c_writer
-				   ,"c_content": c_content
-				   ,"c_parent": c_parent
-				   ,"c_origin": c_origin
-				   ,"c_depth": c_depth
+			url : "sessionCheck.do",
+			dataType : "json",
 					
-					},
-			
-			success : function (result) {
-				
-				alert("댓글을 등록했습니다.");
-				location.reload(true);
+			success : function(result) {
+				$.ajax({
+					type : 'POST',
+					url : "<c:url value='/insertRecomment.do'/>",
+					dataType : "text",
+					data : {"b_no" : b_no
+						   ,"c_writer": c_writer
+						   ,"c_content": c_content
+						   ,"c_parent": c_parent
+						   ,"c_origin": c_origin
+						   ,"c_depth": c_depth
+							
+							},
+					
+					success : function (result) {
+						
+						alert("댓글을 등록했습니다.");
+						location.reload(true);
+					}
+				});
+			},
+			error: function(){
+				opener.location.reload();
+			    window.close();
 			}
 		});
 	}
@@ -134,16 +197,28 @@ function deleteComment(c_no, c_writer, user_id) {
 	if(confirm("정말 댓글을 삭제하시겠습니까?")){
 		$.ajax({
 			type : 'POST',
-			url : "<c:url value='/deleteComment.do'/>",
-			dataType : "text",
-			data : {"c_no" : c_no,
-					"c_writer": c_writer
-					},
-			
-			success : function (result) {
-				
-				alert("댓글을 삭제했습니다.");
-				location.reload(true);
+			url : "sessionCheck.do",
+			dataType : "json",
+					
+			success : function(result) {
+				$.ajax({
+					type : 'POST',
+					url : "<c:url value='/deleteComment.do'/>",
+					dataType : "text",
+					data : {"c_no" : c_no,
+							"c_writer": c_writer
+							},
+					
+					success : function (result) {
+						
+						alert("댓글을 삭제했습니다.");
+						location.reload(true);
+					}
+				});
+			},
+			error: function(){
+				opener.location.reload();
+			    window.close();
 			}
 		});
 	}

@@ -66,6 +66,8 @@ public interface BoardService {
 	int insertUser(UserVO vo) throws Exception;
 
 	UserVO loginCheck(UserVO vo) throws Exception;
+	
+	UserVO sessionCheck(UserVO vo) throws Exception;
 
 	List<?> selectUserList(UserVO vo) throws Exception;
 
@@ -88,7 +90,7 @@ public interface BoardService {
 	int insertHistory(HistoryVO vo) throws Exception;
 
 	int checkHistory(HistoryVO vo) throws Exception;
-
+	
 	List<BoardVO> boardSearchList(BoardVO vo) throws Exception;
 
 	int boardSearchCnt(BoardVO vo) throws Exception;

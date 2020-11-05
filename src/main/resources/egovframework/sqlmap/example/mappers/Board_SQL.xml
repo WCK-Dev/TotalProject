@@ -398,6 +398,13 @@
 			
 	</select>
 	
+	<select id="sessionCheck" parameterType="userVO" resultType="userVO">
+
+			SELECT *
+			FROM USER
+			WHERE user_id = #{user_id}
+	</select>
+	
 	<select id="selectMaxBno" resultType="int">
 	
 			SELECT IFNULL(MAX(b_no), 0) FROM board
