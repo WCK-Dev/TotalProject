@@ -139,15 +139,6 @@ public class BoardController {
 		return "board/writeBoard";
 	}
 	
-	@RequestMapping(value="writeNotice.do" , method = RequestMethod.GET)
-	public String writeNotice(BoardVO boardVO, Model model) throws Exception {
-		
-		
-		model.addAttribute("board", boardVO);
-		
-		return "board/writeNotice";
-	}
-
 	@ResponseBody
 	@RequestMapping(value="writeBoard.do" , method = RequestMethod.POST)
 	public void writeBoard(@ModelAttribute("board")BoardVO boardVO, ModelMap model) throws Exception {
@@ -157,9 +148,16 @@ public class BoardController {
 		boardVO.setB_no(b_no);
 		boardVO.setB_origin(b_no);
 		
-		System.err.println(boardVO.getB_bseq());
-		
 		boardService.insertBoard(boardVO);
+	}
+	
+	@RequestMapping(value="writeNotice.do" , method = RequestMethod.GET)
+	public String writeNotice(BoardVO boardVO, Model model) throws Exception {
+		
+		
+		model.addAttribute("board", boardVO);
+		
+		return "board/writeNotice";
 	}
 
 	@RequestMapping(value="readBoard.do")

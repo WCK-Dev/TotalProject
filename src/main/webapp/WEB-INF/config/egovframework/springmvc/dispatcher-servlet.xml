@@ -91,6 +91,8 @@
 			<mvc:mapping path="/baseballList.do"/>
 			<mvc:mapping path="/baseballMain.do"/>
 			<mvc:mapping path="/baseballPlay.do"/>
+			<mvc:mapping path="/insertBaseball.do"/>
+			<mvc:mapping path="/baseballCheck.do"/>
 			
 			<mvc:mapping path="/totalSearch.do"/>
 			<ref bean="loginAuthInterceptor"/>

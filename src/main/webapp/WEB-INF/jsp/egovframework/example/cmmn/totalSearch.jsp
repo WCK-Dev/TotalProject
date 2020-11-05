@@ -79,7 +79,7 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 		
 		<h3 class="mt-2">[게시판] 검색결과
 			<c:if test="${boardSearchCnt != 0 }">
-				<small class="text-danger">( ${boardSearchCnt } 개 검색됨 )</small>
+				<small class="text-danger">( ${boardSearchCnt } 건 검색됨 )</small>
 			</c:if>
 			<c:if test="${boardSearchCnt == 0 }">
 				<small class="text-danger">( 검색결과없음 )</small>
@@ -104,13 +104,16 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 					              작성자 : ${board.b_writer } &nbsp;/ &nbsp; 작성일 : <fmt:formatDate value="${board.b_regdate }" pattern="yyyy-MM-dd"/>
 						</li>
 					</c:if>
+					<c:if test="${fn:length(boardSearchList[i.index]) > 5 && bSts.last }">
+						<button type="button" class="btn btn-danger" onclick="location.href='boardList.do?b_bseq=${bk.bk_bseq }&searchCondition=3&searchKeyword=${searchKeyword }'">${bk.bk_bname } 검색결과 더보기</button>
+					</c:if>
 				</c:forEach>
 			</c:forEach>
 		</ul>
 		
 		<h3 class="mt-5">[갤러리] 검색결과
 			<c:if test="${gallerySearchCnt != 0 }">
-				<small class="text-danger">( ${gallerySearchCnt } 개 검색됨 )</small>
+				<small class="text-danger">( ${gallerySearchCnt } 건 검색됨 )</small>
 			</c:if>
 			<c:if test="${gallerySearchCnt == 0 }">
 				<small class="text-danger">( 검색결과없음 )</small>
@@ -125,12 +128,12 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 			</c:forEach>
 		</ul>
 		<c:if test="${gallerySearchCnt > 10 }">
-			<button type="button" class="btn btn-danger" onclick="location.href='galleryMain.do?searchCondition=total&searchKeyword=${searchKeyword }'">갤러리 검색결과 전체보기</button>
+			<button type="button" class="btn btn-danger" onclick="location.href='galleryMain.do?searchCondition=total&searchKeyword=${searchKeyword }'">갤러리 검색결과 더보기</button>
 		</c:if>
 			
 		<h3 class="mt-5">[체크리스트] 검색결과
 			<c:if test="${checkSearchCnt != 0 }">
-				<small class="text-danger">( ${checkSearchCnt } 개 검색됨 )</small><br>
+				<small class="text-danger">( ${checkSearchCnt } 건 검색됨 )</small><br>
 			</c:if>
 			<c:if test="${checkSearchCnt == 0 }">
 				<small class="text-danger">( 검색결과없음 )</small><br>
