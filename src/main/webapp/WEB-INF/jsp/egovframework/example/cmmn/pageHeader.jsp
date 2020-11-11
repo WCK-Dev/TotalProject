@@ -35,17 +35,21 @@ function checkKeyword(){
   </div>
 </form>
 
-<!-- 게시판 리스트 영역 -->
+<!-- 메뉴 리스트 영역 -->
 <div class="mt-4 mb-2">
-	<c:forEach items="${boardKindsList }" var="boardKinds">
-		<a href='boardList.do?b_bseq=${boardKinds.bk_bseq }'><b>${boardKinds.bk_bname }</b> &nbsp;&nbsp;&nbsp;</a>
-	</c:forEach>
-	<a href='serveyList.do'><b>설문조사</b> &nbsp;&nbsp;&nbsp;</a>
+	<c:forEach items="${menuList }" var="menu" varStatus="msts">
+            <c:if test="${menu.menu_level == 1 }">
+                <li class="nav-item"><a class="nav-link" href="#">${menu.menu_name }</a>
+                    <ul>
+                    </ul>
+            </c:if>
+        </c:forEach>
+	<%-- <a href='serveyList.do'><b>설문조사</b> &nbsp;&nbsp;&nbsp;</a>
 	<a href='galleryMain.do'><b>갤러리</b> &nbsp;&nbsp;&nbsp;</a>
 	<c:if test="${sessionScope.user.admin_YN != 'Y' }">
 		<a href='checkListMain.do'><b>체크리스트</b> &nbsp;&nbsp;&nbsp;</a>
 	</c:if>
-	<a href='baseballList.do'><b>숫자야구게임</b> &nbsp;&nbsp;&nbsp;</a>
+	<a href='baseballList.do'><b>숫자야구게임</b> &nbsp;&nbsp;&nbsp;</a> --%>
 	
 </div>
 

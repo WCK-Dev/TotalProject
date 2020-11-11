@@ -34,5 +34,9 @@
 		<!-- 숫자야구 게시판 프로젝트 -->
 		<typeAlias type="egovframework.example.baseball.service.BaseBallVO" alias="baseballVO"/>
 		<typeAlias type="egovframework.example.baseball.service.BaseBallTryVO" alias="baseballTryVO"/>
+		
+		<!-- 메뉴 관리 -->
+		<typeAlias type="egovframework.example.cmmn.service.MenuVO" alias="menuVO"/>
+		<typeAlias type="egovframework.example.cmmn.service.MenulogVO" alias="menulogVO"/>
     </typeAliases>
 </configuration>

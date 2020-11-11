@@ -13,6 +13,7 @@ public class UserVO extends BoardDefaultVO {
 	private String delete_YN;
 	private String reply_YN;
 	private String comment_YN;
+	private String manager_YN;
 	private String admin_YN;
 	
 	public String getUser_id() {
@@ -68,6 +69,12 @@ public class UserVO extends BoardDefaultVO {
 	}
 	public void setComment_YN(String comment_YN) {
 		this.comment_YN = comment_YN;
+	}
+	public String getManager_YN() {
+		return manager_YN;
+	}
+	public void setManager_YN(String manager_YN) {
+		this.manager_YN = manager_YN;
 	}
 	public String getAdmin_YN() {
 		return admin_YN;

@@ -494,6 +494,7 @@
 			   ,reply_YN = #{reply_YN}
 			   ,comment_YN = #{comment_YN}
 			   ,read_YN = #{read_YN}
+			   ,manager_YN = #{manager_YN}
 			   ,admin_YN = #{admin_YN}
 			WHERE user_id = #{user_id} 
 		

@@ -40,6 +40,12 @@
 						onclick="location='checkListAdmin.do'">
 	  				체크리스트 관리</button>
 				</div>
+				<div class="row-sm">
+					<button type="button" class="h4 btn border-bottom border-linght waves-effect mx-0 my-0 w-100"
+						onclick="location='managementMenu.do'">
+	  				메뉴관리</button>
+				</div>
+				<div class="row-sm">
 			</div>
 		</div>
 		

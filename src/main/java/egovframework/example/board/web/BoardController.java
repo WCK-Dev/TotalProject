@@ -24,6 +24,7 @@ import egovframework.example.board.service.CommentVO;
 import egovframework.example.board.service.HistoryVO;
 import egovframework.example.board.service.UserVO;
 import egovframework.example.checklist.service.CheckListService;
+import egovframework.example.cmmn.service.CommonService;
 import egovframework.example.gallery.service.GalleryService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -41,6 +42,9 @@ public class BoardController {
 	@Resource(name = "checkListService")
 	private CheckListService checkListService;
 	
+	@Resource(name = "commonService")
+	private CommonService commonService;
+	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
@@ -48,7 +52,7 @@ public class BoardController {
 	@RequestMapping(value="boardMain.do")
 	public String boardMain(BoardVO boardVO, ModelMap model) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		model.addAttribute("menuList", commonService.selectMenuList());
 		
 		return "board/boardMain";
 	}

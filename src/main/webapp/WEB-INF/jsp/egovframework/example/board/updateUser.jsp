@@ -34,6 +34,7 @@
 		var delete_YN = $("#delete_YN").val();
 		var reply_YN = $("#reply_YN").val();
 		var comment_YN = $("#comment_YN").val();
+		var manager_YN = $("#manager_YN").val();
 		var admin_YN = $("#admin_YN").val();
 		
 		$.ajax({
@@ -47,6 +48,7 @@
 					"delete_YN": delete_YN,
 					"reply_YN": reply_YN,
 					"comment_YN": comment_YN,
+					"manager_YN": manager_YN,
 					"admin_YN": admin_YN 
 					},
 			
@@ -94,6 +96,8 @@
 					    <label for="reply_YN">답글 권한</label><br>
 					    <input type="checkbox" name="comment_YN" id="comment_YN" value="${userInfo.comment_YN }" onclick="valueChange('comment_YN')" <c:if test="${userInfo.comment_YN == 'Y'}">checked</c:if>>
 					    <label for="comment_YN">댓글 권한</label><br>
+					    <input type="checkbox" name="manager_YN" id="manager_YN" value="${userInfo.manager_YN }" onclick="valueChange('manager_YN')" <c:if test="${userInfo.manager_YN == 'Y'}">checked</c:if>>
+					    <label for="manager_YN">매니저 권한</label><br>
 					    <input type="checkbox" name="admin_YN" id="admin_YN" value="${userInfo.admin_YN }" onclick="valueChange('admin_YN')" <c:if test="${userInfo.admin_YN == 'Y'}">checked</c:if>>
 					    <label for="admin_YN">관리자 권한</label>
 			    </fieldset>

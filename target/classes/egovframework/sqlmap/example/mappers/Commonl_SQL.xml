@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.cmmn.service.impl.CommonMapper">
+	
+	<select id="selectMenuList" resultType="menuVO">
+		WITH RECURSIVE CTE AS (
+				SELECT menu_id 
+						,menu_name
+						,menu_create_dttm
+						,menu_create_user
+						,menu_modify_dttm
+						,menu_modify_user
+						,menu_use_yn
+						,menu_level
+						,menu_ref
+						,menu_origin
+						,menu_auth
+						,menu_info
+						,menu_type
+						,CAST(LPAD(menu_id, 5, 0) AS CHAR(3000)) path
+				FROM menu
+				WHERE menu_ref = 0
+				UNION ALL
+				SELECT b.menu_id 
+						,b.menu_name
+						,b.menu_create_dttm
+						,b.menu_create_user
+						,b.menu_modify_dttm
+						,b.menu_modify_user
+						,b.menu_use_yn
+						,b.menu_level
+						,b.menu_ref
+						,b.menu_origin
+						,b.menu_auth
+						,b.menu_info
+						,b.menu_type
+						,CONCAT(a.path, ',', b.menu_id) AS path
+				FROM CTE a
+				INNER JOIN menu b ON a.menu_id = b.menu_ref
+			)
+		SELECT  menu_id, menu_name, menu_create_dttm, menu_create_user, menu_modify_dttm, menu_modify_user, menu_use_yn, menu_level, menu_ref, menu_origin, menu_auth, menu_info, menu_type, path
+		FROM CTE
+		ORDER BY menu_origin, path
+	</select>
+	
+	<select resultType="int" id="nextMenuId">
+		SELECT IFNULL(MAX(menu_id), 0) + 1 AS next_menu_id FROM menu
+	</select>
+	
+	<insert id="insertMenu" parameterType="menuVO">
+		INSERT INTO menu(menu_id
+						,menu_name
+						,menu_create_dttm
+						,menu_create_user
+						,menu_use_yn
+			<if test="menu_ref != 0">
+						,menu_level
+						,menu_ref
+			</if>
+						,menu_origin
+						,menu_auth
+						,menu_type
+			)VALUES(	#{menu_id}
+					   ,#{menu_name}
+					   ,sysdate()
+					   ,#{menu_create_user}
+					   ,#{menu_use_yn}
+			<choose>
+				<when test="menu_ref != 0">
+						,(SELECT menu_level + 1 FROM menu m WHERE menu_id = #{menu_ref})
+					   ,#{menu_ref}
+					   ,(SELECT menu_origin FROM menu m WHERE menu_id = #{menu_ref})
+				</when>
+				<otherwise>
+					   ,#{menu_id}
+				</otherwise>
+			</choose>
+					   ,#{menu_auth}
+					   ,#{menu_type}
+			)
+	</insert>
+	
+</mapper>
