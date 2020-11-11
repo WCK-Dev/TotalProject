@@ -21,7 +21,7 @@
 <script>
 $(document).ready(function(){
 	var b_writer = $("#b_writer").val();
-	if('${sessionScope.user.user_id}' != b_writer && '${sessionScope.user.admin_YN}' != 'Y'){
+	if('${sessionScope.user.user_id}' != b_writer && '${sessionScope.user.user_roll}' != 'admin'){
 		alert("글쓴이 본인과 관리자만 게시글을 수정할 수 있습니다.\r\n현재 로그인 정보를 확인해주십시오.");
 		history.back();
 	}
@@ -39,7 +39,7 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		if( '${boardVO.b_secret}' == 1 && '${sessionScope.user.admin_YN}' != 'Y'){
+		if( '${boardVO.b_secret}' == 1 && '${sessionScope.user.user_roll}' != 'admin'){
 			if($("#b_pwd").val() == '' || $("#b_pwd").val().trim() == ''){
 				alert("비밀글 수정을 위해서는 글 비밀번호를 입력해야합니다.");
 				$("#b_pwd").focus();
@@ -81,7 +81,7 @@ $(document).ready(function(){
 			  </div>
 			  
 			  <!-- 비밀글일때만 비밀번호 입력란 출력 -->
-			  <c:if test="${sessionScope.user.admin_YN != 'Y' && boardVO.b_secret == 1}">
+			  <c:if test="${sessionScope.user.user_roll != 'admin' && boardVO.b_secret == 1}">
 				  <div class="form-group mt-1">
 				  	  <b>게시글 비밀번호 : &nbsp;&nbsp;&nbsp;</b>
 				      <input type="password" id="b_pwd" name="b_pwd" class="form-control" style="width:63%; display:inline-block;" maxlength="20">

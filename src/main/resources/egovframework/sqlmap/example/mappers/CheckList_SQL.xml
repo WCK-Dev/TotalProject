@@ -5,7 +5,7 @@
 	<select id="selectUserList" resultType="userVO">
 		SELECT user_id, user_name
 		FROM user
-		WHERE admin_YN != 'Y'
+		WHERE user_roll != 'admin'
 	</select>
 	
 	<insert id="insertCheckBoard" useGeneratedKeys="true" keyProperty="b_seq">

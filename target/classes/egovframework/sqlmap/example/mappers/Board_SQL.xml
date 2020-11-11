@@ -488,14 +488,13 @@
 	<update id="updateUser" parameterType="userVO">
 		
 			UPDATE user 
-			SET write_YN = #{write_YN}
+			SET	user_roll = #{user_roll} 
+			   ,write_YN = #{write_YN}
 			   ,update_YN = #{update_YN}
 			   ,delete_YN = #{delete_YN}
 			   ,reply_YN = #{reply_YN}
 			   ,comment_YN = #{comment_YN}
 			   ,read_YN = #{read_YN}
-			   ,manager_YN = #{manager_YN}
-			   ,admin_YN = #{admin_YN}
 			WHERE user_id = #{user_id} 
 		
 	</update>

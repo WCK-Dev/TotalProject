@@ -26,17 +26,27 @@ public class CommonController {
 	protected EgovPropertyService propertiesService;
 	
 	@RequestMapping(value="managementMenu.do")
-	public String managementMenu(ModelMap model) throws Exception {
+	public String managementMenu(ModelMap model, HttpSession session) throws Exception {
 		
-		model.addAttribute("menuList", commonService.selectMenuList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("menuList", commonService.selectMenuList(mvo));
 		
 		return "cmmn/managementMenu";
 	}
 	
 	@RequestMapping(value="createMenu.do", method=RequestMethod.GET)
-	public String createMenu(ModelMap model) {
+	public String createMenu(ModelMap model, HttpSession session) {
 		
-		model.addAttribute("menuList", commonService.selectMenuList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("menuList", commonService.selectMenuList(mvo));
 		
 		return "cmmn/menuForm";
 	}
@@ -60,7 +70,7 @@ public class CommonController {
 	@RequestMapping(value="modifyMenu.do")
 	public String modifyMenu(ModelMap model, MenuVO mvo) {
 		
-		model.addAttribute("menuList", commonService.selectMenuList());
+		model.addAttribute("menuList", commonService.selectMenuList(mvo));
 		
 		return "cmmn/menuForm";
 	}

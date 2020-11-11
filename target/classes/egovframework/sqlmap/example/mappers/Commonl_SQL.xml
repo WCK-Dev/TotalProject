@@ -40,6 +40,11 @@
 			)
 		SELECT  menu_id, menu_name, menu_create_dttm, menu_create_user, menu_modify_dttm, menu_modify_user, menu_use_yn, menu_level, menu_ref, menu_origin, menu_auth, menu_info, menu_type, path
 		FROM CTE
+		WHERE 1=1
+				AND menu_auth LIKE CONCAT('%', #{menu_auth}, '%')
+			<if test="menu_auth != 'admin'">
+				AND menu_use_yn = 'Y'
+			</if>
 		ORDER BY menu_origin, path
 	</select>
 	

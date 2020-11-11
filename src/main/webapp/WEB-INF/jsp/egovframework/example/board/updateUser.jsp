@@ -16,6 +16,36 @@
 <title>유저 권한 관리</title>
 
 <script>
+	$(document).ready(function(){
+		var user_roll = $("#user_roll option:selected").val();
+		var changebox = $("input[type=checkbox]");
+		
+		if(user_roll == 'admin' || user_roll == 'manager') {
+			$(changebox).each(function(index, item){
+				$(item).prop('disabled', true);
+			});
+		}
+	});
+	
+	function rollChange() {
+		var user_roll = $("#user_roll option:selected").val();
+		var changebox = $("input[type=checkbox]");
+
+		if(user_roll == 'admin' || user_roll == 'manager') {
+			$(changebox).each(function(index, item){
+				$(item).val('Y');
+				$(item).prop('checked', true);
+				$(item).prop('disabled', true);
+			});
+		} else {
+			$(changebox).each(function(index, item){
+				$(item).val('N');
+				$(item).prop('checked', false);
+				$(item).prop('disabled', false);
+			});
+		}
+	}
+
 	function valueChange(auth) {
 		var changebox = $("input[type=checkbox][name='"+auth+"']");
 		
@@ -28,28 +58,26 @@
 	
 	function updateUser() {
 		var user_id = $("#user_id").val();
+		var user_roll = $("#user_roll option:selected").val();
 		var read_YN = $("#read_YN").val();
 		var write_YN = $("#write_YN").val();
 		var update_YN = $("#update_YN").val();
 		var delete_YN = $("#delete_YN").val();
 		var reply_YN = $("#reply_YN").val();
 		var comment_YN = $("#comment_YN").val();
-		var manager_YN = $("#manager_YN").val();
-		var admin_YN = $("#admin_YN").val();
 		
 		$.ajax({
 			type : 'POST',
 			url : "<c:url value='/updateUser.do'/>",
 			dataType : "text",
 			data : {"user_id": user_id,
+					"user_roll" : user_roll,
 					"read_YN": read_YN,
 					"write_YN": write_YN,
 					"update_YN": update_YN,
 					"delete_YN": delete_YN,
 					"reply_YN": reply_YN,
-					"comment_YN": comment_YN,
-					"manager_YN": manager_YN,
-					"admin_YN": admin_YN 
+					"comment_YN": comment_YN
 					},
 			
 			success : function (result) {
@@ -83,7 +111,13 @@
 			  </div>
 			  <div class="form-group">
 				<fieldset>
-			        <legend >유저 권한</legend>
+			        <legend>유저 권한</legend>
+			        	<select name="user_roll" id="user_roll" onchange="rollChange()" class="browser-default custom-select mb-3">
+			        		<option value="user" <c:if test="${userInfo.user_roll == 'user'}">selected</c:if>>사용자권한</option>			        	
+			        		<option value="manager" <c:if test="${userInfo.user_roll == 'manager'}">selected</c:if>>매니저권한</option>			        	
+			        		<option value="admin" <c:if test="${userInfo.user_roll == 'admin'}">selected</c:if>>관리자권한</option>			        	
+			        	</select>
+			        	
 				       	<input type="checkbox" name="read_YN" id="read_YN" value="${userInfo.read_YN }" onclick="valueChange('read_YN')" <c:if test="${userInfo.read_YN == 'Y'}">checked</c:if>>
 					    <label for="read_YN">게시판 진입 권한</label><br>
 					    <input type="checkbox" name="write_YN" id="write_YN" value="${userInfo.write_YN }" onclick="valueChange('write_YN')" <c:if test="${userInfo.write_YN == 'Y'}">checked</c:if>>
@@ -96,10 +130,6 @@
 					    <label for="reply_YN">답글 권한</label><br>
 					    <input type="checkbox" name="comment_YN" id="comment_YN" value="${userInfo.comment_YN }" onclick="valueChange('comment_YN')" <c:if test="${userInfo.comment_YN == 'Y'}">checked</c:if>>
 					    <label for="comment_YN">댓글 권한</label><br>
-					    <input type="checkbox" name="manager_YN" id="manager_YN" value="${userInfo.manager_YN }" onclick="valueChange('manager_YN')" <c:if test="${userInfo.manager_YN == 'Y'}">checked</c:if>>
-					    <label for="manager_YN">매니저 권한</label><br>
-					    <input type="checkbox" name="admin_YN" id="admin_YN" value="${userInfo.admin_YN }" onclick="valueChange('admin_YN')" <c:if test="${userInfo.admin_YN == 'Y'}">checked</c:if>>
-					    <label for="admin_YN">관리자 권한</label>
 			    </fieldset>
 			  </div>
 			<div class="panel-footer float-right">

@@ -19,7 +19,7 @@ function checkKeyword(){
 <div class="panel-heading text-right mb-3" style="float: right">
 	${sessionScope.user.user_name }(${sessionScope.user.user_id })님 환영합니다.
 	<button type="button" class="btn btn-danger" onclick="location.href='logout.do'">로그아웃</button>
-	<c:if test= "${sessionScope.user.user_id != null && sessionScope.user.user_id != '' && sessionScope.user.admin_YN == 'Y' }">
+	<c:if test= "${sessionScope.user.user_id != null && sessionScope.user.user_id != '' && sessionScope.user.user_roll == 'admin' }">
 		<button type="button" class="btn btn-primary" onclick="location.href='adminMain.do'">관리자 페이지</button>
 	</c:if>
 </div>

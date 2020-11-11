@@ -7,14 +7,13 @@ public class UserVO extends BoardDefaultVO {
 	private String user_id;
 	private String user_pwd;
 	private String user_name;
+	private String user_roll;
 	private String read_YN;
 	private String write_YN;
 	private String update_YN;
 	private String delete_YN;
 	private String reply_YN;
 	private String comment_YN;
-	private String manager_YN;
-	private String admin_YN;
 	
 	public String getUser_id() {
 		return user_id;
@@ -33,6 +32,12 @@ public class UserVO extends BoardDefaultVO {
 	}
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
+	}
+	public String getUser_roll() {
+		return user_roll;
+	}
+	public void setUser_roll(String user_roll) {
+		this.user_roll = user_roll;
 	}
 	public String getRead_YN() {
 		return read_YN;
@@ -69,18 +74,6 @@ public class UserVO extends BoardDefaultVO {
 	}
 	public void setComment_YN(String comment_YN) {
 		this.comment_YN = comment_YN;
-	}
-	public String getManager_YN() {
-		return manager_YN;
-	}
-	public void setManager_YN(String manager_YN) {
-		this.manager_YN = manager_YN;
-	}
-	public String getAdmin_YN() {
-		return admin_YN;
-	}
-	public void setAdmin_YN(String admin_YN) {
-		this.admin_YN = admin_YN;
 	}
 	
 }

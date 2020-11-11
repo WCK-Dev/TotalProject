@@ -4,6 +4,7 @@
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="fn" 		uri="http://java.sun.com/jsp/jstl/functions" %>	
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt"	   uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
@@ -47,7 +48,7 @@
 					<th style="width: 8%" class="w-5 h6 font-weight-bold">상위메뉴</th>
 					<th style="width: 8%" class="w-5 h6 font-weight-bold">접근권한</th>
 					<th style="width: 8%" class="w-5 h6 font-weight-bold">메뉴유형</th>
-					<th style="width: 15%" class="w-20 h6 font-weight-bold">수정/삭제</th>
+					<th style="width: 13%" class="w-20 h6 font-weight-bold">수정/삭제</th>
 				</tr>
 			</thead>
 			<tbody id="menuTableBody">
@@ -66,7 +67,11 @@
 						<td class="h6">${menu.menu_use_yn }</td>
 						<td class="h6">${menu.menu_level }</td>
 						<td class="h6">${menu.menu_ref }</td>
-						<td class="h6">${menu.menu_auth }</td>
+						<td class="h6">
+							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'user'}">전체</c:if> 
+							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'manager'}">매니저</c:if> 
+							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'admin'}">관리자</c:if> 
+						</td>
 						<td class="h6">${menu.menu_type }</td>
 						<td><button type="button" class="btn btn-primary" onclick="managementBoardKinds(${boardKinds.bk_bseq})">변경</button></td>
 					</tr>

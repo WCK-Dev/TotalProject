@@ -28,8 +28,8 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl implements Common
 	private EgovIdGnrService egovIdGnrService;
 	
 	@Override
-	public List<MenuVO> selectMenuList() {
-		return commonDAO.selectMenuList();
+	public List<MenuVO> selectMenuList(MenuVO mvo) {
+		return commonDAO.selectMenuList(mvo);
 	}
 	
 	@Override

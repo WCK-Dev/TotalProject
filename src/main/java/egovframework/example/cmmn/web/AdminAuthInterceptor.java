@@ -18,7 +18,7 @@ HttpSession session = request.getSession();
 		
 		Object obj = session.getAttribute("user");
 		
-		if(obj == null || ((UserVO)obj).getUser_id().equals("") ||  !((UserVO)obj).getAdmin_YN().equals("Y")) { 
+		if(obj == null || ((UserVO)obj).getUser_id().equals("") ||  !((UserVO)obj).getUser_roll().equals("admin")) { 
 			response.sendRedirect("/TotalProject/boardMain.do");
 			return false;
 			

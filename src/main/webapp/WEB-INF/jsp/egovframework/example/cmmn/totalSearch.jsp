@@ -14,7 +14,7 @@
 <script type="text/javascript"src="${pageContext.request.contextPath }/js/checkListMain.js"></script>
 <script>
 function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
-	if(b_secret == 1 && b_writer != login_id && '${sessionScope.user.admin_YN}' == 'N'){
+	if(b_secret == 1 && b_writer != login_id && '${sessionScope.user.user_roll}' != 'admin'){
 		//확인 윈도우 오픈
 		var newwin = window.open("<c:url value='/boardPwdCheck.do' />?b_no="+b_no, "popUpBoard", "width=400, height=250, left=500, top=50, scrollbars=1");
 		

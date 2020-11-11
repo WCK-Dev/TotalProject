@@ -70,7 +70,7 @@ function del(b_no, b_refno) {
 				
 		success : function(result) {
 			
-			if('${boardVO.b_secret}' == '1' && '${sessionScope.user.admin_YN}' != 'Y'){
+			if('${boardVO.b_secret}' == '1' && '${sessionScope.user.user_roll}' != 'user'){
 				var inputPwd = prompt("비밀글 삭제를 위해 게시글 비밀번호를 입력해주세요.");
 				
 				if(inputPwd != '${boardVO.b_pwd}'){
@@ -285,7 +285,7 @@ function deleteComment(c_no, c_writer, user_id) {
 				</table>
 				
 				<!-- 댓글 작성란  -->
-				<c:if test="${sessionScope.user.comment_YN == 'Y' || sessionScope.user.admin_YN == 'Y'}">
+				<c:if test="${sessionScope.user.comment_YN == 'Y' || sessionScope.user.user_roll == 'admin' || sessionScope.user.user_roll == 'manager'}">
 				<table>
 					<tr>
 						<td colspan="2" style="text-align: center">
@@ -307,13 +307,13 @@ function deleteComment(c_no, c_writer, user_id) {
 		</c:if>
 		
 		<div class="panel-footer float-right mt-5">
-			<c:if test="${(sessionScope.user.user_id == boardVO.b_writer && sessionScope.user.update_YN == 'Y' )|| sessionScope.user.admin_YN == 'Y'}">
+			<c:if test="${(sessionScope.user.user_id == boardVO.b_writer && sessionScope.user.update_YN == 'Y' )|| sessionScope.user.user_roll == 'admin' || sessionScope.user.user_roll == 'manager'}">
 				<button type="button" class="btn btn-primary" onclick="update(${boardVO.b_no})">수정</button>
 			</c:if>
-			<c:if test="${(sessionScope.user.user_id == boardVO.b_writer && sessionScope.user.delete_YN == 'Y' )|| sessionScope.user.admin_YN == 'Y'}">
+			<c:if test="${(sessionScope.user.user_id == boardVO.b_writer && sessionScope.user.delete_YN == 'Y' )|| sessionScope.user.user_roll == 'admin' || sessionScope.user.user_roll == 'manager'}">
 				<button type="button" class="btn btn-primary" onclick="del(${boardVO.b_no}, ${boardVO.b_refno})">삭제</button>
 			</c:if>
-			<c:if test="${(boardVO.bk_breply_YN == 'Y' && sessionScope.user.reply_YN == 'Y') || sessionScope.user.admin_YN == 'Y'}">
+			<c:if test="${(boardVO.bk_breply_YN == 'Y' && sessionScope.user.reply_YN == 'Y') || sessionScope.user.user_roll == 'admin' || sessionScope.user.user_roll == 'manager'}">
 				<button type="button" class="btn btn-primary" onclick="reply(${boardVO.b_no})">답글 작성</button>
 			</c:if>
 			<button type="button" class="btn btn-primary" onclick="window.close()">닫기</button>

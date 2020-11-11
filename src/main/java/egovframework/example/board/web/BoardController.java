@@ -25,6 +25,7 @@ import egovframework.example.board.service.HistoryVO;
 import egovframework.example.board.service.UserVO;
 import egovframework.example.checklist.service.CheckListService;
 import egovframework.example.cmmn.service.CommonService;
+import egovframework.example.cmmn.service.MenuVO;
 import egovframework.example.gallery.service.GalleryService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -50,9 +51,14 @@ public class BoardController {
 	protected EgovPropertyService propertiesService;
 	
 	@RequestMapping(value="boardMain.do")
-	public String boardMain(BoardVO boardVO, ModelMap model) {
+	public String boardMain(BoardVO boardVO, ModelMap model, HttpSession session) {
 		
-		model.addAttribute("menuList", commonService.selectMenuList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("menuList", commonService.selectMenuList(mvo));
 		
 		return "board/boardMain";
 	}

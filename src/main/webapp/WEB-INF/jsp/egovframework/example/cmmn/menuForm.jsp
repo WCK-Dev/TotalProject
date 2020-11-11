@@ -58,8 +58,8 @@
 				<td><h5>접근권한</h5></td>
 				<td>
 					<select name="menu_auth" id="menu_auth" class="browser-default custom-select">
-						<option value="all">전체</option>
-						<option value="manager">매니저</option>
+						<option value="user/manager/admin">전체</option>
+						<option value="manager/admin">매니저</option>
 						<option value="admin">관리자</option>
 					</select>
 				</td>

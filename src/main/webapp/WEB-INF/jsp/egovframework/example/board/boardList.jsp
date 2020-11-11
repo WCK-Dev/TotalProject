@@ -49,7 +49,7 @@
 <script>
 $(document).ready(function(){
 	/* 게시판 진입 권한이 없을 경우 boardMain으로 이동  */
-	if('${sessionScope.user.read_YN}' != 'Y' && '${sessionScope.user.admin_YN}' != 'Y'){
+	if('${sessionScope.user.read_YN}' != 'Y' && '${sessionScope.user.user_roll}' != 'admin' && '${sessionScope.user.user_roll}' != 'manager'){
 		alert("게시판 진입권한이 없습니다..\r\n관리자가 권한을 부여한 후 이용해주세요.");
 		location.href="boardMain.do"
 	}
@@ -132,7 +132,7 @@ function readBoard(b_no, b_writer, b_secret, login_id, b_pwd){
 		dataType : "json",
 				
 		success : function(result) {
-			if(b_secret == 1 && b_writer != login_id && '${sessionScope.user.admin_YN}' == 'N'){
+			if(b_secret == 1 && b_writer != login_id && '${sessionScope.user.user_roll}' == 'user'){
 				//확인 윈도우 오픈
 				var newwin = window.open("<c:url value='/boardPwdCheck.do' />?b_no="+b_no, "popUpBoard", "width=400, height=250, left=500, top=50, scrollbars=1");
 				
@@ -335,7 +335,7 @@ function fn_link_page(pageNo){
 			<c:if test= "${sessionScope.user.user_id != null && sessionScope.user.user_id != '' && sessionScope.user.write_YN == 'Y' }">
 				<button type="button" class="btn btn-primary" onclick="writeBoard('${board.b_bseq}')">게시글 작성</button>
 			</c:if>
-			<c:if test= "${sessionScope.user.user_id != null && sessionScope.user.user_id != '' && sessionScope.user.admin_YN == 'Y' }">
+			<c:if test= "${sessionScope.user.user_id != null && sessionScope.user.user_id != '' && sessionScope.user.user_roll == 'admin' }">
 				<button type="button" class="btn btn-primary" onclick="writeNotice('${board.b_bseq}')">공지글 작성</button>
 			</c:if>
 		</div>
