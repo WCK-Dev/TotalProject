@@ -33,10 +33,36 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl implements Common
 	}
 	
 	@Override
+	public List<MenuVO> selectMenuListAll() {
+		return commonDAO.selectMenuListAll();
+	}
+	
+	@Override
+	public MenuVO selectMenu(MenuVO mvo) {
+		return commonDAO.selectMenu(mvo);
+	}
+	
+	@Override
+	public int updateMenu(MenuVO mvo) {
+		return commonDAO.updateMenu(mvo);
+	}
+	
+	@Override
+	public int updateLowerMenuAuth(MenuVO mvo) {
+		return commonDAO.updateLowerMenuAuth(mvo);
+	}
+	
+	@Override
+	public int deleteMenu(MenuVO mvo) {
+		return commonDAO.deleteMenu(mvo);
+	}
+	
+	@Override
 	public int insertMenu(MenuVO mvo) {
 		
 		mvo.setMenu_id(commonDAO.nextMenuId());
 		
 		return commonDAO.insertMenu(mvo);
 	}
+	
 }

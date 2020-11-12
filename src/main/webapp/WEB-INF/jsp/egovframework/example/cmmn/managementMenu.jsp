@@ -11,22 +11,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<!-- JQuery -->
-<script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- drag&drop JS-->
-<script type="text/javascript"src="${pageContext.request.contextPath }/js/jquery.tablednd.js"></script>
-<!-- Bootstrap core CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-<!-- Material Design Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/css/mdb.min.css" rel="stylesheet">
-
 <title>게시판 관리</title>
+<%@include file="../cmmn/common_top.jsp"%>
 
 <script type="text/javascript">
 
-	function managementBoardKinds(bk_bseq){
-		var newwin = window.open("<c:url value='/managementBoardKinds.do?bk_bseq=" + bk_bseq + "' />", "popUpBoard", "width=500, height=500, left=500, top=50, scrollbars=1");
-		newwin.focus();
+	function modifyMenu(menu_id, menu_level){
+		location.href = "modifyMenu.do?menu_id=" + menu_id
+	}
+	
+	function deleteMenu(menu_id, menu_level){
+		if(confirm("메뉴를 삭제하면 해당메뉴와 함께 하위 메뉴도 모두 삭제됩니다.\r\n정말 메뉴를 삭제할까요?")){
+			location.href = "deleteMenu.do?menu_id=" + menu_id +"&menu_level=" + menu_level;
+		}
 	}
 </script>
 
@@ -39,41 +36,31 @@
 		<table class="table border border-dark text-center">
 			<thead>
 				<tr>
-					<th style="width: 8%" class="w-auto h6 font-weight-bold">메뉴번호</th>
+					<th style="width: 10%" class="h6 font-weight-bold">메뉴번호</th>
 					<th style="width: *" class="w-auto h6 font-weight-bold">메뉴 이름</th>
-					<th style="width: 12%" class="w-5 h6 font-weight-bold">메뉴 생성자<br>(수정자)</th>
-					<th style="width: 12%" class="w-5 h6 font-weight-bold">메뉴 생성일<br>(수정일)</th>
-					<th style="width: 8%" class="w-5 h6 font-weight-bold">사용여부</th>
-					<th style="width: 8%" class="w-5 h6 font-weight-bold">메뉴레벨</th>
-					<th style="width: 8%" class="w-5 h6 font-weight-bold">상위메뉴</th>
-					<th style="width: 8%" class="w-5 h6 font-weight-bold">접근권한</th>
-					<th style="width: 8%" class="w-5 h6 font-weight-bold">메뉴유형</th>
-					<th style="width: 13%" class="w-20 h6 font-weight-bold">수정/삭제</th>
+					<th style="width: 10%" class="w-5 h6 font-weight-bold">메뉴레벨</th>
+					<th style="width: 10%" class="w-5 h6 font-weight-bold">접근권한</th>
+					<th style="width: 12%" class="w-20 h6 font-weight-bold">변경</th>
+					<th style="width: 12%" class="w-20 h6 font-weight-bold">삭제</th>
 				</tr>
 			</thead>
 			<tbody id="menuTableBody">
-				<c:forEach items="${menuList }" var="menu" varStatus="i">
+				<c:forEach items="${menuListAll }" var="menu" varStatus="i">
 					<tr>
 						<td class="h6">${menu.menu_id}<input type="hidden" value="${menu.menu_id }"></td>
-						<td class="h6">${menu.menu_name}</td>
-						<td class="h6">
-							${menu.menu_create_user }
-							<c:if test="${menu.menu_modify_user != null}"><br>( ${menu.menu_modify_user } )</c:if>
+						<td class="h6 text-left">
+							<c:forEach begin="2" end="${menu.menu_level }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach>
+							<c:if test="${menu.menu_level > 1 }">ㄴ</c:if> 
+							${menu.menu_name}
 						</td>
-						<td class="h6">
-							<fmt:formatDate value="${menu.menu_create_dttm }" pattern="yy.MM.dd"/>
-							<c:if test="${menu.menu_modify_dttm != null}"><br>( <fmt:formatDate value="${menu.menu_modify_dttm }" pattern="yy.MM.dd"/> )</c:if>
-						</td>
-						<td class="h6">${menu.menu_use_yn }</td>
 						<td class="h6">${menu.menu_level }</td>
-						<td class="h6">${menu.menu_ref }</td>
 						<td class="h6">
-							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'user'}">전체</c:if> 
-							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'manager'}">매니저</c:if> 
-							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'admin'}">관리자</c:if> 
+							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'user'}"><p class="text-success">전체</p></c:if> 
+							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'manager'}"><p class="text-warning">매니저</p></c:if> 
+							 <c:if test="${fn:split(menu.menu_auth,'/')[0] == 'admin'}"><p class="text-danger">관리자</p></c:if> 
 						</td>
-						<td class="h6">${menu.menu_type }</td>
-						<td><button type="button" class="btn btn-primary" onclick="managementBoardKinds(${boardKinds.bk_bseq})">변경</button></td>
+						<td><button type="button" class="btn btn-primary" onclick="modifyMenu(${menu.menu_id})">변경</button></td>
+						<td><button type="button" class="btn btn-danger" onclick="deleteMenu(${menu.menu_id}, ${menu.menu_level })">삭제</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>

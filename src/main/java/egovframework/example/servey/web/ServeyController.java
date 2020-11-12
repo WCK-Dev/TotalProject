@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import egovframework.example.board.service.BoardService;
 import egovframework.example.board.service.UserVO;
+import egovframework.example.cmmn.service.CommonService;
+import egovframework.example.cmmn.service.MenuVO;
 import egovframework.example.servey.service.ServeyAnswerVO;
 import egovframework.example.servey.service.ServeyLogVO;
 import egovframework.example.servey.service.ServeyQuestionVO;
@@ -27,17 +29,22 @@ public class ServeyController {
 	@Resource(name = "serveyService")
 	private ServeyService serveyService;
 	
-	@Resource(name = "boardService")
-	private BoardService boardService;
+	@Resource(name = "commonService")
+	private CommonService commonService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 	
 	@RequestMapping(value="serveyList.do")
-	public String serveyMain(ModelMap model) {
+	public String serveyMain(ModelMap model, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		model.addAttribute("serveyList", serveyService.selectServeyList());
 		
@@ -47,7 +54,12 @@ public class ServeyController {
 	@RequestMapping(value="serveyMain.do")
 	public String serveyMain(ServeyVO serveyVO, ServeyLogVO logVO, ModelMap model, RedirectAttributes ra, HttpServletRequest request) {
 		
-			model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+			String user_roll = ((UserVO)request.getSession().getAttribute("user")).getUser_roll();
+					
+			MenuVO mvo = new MenuVO();
+			mvo.setMenu_auth(user_roll);
+			
+			model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 			
 			int check = serveyService.checkServey(serveyVO);
 			

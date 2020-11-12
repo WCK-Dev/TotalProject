@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>설문조사 메인페이지</title>
 <%@include file="../cmmn/common_top.jsp"%>
+
 <style>
 	.wrapper { margin: 20px auto; border: 2px solid black;}
 	

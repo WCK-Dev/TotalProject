@@ -26,52 +26,59 @@ public class CommonController {
 	protected EgovPropertyService propertiesService;
 	
 	@RequestMapping(value="managementMenu.do")
-	public String managementMenu(ModelMap model, HttpSession session) throws Exception {
+	public String managementMenu(ModelMap model) throws Exception {
 		
-		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
-		
-		MenuVO mvo = new MenuVO();
-		mvo.setMenu_auth(user_roll);
-		
-		model.addAttribute("menuList", commonService.selectMenuList(mvo));
+		model.addAttribute("menuListAll", commonService.selectMenuListAll());
 		
 		return "cmmn/managementMenu";
 	}
 	
 	@RequestMapping(value="createMenu.do", method=RequestMethod.GET)
-	public String createMenu(ModelMap model, HttpSession session) {
+	public String createMenu(ModelMap model) {
 		
-		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		model.addAttribute("menuListAll", commonService.selectMenuListAll());
 		
-		MenuVO mvo = new MenuVO();
-		mvo.setMenu_auth(user_roll);
-		
-		model.addAttribute("menuList", commonService.selectMenuList(mvo));
-		
-		return "cmmn/menuForm";
+		return "cmmn/createMenu";
 	}
 	
 	@RequestMapping(value="createMenu.do", method=RequestMethod.POST)
-	public String createMenu(ModelMap model, MenuVO mvo, HttpSession session, RedirectAttributes ra) {
+	public String createMenu(ModelMap model, MenuVO mvo, HttpSession session) {
 		
 		mvo.setMenu_create_user(((UserVO)session.getAttribute("user")).getUser_id());
 		
-		int result = commonService.insertMenu(mvo);
+		commonService.insertMenu(mvo);
 		
-		if(result == 1) {
-			ra.addFlashAttribute("insertResult", "success");
-		} else {
-			ra.addFlashAttribute("insertResult", "fail");
+		return "redirect:/managementMenu.do";
+	}
+	
+	@RequestMapping(value="modifyMenu.do", method=RequestMethod.GET)
+	public String modifyMenu(ModelMap model, MenuVO mvo) {
+		
+		model.addAttribute("menuListAll", commonService.selectMenuListAll());
+		model.addAttribute("menuInfo", commonService.selectMenu(mvo));
+		
+		return "cmmn/modifyMenu";
+	}
+	
+	@RequestMapping(value="modifyMenu.do", method=RequestMethod.POST)
+	public String modifyMenu(MenuVO mvo, HttpSession session) {
+		
+		mvo.setMenu_modify_user(((UserVO)session.getAttribute("user")).getUser_id());
+		
+		commonService.updateMenu(mvo);
+		
+		if(mvo.getMenu_level() != 3) {
+			commonService.updateLowerMenuAuth(mvo);
 		}
 		
 		return "redirect:/managementMenu.do";
 	}
 	
-	@RequestMapping(value="modifyMenu.do")
-	public String modifyMenu(ModelMap model, MenuVO mvo) {
+	@RequestMapping(value="deleteMenu.do")
+	public String deleteMenu(MenuVO mvo) {
 		
-		model.addAttribute("menuList", commonService.selectMenuList(mvo));
+		commonService.deleteMenu(mvo);
 		
-		return "cmmn/menuForm";
+		return "redirect:/managementMenu.do";
 	}
 }

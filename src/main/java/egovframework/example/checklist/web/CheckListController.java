@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import egovframework.example.board.service.BoardService;
 import egovframework.example.board.service.UserVO;
 import egovframework.example.checklist.service.AnswerVO;
 import egovframework.example.checklist.service.CheckBoardVO;
@@ -22,6 +21,8 @@ import egovframework.example.checklist.service.CheckListService;
 import egovframework.example.checklist.service.CheckListVO;
 import egovframework.example.checklist.service.LogVO;
 import egovframework.example.checklist.service.ShowListVO;
+import egovframework.example.cmmn.service.CommonService;
+import egovframework.example.cmmn.service.MenuVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -31,8 +32,8 @@ public class CheckListController {
 	@Resource(name = "checkListService")
 	private CheckListService checkListService;
 	
-	@Resource(name = "boardService")
-	private BoardService boardService;
+	@Resource(name = "commonService")
+	private CommonService commonService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -42,7 +43,12 @@ public class CheckListController {
 	@RequestMapping(value="checkListMain.do")
 	public String checkListMain(HttpSession session, ModelMap model, CheckBoardVO bvo) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		String user_id = ((UserVO)session.getAttribute("user")).getUser_id();
 		bvo.setUser_id(user_id);

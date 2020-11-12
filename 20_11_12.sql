@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.20, for Win64 (x86_64)
 --
 -- Host: localhost    Database: totalproject
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version	8.0.20
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,7 @@ CREATE TABLE `answer` (
   `a_modifier` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `a_modifydate` timestamp NULL DEFAULT NULL,
   `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `c_seq` int(11) NOT NULL,
+  `c_seq` int NOT NULL,
   PRIMARY KEY (`user_id`,`c_seq`) USING BTREE,
   KEY `FK_cseq` (`c_seq`),
   CONSTRAINT `FK_cseq` FOREIGN KEY (`c_seq`) REFERENCES `checklist` (`c_seq`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -53,9 +53,9 @@ DROP TABLE IF EXISTS `baseball`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `baseball` (
-  `baseball_seq` int(11) NOT NULL AUTO_INCREMENT,
+  `baseball_seq` int NOT NULL AUTO_INCREMENT,
   `baseball_regdate` timestamp NOT NULL,
-  `baseball_num` int(11) NOT NULL,
+  `baseball_num` int NOT NULL,
   `baseball_done` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'N',
   `user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`baseball_seq`)
@@ -80,11 +80,11 @@ DROP TABLE IF EXISTS `baseballtry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `baseballtry` (
-  `bt_seq` int(11) NOT NULL AUTO_INCREMENT,
-  `bt_num` int(11) NOT NULL,
-  `bt_strike` int(11) NOT NULL,
-  `bt_ball` int(11) NOT NULL,
-  `baseball_seq` int(11) DEFAULT NULL,
+  `bt_seq` int NOT NULL AUTO_INCREMENT,
+  `bt_num` int NOT NULL,
+  `bt_strike` int NOT NULL,
+  `bt_ball` int NOT NULL,
+  `baseball_seq` int DEFAULT NULL,
   PRIMARY KEY (`bt_seq`),
   KEY `FK_baseball_seq` (`baseball_seq`),
   CONSTRAINT `FK_baseball_seq` FOREIGN KEY (`baseball_seq`) REFERENCES `baseball` (`baseball_seq`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -109,19 +109,19 @@ DROP TABLE IF EXISTS `board`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `board` (
-  `b_no` int(11) NOT NULL COMMENT '글번호(PK)',
-  `b_notice` int(11) NOT NULL COMMENT '게시글 / 공지글 여부',
-  `b_refno` int(11) DEFAULT NULL,
-  `b_depth` int(11) NOT NULL,
+  `b_no` int NOT NULL COMMENT '글번호(PK)',
+  `b_notice` int NOT NULL COMMENT '게시글 / 공지글 여부',
+  `b_refno` int DEFAULT NULL,
+  `b_depth` int NOT NULL,
   `b_title` varchar(300) NOT NULL,
   `b_content` varchar(6000) NOT NULL,
   `b_regdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `b_writer` varchar(20) NOT NULL,
-  `b_readcnt` int(11) DEFAULT NULL,
-  `b_origin` int(11) NOT NULL,
-  `b_secret` int(11) NOT NULL DEFAULT '0',
+  `b_readcnt` int DEFAULT NULL,
+  `b_origin` int NOT NULL,
+  `b_secret` int NOT NULL DEFAULT '0',
   `b_pwd` varchar(30) DEFAULT NULL,
-  `b_bseq` int(11) NOT NULL DEFAULT '0' COMMENT '게시판 번호(boardKinds 테이블 참조)',
+  `b_bseq` int NOT NULL DEFAULT '0' COMMENT '게시판 번호(boardKinds 테이블 참조)',
   PRIMARY KEY (`b_no`),
   KEY `FK_bseq` (`b_bseq`),
   CONSTRAINT `FK_bseq` FOREIGN KEY (`b_bseq`) REFERENCES `boardkinds` (`bk_bseq`) ON DELETE CASCADE
@@ -134,7 +134,7 @@ CREATE TABLE `board` (
 
 LOCK TABLES `board` WRITE;
 /*!40000 ALTER TABLE `board` DISABLE KEYS */;
-INSERT INTO `board` VALUES (8,0,0,1,'두번째 원글 작성 테스트','1234','2020-08-31 04:56:36','wck',19,8,0,'',1),(9,0,8,2,'두번째 원글의 첫번째 답글','1313','2020-08-31 05:36:54','wck',8,8,0,'',1),(11,0,0,1,'수정용 글을 작성합니다.(관리자수정)','관리자가 게시글 내용을 수정하였습니다.','2020-08-31 08:03:31','user',24,11,0,'',1),(19,0,0,1,'1234','1234','2020-09-02 08:02:39','master',12,19,0,'',1),(21,0,0,1,'마스터계정 비밀글 등록','마스터계정으로 비밀글을 등록합니다','2020-09-02 08:06:42','master',8,21,1,'master1234',1),(22,1,0,1,'마스터계정 공지글등록','마스터계정으로 공지글을 등록합니다.','2020-09-02 08:07:01','master',0,22,0,'',1),(23,1,0,1,'공지글등록 테스트 2','공지글등록 테스트 2','2020-09-02 08:09:33','master',0,23,0,'',1),(24,0,0,1,'13','13','2020-09-03 08:05:08','admin',2,24,0,'',1),(25,0,0,1,'관리자 비밀글 수정','관리자 비밀글 !\r\n\r\n수정합니다.','2020-09-03 08:06:22','admin',9,25,1,'admin1234',1),(26,0,0,1,'유저 게시글 작성','유저 게시글 작성입니다.','2020-09-03 08:06:50','user',4,26,0,'',1),(27,0,0,1,'유저 비밀글 작성!','유저 비밀글 작성입니다.','2020-09-03 08:07:11','user',10,27,1,'12341234',1),(28,1,0,1,'관리자 공지글 작성 테스트','공지글 내용입니다.','2020-09-03 08:08:15','admin',0,28,0,'',1),(38,0,0,1,'더미게시글 3','더미게시글3','2020-09-03 10:04:20','wck',4,38,1,'wck1234',1),(39,0,0,1,'더미게시글 4','더미게시글 4','2020-09-03 10:04:28','wck',3,39,1,'1313',1),(40,0,0,1,'더미게시글 5','더미게시글 5','2020-09-03 10:04:55','wck',3,40,0,'',1),(41,0,0,1,'더미게시글 6','더미게시글 6','2020-09-03 10:05:09','user',1,41,0,'',1),(42,0,0,1,'더미게시글 7','더미게시글 7','2020-09-03 10:05:20','user',5,42,1,'1234',1),(43,0,0,1,'더미게시글 8','더미게시글 8','2020-09-03 10:05:33','user',4,43,0,'',1),(44,0,0,1,'더미게시글 9','더미게시글 9','2020-09-03 10:05:33','user',1,44,0,'',1),(45,0,0,1,'더미게시글 10','더미게시글 10','2020-09-03 10:05:33','user',2,45,0,'',1),(46,0,0,1,'더미게시글 11','더미게시글 11','2020-09-03 10:05:33','user',3,46,0,'',1),(49,0,0,1,'더미게시글 14','더미게시글 14','2020-09-03 10:05:33','user',15,49,0,NULL,1),(50,0,0,1,'더미게시글 15','더미게시글 15','2020-09-03 10:05:33','user',217,50,0,NULL,1),(53,0,52,3,'계층3','1234','2020-09-04 00:50:52','wck',1,50,0,NULL,1),(54,0,50,2,'더미게시글 15 의 답글2','2','2020-09-04 00:51:03','wck',13,50,0,NULL,1),(55,0,0,1,'비밀글','123','2020-09-04 00:52:36','wck',180,55,1,'1234',1),(64,0,0,1,'문의게시판 글 작성','문의게시판에 글을 작성','2020-09-07 02:52:03','user',36,64,0,'',4),(65,0,50,2,'더미게시글 15 의 답글3','3','2020-09-07 04:51:25','admin',2,50,0,NULL,1),(67,1,0,1,'공지글등록','공지등록 테스트','2020-10-28 00:26:21','admin',0,67,0,NULL,4),(68,0,0,1,'읽지않은 게시글','알림형 게시판 테스트','2020-10-28 00:27:03','admin',27,68,0,'',4),(70,0,0,1,'관리자 비밀글 수정','관리자가 작성한 비밀글을 직접 수정함','2020-10-28 05:06:12','admin',37,70,1,'1234',5),(71,0,0,1,'yhs 게시글작성','비밀글로작성함 ㅎㅎ','2020-10-28 05:32:34','yhs1234',20,71,1,'1234',5),(72,1,0,1,'공지글 수정','공지글 수정테스트','2020-10-28 05:34:34','admin',1,72,0,NULL,5),(73,0,64,2,'문의게시판 글 작성 의 답글','yhs가 답글을 작성함','2020-10-28 05:52:35','yhs1234',8,64,0,NULL,4),(77,0,27,2,'유저 비밀글 작성! 의 답글','2323','2020-11-03 05:55:41','wck',2,27,0,NULL,1),(79,0,68,2,'읽지않은 게시글 의 답글','신규유저 권한 변경후 답글작성테스트','2020-11-03 07:55:38','outside16',13,68,0,NULL,4),(80,0,0,1,'신규유저 신규 게시판','일반글 작성','2020-11-03 07:58:26','outside16',11,80,0,'',7),(82,0,64,2,'문의게시판 글 작성 의 답글(신규유저)','신규유저의 답글작성란','2020-11-04 00:42:36','outside16',2,64,0,NULL,4),(83,0,79,3,'읽지않은 게시글 의 답글 의 답글','ㅇㅇ','2020-11-04 00:46:29','outside16',2,68,0,NULL,4),(84,0,0,1,'신규유저','비밀글작성\n\n비밀글작성을 시험해봅니다.','2020-11-04 00:49:40','outside16',3,84,1,'1234',1),(85,0,0,1,'추가게시판 게시글 수정','작성테스트\r\n\r\n게시글을 작성합니다.\r\n\r\n(수정합니다.)','2020-11-05 00:30:03','wck',16,85,0,NULL,7),(88,0,0,1,'비밀글수정','추가게시판에서\r\n\r\n비밀글 수정 테스트','2020-11-05 00:33:07','outside16',7,88,1,'1234',7),(89,1,0,1,'추가게시판 공지글 수정','공지글 수정함','2020-11-05 01:15:24','admin',1,89,0,NULL,7),(90,0,0,1,'관리자계정 게시글 등록','추가게시판 관리자계정 게시글 등록','2020-11-05 01:16:34','admin',7,90,0,'',7),(91,0,0,1,'ㅁㄴㅇ','ㅁㄴㅇ','2020-11-05 01:19:12','wck',1,91,0,'',7),(92,0,0,1,'ww','ww','2020-11-05 02:42:26','wck',3,92,0,'',4),(93,0,0,1,'1234','1234','2020-11-05 04:53:10','wck',4,93,0,'',4),(94,1,0,1,'asdsad','asdasd','2020-11-05 04:54:36','admin',0,94,0,NULL,5),(95,0,71,2,'yhs 게시글작성 의 답글','1313','2020-11-05 05:11:07','wck',1,71,0,NULL,5),(100,0,0,1,'추가게시판s ㅁㄴㅇㅇㅇ','ㄴㅁㅇ ㅁㄴㅇㅁㅂㅈㄷ\r\n\r\nㅂㅂㅇㅇ','2020-11-05 05:26:11','wck',11,100,0,'',7),(101,0,100,2,'추가게시판s ㅁㄴㅇㅇㅇ 의 답글','ㅈ1231ㄴㅇ','2020-11-05 05:26:59','wck',1,100,0,NULL,7),(102,1,0,1,'공지글 작성테스트','공지;글123125412313','2020-11-05 05:31:49','admin',0,102,0,NULL,7),(103,0,0,1,'fusion 계정으로 글수정','글쓰기 권한 테스트\r\n\r\n+\r\n\r\n수정권한 테스트','2020-11-05 05:37:42','fusion',6,103,0,'',5),(104,0,103,2,'fusion 계정으로 글수정 의 답글','답글권한 테스트','2020-11-05 05:38:24','fusion',0,103,0,NULL,5),(105,0,0,1,'3131','131313','2020-11-11 12:10:23','admin',0,105,0,'',1),(106,1,0,1,'2323','4141234123','2020-11-11 12:10:29','admin',0,106,0,NULL,1);
+INSERT INTO `board` VALUES (8,0,0,1,'두번째 원글 작성 테스트','1234','2020-08-31 04:56:36','wck',19,8,0,'',1),(9,0,8,2,'두번째 원글의 첫번째 답글','1313','2020-08-31 05:36:54','wck',8,8,0,'',1),(11,0,0,1,'수정용 글을 작성합니다.(관리자수정)','관리자가 게시글 내용을 수정하였습니다.','2020-08-31 08:03:31','user',24,11,0,'',1),(19,0,0,1,'1234','1234','2020-09-02 08:02:39','master',12,19,0,'',1),(21,0,0,1,'마스터계정 비밀글 등록','마스터계정으로 비밀글을 등록합니다','2020-09-02 08:06:42','master',8,21,1,'master1234',1),(22,1,0,1,'마스터계정 공지글등록','마스터계정으로 공지글을 등록합니다.','2020-09-02 08:07:01','master',0,22,0,'',1),(23,1,0,1,'공지글등록 테스트 2','공지글등록 테스트 2','2020-09-02 08:09:33','master',0,23,0,'',1),(24,0,0,1,'13','13','2020-09-03 08:05:08','admin',2,24,0,'',1),(25,0,0,1,'관리자 비밀글 수정','관리자 비밀글 !\r\n\r\n수정합니다.','2020-09-03 08:06:22','admin',9,25,1,'admin1234',1),(26,0,0,1,'유저 게시글 작성','유저 게시글 작성입니다.','2020-09-03 08:06:50','user',4,26,0,'',1),(27,0,0,1,'유저 비밀글 작성!','유저 비밀글 작성입니다.','2020-09-03 08:07:11','user',10,27,1,'12341234',1),(28,1,0,1,'관리자 공지글 작성 테스트','공지글 내용입니다.','2020-09-03 08:08:15','admin',0,28,0,'',1),(38,0,0,1,'더미게시글 3','더미게시글3','2020-09-03 10:04:20','wck',4,38,1,'wck1234',1),(39,0,0,1,'더미게시글 4','더미게시글 4','2020-09-03 10:04:28','wck',3,39,1,'1313',1),(40,0,0,1,'더미게시글 5','더미게시글 5','2020-09-03 10:04:55','wck',3,40,0,'',1),(41,0,0,1,'더미게시글 6','더미게시글 6','2020-09-03 10:05:09','user',1,41,0,'',1),(42,0,0,1,'더미게시글 7','더미게시글 7','2020-09-03 10:05:20','user',5,42,1,'1234',1),(43,0,0,1,'더미게시글 8','더미게시글 8','2020-09-03 10:05:33','user',4,43,0,'',1),(44,0,0,1,'더미게시글 9','더미게시글 9','2020-09-03 10:05:33','user',1,44,0,'',1),(45,0,0,1,'더미게시글 10','더미게시글 10','2020-09-03 10:05:33','user',2,45,0,'',1),(46,0,0,1,'더미게시글 11','더미게시글 11','2020-09-03 10:05:33','user',3,46,0,'',1),(49,0,0,1,'더미게시글 14','더미게시글 14','2020-09-03 10:05:33','user',15,49,0,NULL,1),(50,0,0,1,'더미게시글 15','더미게시글 15','2020-09-03 10:05:33','user',218,50,0,NULL,1),(53,0,52,3,'계층3','1234','2020-09-04 00:50:52','wck',1,50,0,NULL,1),(54,0,50,2,'더미게시글 15 의 답글2','2','2020-09-04 00:51:03','wck',13,50,0,NULL,1),(55,0,0,1,'비밀글','123','2020-09-04 00:52:36','wck',180,55,1,'1234',1),(64,0,0,1,'문의게시판 글 작성','문의게시판에 글을 작성','2020-09-07 02:52:03','user',36,64,0,'',4),(65,0,50,2,'더미게시글 15 의 답글3','3','2020-09-07 04:51:25','admin',2,50,0,NULL,1),(67,1,0,1,'공지글등록','공지등록 테스트','2020-10-28 00:26:21','admin',0,67,0,NULL,4),(68,0,0,1,'읽지않은 게시글','알림형 게시판 테스트','2020-10-28 00:27:03','admin',27,68,0,'',4),(70,0,0,1,'관리자 비밀글 수정','관리자가 작성한 비밀글을 직접 수정함','2020-10-28 05:06:12','admin',37,70,1,'1234',5),(71,0,0,1,'yhs 게시글작성','비밀글로작성함 ㅎㅎ','2020-10-28 05:32:34','yhs1234',20,71,1,'1234',5),(72,1,0,1,'공지글 수정','공지글 수정테스트','2020-10-28 05:34:34','admin',1,72,0,NULL,5),(73,0,64,2,'문의게시판 글 작성 의 답글','yhs가 답글을 작성함','2020-10-28 05:52:35','yhs1234',8,64,0,NULL,4),(77,0,27,2,'유저 비밀글 작성! 의 답글','2323','2020-11-03 05:55:41','wck',2,27,0,NULL,1),(79,0,68,2,'읽지않은 게시글 의 답글','신규유저 권한 변경후 답글작성테스트','2020-11-03 07:55:38','outside16',13,68,0,NULL,4),(80,0,0,1,'신규유저 신규 게시판','일반글 작성','2020-11-03 07:58:26','outside16',11,80,0,'',7),(82,0,64,2,'문의게시판 글 작성 의 답글(신규유저)','신규유저의 답글작성란','2020-11-04 00:42:36','outside16',2,64,0,NULL,4),(83,0,79,3,'읽지않은 게시글 의 답글 의 답글','ㅇㅇ','2020-11-04 00:46:29','outside16',2,68,0,NULL,4),(84,0,0,1,'신규유저','비밀글작성\n\n비밀글작성을 시험해봅니다.','2020-11-04 00:49:40','outside16',3,84,1,'1234',1),(85,0,0,1,'추가게시판 게시글 수정','작성테스트\r\n\r\n게시글을 작성합니다.\r\n\r\n(수정합니다.)','2020-11-05 00:30:03','wck',16,85,0,NULL,7),(88,0,0,1,'비밀글수정','추가게시판에서\r\n\r\n비밀글 수정 테스트','2020-11-05 00:33:07','outside16',7,88,1,'1234',7),(89,1,0,1,'추가게시판 공지글 수정','공지글 수정함','2020-11-05 01:15:24','admin',1,89,0,NULL,7),(90,0,0,1,'관리자계정 게시글 등록','추가게시판 관리자계정 게시글 등록','2020-11-05 01:16:34','admin',7,90,0,'',7),(91,0,0,1,'ㅁㄴㅇ','ㅁㄴㅇ','2020-11-05 01:19:12','wck',1,91,0,'',7),(92,0,0,1,'ww','ww','2020-11-05 02:42:26','wck',3,92,0,'',4),(93,0,0,1,'1234','1234','2020-11-05 04:53:10','wck',4,93,0,'',4),(94,1,0,1,'asdsad','asdasd','2020-11-05 04:54:36','admin',0,94,0,NULL,5),(95,0,71,2,'yhs 게시글작성 의 답글','1313','2020-11-05 05:11:07','wck',1,71,0,NULL,5),(100,0,0,1,'추가게시판s ㅁㄴㅇㅇㅇ','ㄴㅁㅇ ㅁㄴㅇㅁㅂㅈㄷ\r\n\r\nㅂㅂㅇㅇ','2020-11-05 05:26:11','wck',11,100,0,'',7),(101,0,100,2,'추가게시판s ㅁㄴㅇㅇㅇ 의 답글','ㅈ1231ㄴㅇ','2020-11-05 05:26:59','wck',1,100,0,NULL,7),(102,1,0,1,'공지글 작성테스트','공지;글123125412313','2020-11-05 05:31:49','admin',0,102,0,NULL,7),(103,0,0,1,'fusion 계정으로 글수정','글쓰기 권한 테스트\r\n\r\n+\r\n\r\n수정권한 테스트','2020-11-05 05:37:42','fusion',6,103,0,'',5),(104,0,103,2,'fusion 계정으로 글수정 의 답글','답글권한 테스트','2020-11-05 05:38:24','fusion',0,103,0,NULL,5),(105,0,0,1,'3131','131313','2020-11-11 12:10:23','admin',0,105,0,'',1),(106,1,0,1,'2323','4141234123','2020-11-11 12:10:29','admin',0,106,0,NULL,1),(107,0,0,1,'123124123','123144123','2020-11-12 08:39:05','fusion',0,107,1,'1234',1);
 /*!40000 ALTER TABLE `board` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,9 +146,9 @@ DROP TABLE IF EXISTS `boardkinds`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `boardkinds` (
-  `bk_bseq` int(11) NOT NULL DEFAULT '0' COMMENT '게시판번호',
-  `bk_type` int(11) NOT NULL DEFAULT '0' COMMENT '게시판유형',
-  `bk_order` int(11) NOT NULL DEFAULT '0' COMMENT '게시판 노출순서',
+  `bk_bseq` int NOT NULL DEFAULT '0' COMMENT '게시판번호',
+  `bk_type` int NOT NULL DEFAULT '0' COMMENT '게시판유형',
+  `bk_order` int NOT NULL DEFAULT '0' COMMENT '게시판 노출순서',
   `bk_bname` varchar(100) NOT NULL DEFAULT '기본게시판' COMMENT '게시판이름',
   `bk_breply_YN` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Y' COMMENT '게시판 답글 사용여부',
   `bk_bcomment_YN` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Y' COMMENT '게시판 댓글 사용여부',
@@ -175,7 +175,7 @@ DROP TABLE IF EXISTS `checkboard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `checkboard` (
-  `b_seq` int(11) NOT NULL AUTO_INCREMENT,
+  `b_seq` int NOT NULL AUTO_INCREMENT,
   `b_title` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `b_comment` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `b_regdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -206,9 +206,9 @@ DROP TABLE IF EXISTS `checklist`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `checklist` (
-  `c_seq` int(11) NOT NULL AUTO_INCREMENT,
+  `c_seq` int NOT NULL AUTO_INCREMENT,
   `c_name` varchar(100) NOT NULL,
-  `b_seq` int(11) NOT NULL,
+  `b_seq` int NOT NULL,
   PRIMARY KEY (`c_seq`),
   KEY `FK_b_seq` (`b_seq`),
   CONSTRAINT `FK_b_seq` FOREIGN KEY (`b_seq`) REFERENCES `checkboard` (`b_seq`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -233,14 +233,14 @@ DROP TABLE IF EXISTS `comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comment` (
-  `c_no` int(11) NOT NULL,
+  `c_no` int NOT NULL,
   `c_writer` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'unknown',
   `c_content` varchar(300) NOT NULL,
   `c_regdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `c_parent` int(11) DEFAULT '0',
-  `c_origin` int(11) NOT NULL,
-  `b_no` int(11) NOT NULL,
-  `c_depth` int(11) NOT NULL DEFAULT '0',
+  `c_parent` int DEFAULT '0',
+  `c_origin` int NOT NULL,
+  `b_no` int NOT NULL,
+  `c_depth` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`c_no`),
   KEY `FK1_bno` (`b_no`),
   CONSTRAINT `FK1_bno` FOREIGN KEY (`b_no`) REFERENCES `board` (`b_no`) ON DELETE CASCADE
@@ -265,13 +265,13 @@ DROP TABLE IF EXISTS `files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `files` (
-  `f_seq` int(11) NOT NULL AUTO_INCREMENT,
+  `f_seq` int NOT NULL AUTO_INCREMENT,
   `f_originname` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `f_uploadname` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `f_thumbname` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '',
-  `f_fsize` int(11) NOT NULL DEFAULT '0',
-  `f_downcnt` int(11) NOT NULL DEFAULT '0',
-  `g_seq` int(11) NOT NULL,
+  `f_fsize` int NOT NULL DEFAULT '0',
+  `f_downcnt` int NOT NULL DEFAULT '0',
+  `g_seq` int NOT NULL,
   PRIMARY KEY (`f_seq`),
   KEY `FK_g_seq` (`g_seq`),
   CONSTRAINT `FK_g_seq` FOREIGN KEY (`g_seq`) REFERENCES `gallery` (`g_seq`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -296,11 +296,11 @@ DROP TABLE IF EXISTS `gallery`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `gallery` (
-  `g_seq` int(11) NOT NULL,
+  `g_seq` int NOT NULL,
   `g_title` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `g_content` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `g_regdate` date NOT NULL,
-  `g_readcnt` int(11) NOT NULL DEFAULT '0',
+  `g_readcnt` int NOT NULL DEFAULT '0',
   `g_tag` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `g_writer` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`g_seq`),
@@ -314,7 +314,7 @@ CREATE TABLE `gallery` (
 
 LOCK TABLES `gallery` WRITE;
 /*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
-INSERT INTO `gallery` VALUES (1,'태그 전부 수정','태그 전부를 수정합니다\r\n로 수정합니다.','2020-09-15',85,'가을,바다,사람','wck'),(2,'테스트 작성글','갤러리 테스트 글을 작성합니다 ^0^','2020-09-15',26,'테스트,이미지','wck'),(3,'건물사진','건물사진입니다\r\n\r\n레스토랑이랑 집입니다.','2020-09-15',12,'건물,음식,레스토랑','wck'),(4,'애완동물','pets','2020-09-15',20,'동물,고양이,강아지, 펫','wck'),(6,'아기','아기사진입니다\r\n\r\n귀엽죠?','2020-09-15',39,'아기,사람,귀여움,웃음','wck'),(7,'학생이미지','학생아이콘을 추가해봤어요\r\n\r\n잘 사용하시길 바랍니다 ^^','2020-09-15',13,'학생,아이콘,야나,두','wck'),(8,'제발!!!','ㅈㅂㅈㅂ!!!','2020-09-16',24,'동물,웃긴사진,고양이','wck'),(9,'제발!!','하느님 제발!!','2020-09-16',25,'웃긴사진,카툰,웃음','wck'),(12,'고양이썬더','고양이썬더','2020-09-16',8,'웃긴사진,동물,고양이','wck'),(13,'동물사진','사자\r\n\r\n사슴','2020-09-16',53,'동물,사자,사슴,맹수','wck'),(14,'만두','만두사진이에요\r\n\r\n맛있어보여요','2020-09-17',9,'음식,만두,저녁','wck'),(15,'케이크','케이크사진입니다.','2020-09-17',10,'음식,생일,케이크','wck'),(16,'나무','나무사진','2020-09-17',17,'식물,숲,테스트','wck'),(17,'꿀벌','귀여운 꿀벌 \r\n\r\n:D','2020-09-17',12,'동물,곤충,벌','wck'),(19,'체크 이미지','업로드해봅니다\r\n\r\n하하하\r\n\r\n길게 글을 늘여써서 검색이 정상적인지 확인합시다.','2020-09-17',16,'이미지,체크,초록,컬러','wck'),(20,'컬러테스트','여러가지 색상을 담은 이미지입니다.\r\n\r\n화려한 느낌을 줍니다','2020-09-17',78,'컬러,추가,테스트','wck'),(22,'카카오','캐릭터 이미지\r\n\r\n\r\n라이언과 카카오 프렌즈','2020-09-18',29,'카카오,캐릭터,라이언','user'),(23,'사람의 행동','사람 이미지\r\n\r\n2장입니다.','2020-09-18',6,'사람,실사,캐릭터','user'),(24,'강원도 캐릭터입니다.','호랑이랑 곰?\r\n\r\n인거같아요 \r\n\r\n귀엽습니다.','2020-09-18',34,'호랑이,곰,동물,캐릭터','user'),(25,'두드림','두드림 대표캐릭터\r\n\r\n\'두두\' 입니다.','2020-09-18',26,'두두,캐릭터,두드림','user'),(26,'동물','동물','2020-09-18',47,'동물,테스트','user'),(27,'동물','라이언도 동물이지않을까','2020-09-18',8,'동물,카카오,라이언','user'),(30,'귀여운 동물 캐릭터(수정)','그리기쉽고 귀여운 캐릭터 이미지에요\r\n\r\n따라 그려봅시다 :D\r\n\r\n(돼지 이미지는 삭제되었습니다 ㅜㅜ)','2020-09-18',22,'동물,캐릭터,고양이,개','wck'),(32,'베니고마','베니고마라는 캐릭터에요','2020-09-18',24,'베니고마,캐릭터,물개','wck'),(33,'슈퍼카','자동차 이미지입니다.','2020-09-18',61,'슈퍼카,람보르기니,코닉세그','user'),(35,'갤러리 통합 업로드 테스트','업로드 해보기','2020-10-28',28,'갤러리,통합,업로드','wck'),(36,'갤러리 게시글 제목 수정','갤러리에다가 글 업로드\r\n\r\n이미지 하나 쳐내고, 이미지 하나 추가함\r\n\r\n태그는 힝힝 삭제하고, TOT추가함\r\n\r\n내용수정','2020-10-29',51,'통합,테스트,TOT,업로드','wck'),(37,'fusion 유저 갤러리 게시글 작성','갤러리에 글쓰기\r\n\r\n파일 전부 삭제하고 다른파일로 변경\r\n\r\n및 태그 추가','2020-11-05',8,'태그1,태그추가','fusion');
+INSERT INTO `gallery` VALUES (1,'태그 전부 수정','태그 전부를 수정합니다\r\n로 수정합니다.','2020-09-15',85,'가을,바다,사람','wck'),(2,'테스트 작성글','갤러리 테스트 글을 작성합니다 ^0^','2020-09-15',26,'테스트,이미지','wck'),(3,'건물사진','건물사진입니다\r\n\r\n레스토랑이랑 집입니다.','2020-09-15',12,'건물,음식,레스토랑','wck'),(4,'애완동물','pets','2020-09-15',20,'동물,고양이,강아지, 펫','wck'),(6,'아기','아기사진입니다\r\n\r\n귀엽죠?','2020-09-15',39,'아기,사람,귀여움,웃음','wck'),(7,'학생이미지','학생아이콘을 추가해봤어요\r\n\r\n잘 사용하시길 바랍니다 ^^','2020-09-15',13,'학생,아이콘,야나,두','wck'),(8,'제발!!!','ㅈㅂㅈㅂ!!!','2020-09-16',25,'동물,웃긴사진,고양이','wck'),(9,'제발!!','하느님 제발!!','2020-09-16',25,'웃긴사진,카툰,웃음','wck'),(12,'고양이썬더','고양이썬더','2020-09-16',8,'웃긴사진,동물,고양이','wck'),(13,'동물사진','사자\r\n\r\n사슴','2020-09-16',53,'동물,사자,사슴,맹수','wck'),(14,'만두','만두사진이에요\r\n\r\n맛있어보여요','2020-09-17',9,'음식,만두,저녁','wck'),(15,'케이크','케이크사진입니다.','2020-09-17',10,'음식,생일,케이크','wck'),(16,'나무','나무사진','2020-09-17',17,'식물,숲,테스트','wck'),(17,'꿀벌','귀여운 꿀벌 \r\n\r\n:D','2020-09-17',12,'동물,곤충,벌','wck'),(19,'체크 이미지','업로드해봅니다\r\n\r\n하하하\r\n\r\n길게 글을 늘여써서 검색이 정상적인지 확인합시다.','2020-09-17',16,'이미지,체크,초록,컬러','wck'),(20,'컬러테스트','여러가지 색상을 담은 이미지입니다.\r\n\r\n화려한 느낌을 줍니다','2020-09-17',78,'컬러,추가,테스트','wck'),(22,'카카오','캐릭터 이미지\r\n\r\n\r\n라이언과 카카오 프렌즈','2020-09-18',29,'카카오,캐릭터,라이언','user'),(23,'사람의 행동','사람 이미지\r\n\r\n2장입니다.','2020-09-18',6,'사람,실사,캐릭터','user'),(24,'강원도 캐릭터입니다.','호랑이랑 곰?\r\n\r\n인거같아요 \r\n\r\n귀엽습니다.','2020-09-18',34,'호랑이,곰,동물,캐릭터','user'),(25,'두드림','두드림 대표캐릭터\r\n\r\n\'두두\' 입니다.','2020-09-18',26,'두두,캐릭터,두드림','user'),(26,'동물','동물','2020-09-18',47,'동물,테스트','user'),(27,'동물','라이언도 동물이지않을까','2020-09-18',8,'동물,카카오,라이언','user'),(30,'귀여운 동물 캐릭터(수정)','그리기쉽고 귀여운 캐릭터 이미지에요\r\n\r\n따라 그려봅시다 :D\r\n\r\n(돼지 이미지는 삭제되었습니다 ㅜㅜ)','2020-09-18',22,'동물,캐릭터,고양이,개','wck'),(32,'베니고마','베니고마라는 캐릭터에요','2020-09-18',25,'베니고마,캐릭터,물개','wck'),(33,'슈퍼카','자동차 이미지입니다.','2020-09-18',61,'슈퍼카,람보르기니,코닉세그','user'),(35,'갤러리 통합 업로드 테스트','업로드 해보기','2020-10-28',28,'갤러리,통합,업로드','wck'),(36,'갤러리 게시글 제목 수정','갤러리에다가 글 업로드\r\n\r\n이미지 하나 쳐내고, 이미지 하나 추가함\r\n\r\n태그는 힝힝 삭제하고, TOT추가함\r\n\r\n내용수정','2020-10-29',51,'통합,테스트,TOT,업로드','wck'),(37,'fusion 유저 갤러리 게시글 작성','갤러리에 글쓰기\r\n\r\n파일 전부 삭제하고 다른파일로 변경\r\n\r\n및 태그 추가','2020-11-05',8,'태그1,태그추가','fusion');
 /*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,7 +327,7 @@ DROP TABLE IF EXISTS `history`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `history` (
   `user_id` varchar(20) NOT NULL DEFAULT '',
-  `b_no` int(11) NOT NULL,
+  `b_no` int NOT NULL,
   KEY `FK_user_id` (`user_id`),
   KEY `FK_b_no` (`b_no`),
   CONSTRAINT `FK_b_no` FOREIGN KEY (`b_no`) REFERENCES `board` (`b_no`) ON DELETE CASCADE,
@@ -353,10 +353,10 @@ DROP TABLE IF EXISTS `log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log` (
-  `l_seq` int(11) NOT NULL AUTO_INCREMENT,
+  `l_seq` int NOT NULL AUTO_INCREMENT,
   `l_readdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `b_seq` int(11) NOT NULL,
+  `b_seq` int NOT NULL,
   PRIMARY KEY (`l_seq`)
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='체크리스트 기능 - 사용자별 조회 / 답변 로그 테이블';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -379,21 +379,21 @@ DROP TABLE IF EXISTS `menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menu` (
-  `menu_id` int(11) NOT NULL,
-  `menu_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '기본 메뉴',
-  `menu_create_dttm` datetime DEFAULT NULL,
-  `menu_create_user` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `menu_id` int NOT NULL,
+  `menu_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '기본메뉴',
+  `menu_create_user` varchar(50) NOT NULL,
+  `menu_create_dttm` datetime NOT NULL,
+  `menu_modify_user` varchar(50) DEFAULT NULL,
   `menu_modify_dttm` datetime DEFAULT NULL,
-  `menu_modify_user` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `menu_use_yn` varchar(50) NOT NULL DEFAULT 'N',
-  `menu_level` int(11) NOT NULL DEFAULT '1',
-  `menu_ref` int(11) NOT NULL DEFAULT '0',
-  `menu_origin` int(11) NOT NULL,
-  `menu_auth` varchar(50) NOT NULL DEFAULT 'user',
-  `menu_info` varchar(300) NOT NULL DEFAULT '',
-  `menu_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'none',
+  `menu_auth` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'user',
+  `menu_info` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `menu_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '#',
+  `menu_level` int NOT NULL DEFAULT '1',
+  `menu_depth1` int DEFAULT NULL,
+  `menu_depth2` int DEFAULT NULL,
+  `menu_depth3` int DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='메뉴 항목 저장테이블';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='메뉴리스트 테이블';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +402,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'1,2주차 프로젝트','2020-11-11 16:02:25','admin',NULL,NULL,'Y',1,0,1,'user/manager/admin','','none'),(2,'3주차 프로젝트','2020-11-11 16:05:33','admin',NULL,NULL,'N',1,0,2,'user/manager/admin','','none'),(3,'4주차 프로젝트','2020-11-11 16:05:33','admin',NULL,NULL,'N',1,0,3,'user/manager/admin','','none'),(4,'5주차 프로젝트','2020-11-11 16:05:33','admin',NULL,NULL,'N',1,0,4,'user/manager/admin','','none'),(5,'추가 프로젝트','2020-11-11 16:05:33','admin',NULL,NULL,'N',1,0,5,'user/manager/admin','','none'),(6,'게시판','2020-11-11 16:05:33','admin',NULL,NULL,'N',2,1,1,'user/manager/admin','','none'),(7,'lv 3 메뉴항목 추가','2020-11-11 07:26:07','admin',NULL,NULL,'Y',3,6,1,'manager/admin','','none'),(8,'ㅌㅌㅌ','2020-11-11 07:32:48','admin',NULL,NULL,'Y',1,0,8,'admin','','gallery'),(9,'동영상 게시판','2020-11-11 09:11:37','admin',NULL,NULL,'N',1,0,9,'manager/admin','','videoboard'),(10,'lv2 메뉴 추가','2020-11-11 18:22:14','admin',NULL,NULL,'N',2,1,1,'user/manager/admin','','none'),(11,'새로운 메뉴명','2020-11-11 22:33:15','admin',NULL,NULL,'Y',1,0,11,'user/manager/admin','','none'),(12,'설문조사','2020-11-11 22:34:43','admin',NULL,NULL,'Y',2,11,11,'manager/admin','','servey');
+INSERT INTO `menu` VALUES (1,'1주차','admin','2020-11-12 05:26:42','admin','2020-11-12 07:49:56','user/manager/admin','1주차 메뉴','#',1,1,NULL,NULL),(2,'게시판 프로젝트','admin','2020-11-12 05:26:56','admin','2020-11-12 07:49:51','user/manager/admin','1주차 중위메뉴','#',2,1,2,NULL),(3,'자유게시판','admin','2020-11-12 05:27:13','admin','2020-11-12 07:35:02','user/manager/admin','dep3 게시판 바로가기 메뉴 설정','boardList.do?b_bseq=1',3,1,2,3),(4,'1주차 더미메뉴','admin','2020-11-12 05:27:33',NULL,NULL,'user/manager/admin','1주차 dep2 더미메뉴','#',2,1,4,NULL),(5,'3주차','admin','2020-11-12 05:27:53',NULL,NULL,'user/manager/admin','3주차 상위메뉴','#',1,5,NULL,NULL),(6,'설문조사 프로젝트','admin','2020-11-12 05:28:16','admin','2020-11-12 07:44:03','user/manager/admin','ㅅㅁㅈㅅ','serveyList.do',2,5,6,NULL),(7,'4주차','admin','2020-11-12 05:28:32','admin','2020-11-12 06:08:59','manager/admin','갤러리 프로젝트','#',1,7,NULL,NULL),(8,'갤러리','admin','2020-11-12 05:28:56',NULL,NULL,'manager/admin','갤러리 프로젝트','galleryMain.do',2,7,8,NULL),(9,'5주차','admin','2020-11-12 05:29:04','admin','2020-11-12 08:37:39','user/manager/admin','ㅇㅇ','#',1,9,NULL,NULL),(10,'체크리스트','admin','2020-11-12 05:29:18','admin','2020-11-12 06:06:00','user/manager/admin','ㅇㅇ','checkListMain.do',2,9,10,NULL),(11,'3주차 더미 메뉴','admin','2020-11-12 05:32:00',NULL,NULL,'user/manager/admin','333','#',2,5,11,NULL),(12,'알림 게시판','admin','2020-11-12 07:35:37',NULL,NULL,'user/manager/admin','알림 게시판 바로가기','boardList.do?b_bseq=4',3,1,2,12),(13,'예시용 게시판','admin','2020-11-12 07:35:55',NULL,NULL,'user/manager/admin','예시용 게시판','boardList.do?b_bseq=5',3,1,2,13),(14,'추가 게시판','admin','2020-11-12 07:37:00',NULL,NULL,'user/manager/admin','추가 게시판 바로가기','boardList.do?b_bseq=7',3,1,2,14),(15,'추가프로젝트','admin','2020-11-12 08:36:17','admin','2020-11-12 08:36:22','admin','최상위 메뉴 추가','#',1,15,NULL,NULL),(16,'야구게임 게시판','admin','2020-11-12 08:36:42',NULL,NULL,'user/manager/admin','야구게임 게시판 바로가기','baseballList.do',2,15,16,NULL);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -414,9 +414,9 @@ DROP TABLE IF EXISTS `menulog`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menulog` (
-  `ml_seq` int(11) NOT NULL,
+  `ml_seq` int NOT NULL,
   `user_id` varchar(20) DEFAULT NULL,
-  `menu_id` int(11) NOT NULL,
+  `menu_id` int NOT NULL,
   `access_time` datetime NOT NULL,
   PRIMARY KEY (`ml_seq`),
   KEY `FK2_user_id` (`user_id`),
@@ -441,7 +441,7 @@ DROP TABLE IF EXISTS `servey`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `servey` (
-  `s_seq` int(11) NOT NULL AUTO_INCREMENT COMMENT '설문조사 번호',
+  `s_seq` int NOT NULL AUTO_INCREMENT COMMENT '설문조사 번호',
   `s_name` varchar(3000) NOT NULL COMMENT '설문조사명',
   `s_startdate` date NOT NULL,
   `s_enddate` date NOT NULL,
@@ -471,7 +471,7 @@ CREATE TABLE `serveyanswer` (
   `q_no` varchar(50) NOT NULL DEFAULT '',
   `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `a_answer` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
-  `s_seq` int(11) DEFAULT NULL,
+  `s_seq` int DEFAULT NULL,
   KEY `FK_tbl_answer_s_seq` (`s_seq`),
   KEY `FK_u_id` (`user_id`) USING BTREE,
   CONSTRAINT `FK_tbl_answer_s_seq` FOREIGN KEY (`s_seq`) REFERENCES `servey` (`s_seq`)
@@ -484,7 +484,7 @@ CREATE TABLE `serveyanswer` (
 
 LOCK TABLES `serveyanswer` WRITE;
 /*!40000 ALTER TABLE `serveyanswer` DISABLE KEYS */;
-INSERT INTO `serveyanswer` VALUES ('6','wck','1',1),('5','wck','1',1),('2','wck','2',1),('4','wck','2',1),('1','wck','3',1),('3','wck','3',1),('7','wck','2',1),('8','wck','1',1),('10','wck','2',1),('9','wck','4',1),('11','wck','3',1),('12','wck','2',1),('13','wck','2',1),('14','wck','1',1),('16-1','wck','4,6,12',1),('15','wck','2',1),('16','wck','',1),('16-2','wck','1,2',1),('16-3','wck','2,4',1),('17','wck','ad',1),('18','wck','2',1),('19','wck','ㅇㄷㅂㄷ',1),('6','adm','3',1),('4','adm','2',1),('3','adm','3',1),('5','adm','1',1),('2','adm','2',1),('1','adm','1',1),('7','adm','3',1),('11','adm','2',1),('8','adm','4',1),('10','adm','2',1),('9','adm','2',1),('12','adm','3',1),('13','adm','4',1),('14','adm','1',1),('15','adm','2',1),('16','adm','',1),('16-2','adm','4,5',1),('16-1','adm','11,13,17',1),('16-3','adm','10',1),('17','adm','11213',1),('18','adm','',1),('19','adm','',1),('5','wck1234','2',1),('1','wck1234','4',1),('4','wck1234','3',1),('6','wck1234','3',1),('3','wck1234','4',1),('2','wck1234','5',1),('11','wck1234','3',1),('12','wck1234','3',1),('10','wck1234','2',1),('7','wck1234','2',1),('13','wck1234','5',1),('8','wck1234','1',1),('9','wck1234','3',1),('14','wck1234','4',1),('15','wck1234','2',1),('16-1','wck1234','4,7,8',1),('16','wck1234','',1),('16-2','wck1234','1,3',1),('16-3','wck1234','3,5',1),('17','wck1234','ㄴㅇ',1),('18','wck1234','',1),('19','wck1234','',1),('1','user','4',1),('2','user','4',1),('3','user','3',1),('4','user','4',1),('6','user','4',1),('5','user','2',1),('7','user','6',1),('8','user','5',1),('9','user','4',1),('10','user','2',1),('12','user','4',1),('13','user','2',1),('11','user','4',1),('14','user','4',1),('15','user','1',1),('16','user','',1),('16-1','user','3,5,11',1),('16-2','user','2,5',1),('16-3','user','3,6',1),('17','user','sss',1),('18','user','',1),('19','user','',1),('1','fusion','3',1),('3','fusion','2',1),('2','fusion','2',1),('4','fusion','1',1),('7','fusion','2',1),('5','fusion','7',1),('8','fusion','1',1),('6','fusion','4',1),('9','fusion','1',1),('10','fusion','7',1),('11','fusion','4',1),('14','fusion','1',1),('12','fusion','2',1),('13','fusion','1',1),('15','fusion','7',1),('16','fusion','',1),('16-1','fusion','4,7,11',1),('16-2','fusion','5,8',1),('16-3','fusion','4,7',1),('17','fusion','asdsad',1),('18','fusion','',1),('19','fusion','',1);
+INSERT INTO `serveyanswer` VALUES ('6','wck','1',1),('5','wck','1',1),('2','wck','2',1),('4','wck','2',1),('1','wck','3',1),('3','wck','3',1),('7','wck','2',1),('8','wck','1',1),('10','wck','2',1),('9','wck','4',1),('11','wck','3',1),('12','wck','2',1),('13','wck','2',1),('14','wck','1',1),('16-1','wck','4,6,12',1),('15','wck','2',1),('16','wck','',1),('16-2','wck','1,2',1),('16-3','wck','2,4',1),('17','wck','ad',1),('18','wck','2',1),('19','wck','ㅇㄷㅂㄷ',1),('6','adm','3',1),('4','adm','2',1),('3','adm','3',1),('5','adm','1',1),('2','adm','2',1),('1','adm','1',1),('7','adm','3',1),('11','adm','2',1),('8','adm','4',1),('10','adm','2',1),('9','adm','2',1),('12','adm','3',1),('13','adm','4',1),('14','adm','1',1),('15','adm','2',1),('16','adm','',1),('16-2','adm','4,5',1),('16-1','adm','11,13,17',1),('16-3','adm','10',1),('17','adm','11213',1),('18','adm','',1),('19','adm','',1),('5','wck1234','2',1),('1','wck1234','4',1),('4','wck1234','3',1),('6','wck1234','3',1),('3','wck1234','4',1),('2','wck1234','5',1),('11','wck1234','3',1),('12','wck1234','3',1),('10','wck1234','2',1),('7','wck1234','2',1),('13','wck1234','5',1),('8','wck1234','1',1),('9','wck1234','3',1),('14','wck1234','4',1),('15','wck1234','2',1),('16-1','wck1234','4,7,8',1),('16','wck1234','',1),('16-2','wck1234','1,3',1),('16-3','wck1234','3,5',1),('17','wck1234','ㄴㅇ',1),('18','wck1234','',1),('19','wck1234','',1),('1','user','4',1),('2','user','4',1),('3','user','3',1),('4','user','4',1),('6','user','4',1),('5','user','2',1),('7','user','6',1),('8','user','5',1),('9','user','4',1),('10','user','2',1),('12','user','4',1),('13','user','2',1),('11','user','4',1),('14','user','4',1),('15','user','1',1),('16','user','',1),('16-1','user','3,5,11',1),('16-2','user','2,5',1),('16-3','user','3,6',1),('17','user','sss',1),('18','user','',1),('19','user','',1),('1','fusion','3',1),('3','fusion','2',1),('2','fusion','2',1),('4','fusion','1',1),('7','fusion','2',1),('5','fusion','7',1),('8','fusion','1',1),('6','fusion','4',1),('9','fusion','1',1),('10','fusion','7',1),('11','fusion','4',1),('14','fusion','1',1),('12','fusion','2',1),('13','fusion','1',1),('15','fusion','7',1),('16','fusion','',1),('16-1','fusion','4,7',1),('16-2','fusion','5,8',1),('16-3','fusion','4,7',1),('17','fusion','asdsad',1),('18','fusion','',1),('19','fusion','',1);
 /*!40000 ALTER TABLE `serveyanswer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,9 +496,9 @@ DROP TABLE IF EXISTS `serveychoice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `serveychoice` (
-  `c_type` int(11) NOT NULL,
+  `c_type` int NOT NULL,
   `c_text` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
-  `c_value` int(11) NOT NULL DEFAULT '0'
+  `c_value` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='설문조사 문항 선택지 테이블';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -522,7 +522,7 @@ DROP TABLE IF EXISTS `serveylog`;
 CREATE TABLE `serveylog` (
   `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `inputdate` date NOT NULL,
-  `s_seq` int(11) NOT NULL DEFAULT '0',
+  `s_seq` int NOT NULL DEFAULT '0',
   KEY `FK_log_sseq` (`s_seq`),
   KEY `FK_log_uid` (`user_id`) USING BTREE,
   CONSTRAINT `FK_log_sseq` FOREIGN KEY (`s_seq`) REFERENCES `servey` (`s_seq`)
@@ -535,7 +535,7 @@ CREATE TABLE `serveylog` (
 
 LOCK TABLES `serveylog` WRITE;
 /*!40000 ALTER TABLE `serveylog` DISABLE KEYS */;
-INSERT INTO `serveylog` VALUES ('wck','2020-11-03',1),('adm','2020-10-26',1),('wck1234','2020-11-03',1),('user','2020-11-03',1),('fusion','2020-11-05',1);
+INSERT INTO `serveylog` VALUES ('wck','2020-11-03',1),('adm','2020-10-26',1),('wck1234','2020-11-03',1),('user','2020-11-03',1),('fusion','2020-11-12',1);
 /*!40000 ALTER TABLE `serveylog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -547,13 +547,13 @@ DROP TABLE IF EXISTS `serveyquestion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `serveyquestion` (
-  `s_seq` int(11) NOT NULL,
+  `s_seq` int NOT NULL,
   `q_no` varchar(50) NOT NULL DEFAULT '',
   `q_text` varchar(3000) NOT NULL DEFAULT '',
   `q_category` varchar(300) NOT NULL DEFAULT '',
-  `c_type` int(11) NOT NULL DEFAULT '0',
+  `c_type` int NOT NULL DEFAULT '0',
   `q_required` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'true',
-  `q_multiple` int(11) NOT NULL DEFAULT '1',
+  `q_multiple` int NOT NULL DEFAULT '1',
   KEY `FK_s_seq` (`s_seq`),
   CONSTRAINT `FK_s_seq` FOREIGN KEY (`s_seq`) REFERENCES `servey` (`s_seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='설문조사 질문지 테이블';
@@ -578,7 +578,7 @@ DROP TABLE IF EXISTS `showlist`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `showlist` (
   `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `b_seq` int(11) NOT NULL,
+  `b_seq` int NOT NULL,
   PRIMARY KEY (`user_id`,`b_seq`) USING BTREE,
   KEY `FK_show_bseq` (`b_seq`),
   CONSTRAINT `FK_show_bseq` FOREIGN KEY (`b_seq`) REFERENCES `checkboard` (`b_seq`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -603,11 +603,11 @@ DROP TABLE IF EXISTS `tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tag` (
-  `t_seq` int(11) NOT NULL AUTO_INCREMENT,
+  `t_seq` int NOT NULL AUTO_INCREMENT,
   `t_name` varchar(100) NOT NULL DEFAULT '',
-  `t_readcnt` int(11) NOT NULL DEFAULT '0',
+  `t_readcnt` int NOT NULL DEFAULT '0',
   `t_regdate` date NOT NULL,
-  `g_seq` int(11) NOT NULL DEFAULT '0',
+  `g_seq` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`t_seq`),
   KEY `FK_tag_gseq` (`g_seq`),
   CONSTRAINT `FK_tag_gseq` FOREIGN KEY (`g_seq`) REFERENCES `gallery` (`g_seq`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -620,7 +620,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES (21,'바다',7,'2020-09-15',1),(28,'가을',7,'2020-09-15',1),(29,'사람',7,'2020-09-15',1),(30,'테스트',19,'2020-09-15',2),(31,'이미지',19,'2020-09-15',2),(32,'건물',8,'2020-09-15',3),(34,'음식',8,'2020-09-15',3),(35,'레스토랑',8,'2020-09-15',3),(36,'동물',16,'2020-09-15',4),(37,'고양이',16,'2020-09-15',4),(38,'강아지',16,'2020-09-15',4),(39,'펫',16,'2020-09-15',4),(42,'아기',18,'2020-09-15',6),(43,'사람',18,'2020-09-15',6),(44,'귀여움',18,'2020-09-15',6),(45,'학생',6,'2020-09-15',7),(46,'아이콘',6,'2020-09-15',7),(48,'동물',19,'2020-09-16',8),(49,'웃긴사진',19,'2020-09-16',8),(50,'웃긴사진',23,'2020-09-16',9),(51,'카툰',23,'2020-09-16',9),(59,'웃긴사진',7,'2020-09-16',12),(60,'동물',7,'2020-09-16',12),(61,'고양이',7,'2020-09-16',12),(62,'동물',48,'2020-09-16',13),(64,'사자',48,'2020-09-16',13),(65,'사슴',48,'2020-09-16',13),(66,'야',6,'2020-09-16',7),(68,'야나',6,'2020-09-16',7),(69,'두',6,'2020-09-16',7),(70,'맹수',45,'2020-09-17',13),(71,'고양이',14,'2020-09-17',8),(72,'웃음',4,'2020-09-17',9),(73,'웃음',15,'2020-09-17',6),(75,'음식',9,'2020-09-17',14),(76,'만두',9,'2020-09-17',14),(77,'저녁',9,'2020-09-17',14),(78,'음식',10,'2020-09-17',15),(79,'생일',10,'2020-09-17',15),(80,'케이크',10,'2020-09-17',15),(81,'식물',17,'2020-09-17',16),(82,'숲',17,'2020-09-17',16),(83,'동물',12,'2020-09-17',17),(84,'곤충',12,'2020-09-17',17),(85,'벌',12,'2020-09-17',17),(89,'이미지',16,'2020-09-17',19),(90,'체크',16,'2020-09-17',19),(91,'초록',16,'2020-09-17',19),(92,'컬러',78,'2020-09-17',20),(95,'컬러',12,'2020-09-17',19),(99,'카카오',29,'2020-09-18',22),(100,'캐릭터',29,'2020-09-18',22),(101,'라이언',29,'2020-09-18',22),(103,'사람',6,'2020-09-18',23),(104,'실사',6,'2020-09-18',23),(105,'캐릭터',6,'2020-09-18',23),(106,'호랑이',34,'2020-09-18',24),(107,'곰',34,'2020-09-18',24),(108,'동물',34,'2020-09-18',24),(109,'캐릭터',34,'2020-09-18',24),(110,'두두',26,'2020-09-18',25),(111,'캐릭터',26,'2020-09-18',25),(112,'두드림',26,'2020-09-18',25),(113,'동물',47,'2020-09-18',26),(114,'동물',8,'2020-09-18',27),(115,'카카오',8,'2020-09-18',27),(116,'라이언',8,'2020-09-18',27),(121,'추가',56,'2020-09-18',20),(125,'동물',22,'2020-09-18',30),(126,'캐릭터',22,'2020-09-18',30),(127,'고양이',22,'2020-09-18',30),(129,'개',22,'2020-09-18',30),(139,'베니고마',24,'2020-09-18',32),(140,'캐릭터',24,'2020-09-18',32),(142,'물개',24,'2020-09-18',32),(143,'슈퍼카',61,'2020-09-18',33),(144,'람보르기니',61,'2020-09-18',33),(146,'코닉세그',58,'2020-09-18',33),(155,'갤러리',28,'2020-10-28',35),(156,'통합',28,'2020-10-28',35),(157,'업로드',28,'2020-10-28',35),(159,'통합',51,'2020-10-29',36),(160,'테스트',51,'2020-10-29',36),(161,'TOT',46,'2020-10-29',36),(162,'테스트',38,'2020-10-29',26),(163,'테스트',10,'2020-10-29',16),(164,'테스트',7,'2020-10-29',20),(168,'업로드',7,'2020-11-05',36),(169,'태그1',8,'2020-11-05',37),(170,'태그추가',5,'2020-11-05',37);
+INSERT INTO `tag` VALUES (21,'바다',7,'2020-09-15',1),(28,'가을',7,'2020-09-15',1),(29,'사람',7,'2020-09-15',1),(30,'테스트',19,'2020-09-15',2),(31,'이미지',19,'2020-09-15',2),(32,'건물',8,'2020-09-15',3),(34,'음식',8,'2020-09-15',3),(35,'레스토랑',8,'2020-09-15',3),(36,'동물',16,'2020-09-15',4),(37,'고양이',16,'2020-09-15',4),(38,'강아지',16,'2020-09-15',4),(39,'펫',16,'2020-09-15',4),(42,'아기',18,'2020-09-15',6),(43,'사람',18,'2020-09-15',6),(44,'귀여움',18,'2020-09-15',6),(45,'학생',6,'2020-09-15',7),(46,'아이콘',6,'2020-09-15',7),(48,'동물',20,'2020-09-16',8),(49,'웃긴사진',20,'2020-09-16',8),(50,'웃긴사진',23,'2020-09-16',9),(51,'카툰',23,'2020-09-16',9),(59,'웃긴사진',7,'2020-09-16',12),(60,'동물',7,'2020-09-16',12),(61,'고양이',7,'2020-09-16',12),(62,'동물',48,'2020-09-16',13),(64,'사자',48,'2020-09-16',13),(65,'사슴',48,'2020-09-16',13),(66,'야',6,'2020-09-16',7),(68,'야나',6,'2020-09-16',7),(69,'두',6,'2020-09-16',7),(70,'맹수',45,'2020-09-17',13),(71,'고양이',15,'2020-09-17',8),(72,'웃음',4,'2020-09-17',9),(73,'웃음',15,'2020-09-17',6),(75,'음식',9,'2020-09-17',14),(76,'만두',9,'2020-09-17',14),(77,'저녁',9,'2020-09-17',14),(78,'음식',10,'2020-09-17',15),(79,'생일',10,'2020-09-17',15),(80,'케이크',10,'2020-09-17',15),(81,'식물',17,'2020-09-17',16),(82,'숲',17,'2020-09-17',16),(83,'동물',12,'2020-09-17',17),(84,'곤충',12,'2020-09-17',17),(85,'벌',12,'2020-09-17',17),(89,'이미지',16,'2020-09-17',19),(90,'체크',16,'2020-09-17',19),(91,'초록',16,'2020-09-17',19),(92,'컬러',78,'2020-09-17',20),(95,'컬러',12,'2020-09-17',19),(99,'카카오',29,'2020-09-18',22),(100,'캐릭터',29,'2020-09-18',22),(101,'라이언',29,'2020-09-18',22),(103,'사람',6,'2020-09-18',23),(104,'실사',6,'2020-09-18',23),(105,'캐릭터',6,'2020-09-18',23),(106,'호랑이',34,'2020-09-18',24),(107,'곰',34,'2020-09-18',24),(108,'동물',34,'2020-09-18',24),(109,'캐릭터',34,'2020-09-18',24),(110,'두두',26,'2020-09-18',25),(111,'캐릭터',26,'2020-09-18',25),(112,'두드림',26,'2020-09-18',25),(113,'동물',47,'2020-09-18',26),(114,'동물',8,'2020-09-18',27),(115,'카카오',8,'2020-09-18',27),(116,'라이언',8,'2020-09-18',27),(121,'추가',56,'2020-09-18',20),(125,'동물',22,'2020-09-18',30),(126,'캐릭터',22,'2020-09-18',30),(127,'고양이',22,'2020-09-18',30),(129,'개',22,'2020-09-18',30),(139,'베니고마',25,'2020-09-18',32),(140,'캐릭터',25,'2020-09-18',32),(142,'물개',25,'2020-09-18',32),(143,'슈퍼카',61,'2020-09-18',33),(144,'람보르기니',61,'2020-09-18',33),(146,'코닉세그',58,'2020-09-18',33),(155,'갤러리',28,'2020-10-28',35),(156,'통합',28,'2020-10-28',35),(157,'업로드',28,'2020-10-28',35),(159,'통합',51,'2020-10-29',36),(160,'테스트',51,'2020-10-29',36),(161,'TOT',46,'2020-10-29',36),(162,'테스트',38,'2020-10-29',26),(163,'테스트',10,'2020-10-29',16),(164,'테스트',7,'2020-10-29',20),(168,'업로드',7,'2020-11-05',36),(169,'태그1',8,'2020-11-05',37),(170,'태그추가',5,'2020-11-05',37);
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -665,4 +665,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-11 23:10:53
+-- Dump completed on 2020-11-12 17:58:06

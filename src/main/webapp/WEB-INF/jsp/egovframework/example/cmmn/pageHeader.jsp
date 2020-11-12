@@ -37,13 +37,28 @@ function checkKeyword(){
 
 <!-- 메뉴 리스트 영역 -->
 <div class="mt-4 mb-2">
-	<c:forEach items="${menuList }" var="menu" varStatus="msts">
-            <c:if test="${menu.menu_level == 1 }">
-                <li class="nav-item"><a class="nav-link" href="#">${menu.menu_name }</a>
-                    <ul>
-                    </ul>
-            </c:if>
-        </c:forEach>
+	<c:forEach items="${showMenuList }" var="menu">
+		<c:if test="${menu.menu_level == 1 }">
+			<div class="btn-group">
+			  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+			   	${menu.menu_name }
+			  </button>
+			  <div class="dropdown-menu">
+				<c:forEach items="${showMenuList }" var="menu2">
+			    	<c:if test="${(menu2.menu_depth1 == menu.menu_id )&& menu2.menu_level != 1}">
+				    <a class="dropdown-item" href="${menu2.menu_url }">
+				    	<c:forEach begin="3" end="${menu2.menu_level }">&nbsp;&nbsp;</c:forEach>
+						<c:if test="${menu2.menu_level > 2 }">└</c:if> 
+				    	${menu2.menu_name }
+				    </a>
+                   	</c:if>
+			  </c:forEach>
+			  </div>
+			</div>
+		</c:if>
+	</c:forEach>
+	
+	<!--  -->
 	<%-- <a href='serveyList.do'><b>설문조사</b> &nbsp;&nbsp;&nbsp;</a>
 	<a href='galleryMain.do'><b>갤러리</b> &nbsp;&nbsp;&nbsp;</a>
 	<c:if test="${sessionScope.user.admin_YN != 'Y' }">

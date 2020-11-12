@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>설문조사 응답 폼</title>
 <%@include file="../cmmn/common_top.jsp"%>
+
 <style>
 	* { font-family: 'Noto Sans KR', sans-serif; }
 	

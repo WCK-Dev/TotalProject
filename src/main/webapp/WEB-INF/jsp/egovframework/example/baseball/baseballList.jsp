@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시판 메인</title>
+<title>야구게임 게시판 메인</title>
 <%@include file="../cmmn/common_top.jsp"%>
 
 <script type="text/javascript"src="${pageContext.request.contextPath }/js/checkListMain.js"></script>
@@ -25,7 +25,6 @@ if('${baseballErrMsg}' == 'true'){
 <body>
 
 	<div class="container wrapper">
-	
 		<jsp:include page="../cmmn/pageHeader.jsp"></jsp:include>
 		
 		<h2 style="margin-top: 60px; display: inline-block;">${user.user_id }님의 숫자야구 플레이리스트</h2>

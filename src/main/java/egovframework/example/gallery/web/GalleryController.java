@@ -36,8 +36,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import egovframework.example.board.service.BoardService;
 import egovframework.example.board.service.UserVO;
+import egovframework.example.cmmn.service.CommonService;
+import egovframework.example.cmmn.service.MenuVO;
 import egovframework.example.gallery.service.FilesVO;
 import egovframework.example.gallery.service.GalleryService;
 import egovframework.example.gallery.service.GalleryVO;
@@ -51,8 +52,8 @@ public class GalleryController {
 	@Resource(name = "galleryService")
 	private GalleryService galleryService;
 	
-	@Resource(name = "boardService")
-	private BoardService boardService;
+	@Resource(name = "commonService")
+	private CommonService commonService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -63,9 +64,14 @@ public class GalleryController {
 	private String uploadPath;
 	
 	@RequestMapping(value="galleryMain.do")
-	public String galleryMain(ModelMap model, GalleryVO gvo) {
+	public String galleryMain(ModelMap model, GalleryVO gvo, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -89,9 +95,14 @@ public class GalleryController {
 	}
 	
 	@RequestMapping(value="writeGallery.do", method=RequestMethod.GET)
-	public String writeGallery(ModelMap model) {
+	public String writeGallery(ModelMap model, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		return "gallery/writeGallery";
 	}
@@ -164,9 +175,14 @@ public class GalleryController {
 	}
 	
 	@RequestMapping(value="readGallery.do")
-	public String readGallery(GalleryVO gvo, ModelMap model, RedirectAttributes ra) {
+	public String readGallery(GalleryVO gvo, ModelMap model, RedirectAttributes ra, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		gvo = galleryService.selectGallery(gvo);
 		
@@ -184,7 +200,12 @@ public class GalleryController {
 	@RequestMapping(value="updateGallery.do", method=RequestMethod.GET)
 	public String updateGallery(GalleryVO gvo, ModelMap model, RedirectAttributes ra, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		gvo = galleryService.selectGallery(gvo);
 		
@@ -415,9 +436,14 @@ public class GalleryController {
 	}
 	
 	@RequestMapping(value="tagStatusMenu.do")
-	public String tagStatusMenu (ModelMap model) {
+	public String tagStatusMenu (ModelMap model, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		return "gallery/tagStatusMenu";
 	}

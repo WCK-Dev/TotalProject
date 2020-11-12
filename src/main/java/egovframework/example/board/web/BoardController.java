@@ -58,7 +58,7 @@ public class BoardController {
 		MenuVO mvo = new MenuVO();
 		mvo.setMenu_auth(user_roll);
 		
-		model.addAttribute("menuList", commonService.selectMenuList(mvo));
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		return "board/boardMain";
 	}
@@ -66,10 +66,17 @@ public class BoardController {
 	@RequestMapping(value="boardList.do")
 	public String boardList(@ModelAttribute("board")BoardVO boardVO, ModelMap model, HttpServletRequest request) throws Exception {
 		
-		UserVO user = (UserVO)request.getSession().getAttribute("user");
-		boardVO.setLoginId(user.getUser_id());
+		String user_roll = ((UserVO)request.getSession().getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		
+		UserVO user = (UserVO)request.getSession().getAttribute("user");
+		boardVO.setLoginId(user.getUser_id());
 		
 		/** boardKinds setting (선택된 게시판정보를 VO에 추가) */
 		BoardVO bk = new BoardVO();
@@ -445,6 +452,13 @@ public class BoardController {
 	
 	@RequestMapping(value="totalSearch.do")
 	public String totalSearch(BoardVO boardVO, ModelMap model, HttpSession session) throws Exception{
+		
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+		
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		List<BoardKindsVO> boardKindsList = (List<BoardKindsVO>) boardService.selectBoardKindsList();
 		

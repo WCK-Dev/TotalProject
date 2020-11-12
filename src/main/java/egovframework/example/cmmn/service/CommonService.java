@@ -6,5 +6,17 @@ public interface CommonService {
 
 	List<MenuVO> selectMenuList(MenuVO mvo);
 	
+	List<MenuVO> selectMenuListAll();
+	
+	MenuVO selectMenu(MenuVO mvo);
+	
+	int updateMenu(MenuVO mvo);
+	
+	int updateLowerMenuAuth(MenuVO mvo);
+	
+	int deleteMenu(MenuVO mvo);
+	
 	int insertMenu(MenuVO mvo);
+	
+	
 }

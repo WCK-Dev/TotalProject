@@ -1,6 +1,5 @@
 package egovframework.example.baseball.web;
 
-import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -10,14 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.example.baseball.service.BaseBallService;
 import egovframework.example.baseball.service.BaseBallTryVO;
 import egovframework.example.baseball.service.BaseBallVO;
-import egovframework.example.board.service.BoardService;
 import egovframework.example.board.service.UserVO;
+import egovframework.example.cmmn.service.CommonService;
+import egovframework.example.cmmn.service.MenuVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 
 @Controller
@@ -27,8 +26,8 @@ public class BaseBallController {
 	@Resource(name = "baseballService")
 	private BaseBallService baseballService;
 	
-	@Resource(name = "boardService")
-	private BoardService boardService;
+	@Resource(name = "commonService")
+	private CommonService commonService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -38,7 +37,12 @@ public class BaseBallController {
 	@RequestMapping(value="baseballList.do")
 	public String baseballList(ModelMap model, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		model.addAttribute("baseballList", baseballService.selectBaseballList(((UserVO)session.getAttribute("user")).getUser_id()));
 		
@@ -46,9 +50,14 @@ public class BaseBallController {
 	}
 	
 	@RequestMapping(value="baseballMain.do")
-	public String baseballMain(ModelMap model) {
+	public String baseballMain(ModelMap model, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		return "baseball/baseballMain";
 	}
@@ -56,7 +65,12 @@ public class BaseBallController {
 	@RequestMapping(value="insertBaseball.do")
 	public String insertBaseball(ModelMap model, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		BaseBallVO baseball = new BaseBallVO();
 		
@@ -76,7 +90,12 @@ public class BaseBallController {
 	@RequestMapping(value="baseballPlay.do")
 	public String baseballPlay(BaseBallVO bvo, ModelMap model, HttpSession session, RedirectAttributes ra) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		bvo = baseballService.selectBaseball(bvo);
 		
@@ -93,9 +112,14 @@ public class BaseBallController {
 	}
 	
 	@RequestMapping(value="baseballCheck.do", method=RequestMethod.POST)
-	public String baseballCheck(BaseBallTryVO btvo, ModelMap model) {
+	public String baseballCheck(BaseBallTryVO btvo, ModelMap model, HttpSession session) {
 		
-		model.addAttribute("boardKindsList", boardService.selectBoardKindsList());
+		String user_roll = ((UserVO)session.getAttribute("user")).getUser_roll();
+
+		MenuVO mvo = new MenuVO();
+		mvo.setMenu_auth(user_roll);
+		
+		model.addAttribute("showMenuList", commonService.selectMenuList(mvo));
 		
 		// 현재 입력된 숫자야구 게임의 번호로 해당 숫자야구게임의 정답을 조회
 		BaseBallVO bvo = new BaseBallVO();

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.cmmn.service.impl.CommonMapper">
+	
+	<select id="selectMenuList" parameterType="menuVO" resultType="menuVO">
+		SELECT menu_id
+			  ,menu_name
+			  ,menu_create_user
+			  ,menu_create_dttm
+			  ,menu_modify_user
+			  ,menu_modify_dttm
+			  ,menu_auth
+			  ,menu_info
+			  ,menu_url
+			  ,menu_level
+			  ,menu_depth1
+			  ,menu_depth2
+			  ,menu_depth3
+		FROM menu
+		WHERE menu_auth LIKE CONCAT('%', #{menu_auth}, '%')
+		ORDER BY menu_depth1, menu_depth2, menu_depth3
+	</select>
+	
+	<select id="selectMenuListAll" resultType="menuVO">
+		SELECT menu_id
+			  ,menu_name
+			  ,menu_create_user
+			  ,menu_create_dttm
+			  ,menu_modify_user
+			  ,menu_modify_dttm
+			  ,menu_auth
+			  ,menu_info
+			  ,menu_url
+			  ,menu_level
+			  ,menu_depth1
+			  ,menu_depth2
+			  ,menu_depth3
+		FROM menu
+		ORDER BY menu_depth1, menu_depth2, menu_depth3
+	</select>
+	
+	<select resultType="int" id="nextMenuId">
+		SELECT IFNULL(MAX(menu_id), 0) + 1 AS next_menu_id FROM menu
+	</select>
+	
+	<select id="selectMenu" parameterType="menuVO" resultType="menuVO">
+		SELECT menu_id
+			  ,menu_name
+			  ,menu_create_user
+			  ,menu_create_dttm
+			  ,menu_modify_user
+			  ,menu_modify_dttm
+			  ,menu_auth
+			  ,menu_info
+			  ,menu_url
+			  ,menu_level
+			  ,menu_depth1
+			  ,menu_depth2
+			  ,menu_depth3
+		FROM menu
+		WHERE menu_id = #{menu_id}
+	</select>
+	
+	<insert id="insertMenu" parameterType="menuVO">
+		INSERT INTO menu(
+					menu_id
+				   ,menu_name
+				   ,menu_create_user
+				   ,menu_create_dttm
+				   ,menu_auth
+				   ,menu_info
+				   ,menu_url
+				   ,menu_level
+				   ,menu_depth1
+				   <if test="menu_ref != 0">
+						   ,menu_depth2
+				   		<if test="menu_reflevel == 2">
+						   ,menu_depth3
+				   		</if>
+				   </if>
+				)
+		VALUES (
+				   #{menu_id}
+			      ,#{menu_name}
+			      ,#{menu_create_user}
+			      ,sysdate()
+			      ,#{menu_auth}
+			      ,#{menu_info}
+			      ,#{menu_url}
+			      <if test="menu_ref == 0">
+			      	,1
+			      	,#{menu_id}
+			      </if>
+			      <if test="menu_ref != 0">
+			      	,(SELECT menu_level + 1 FROM menu m WHERE menu_id = #{menu_ref})
+			        ,(SELECT menu_depth1 FROM menu m WHERE menu_id = #{menu_ref})
+			        <if test="menu_reflevel == 1">
+					   ,#{menu_id}
+			   		</if>
+			   		<if test="menu_reflevel == 2">
+					   ,(SELECT menu_depth2 FROM menu m WHERE menu_id = #{menu_ref})
+					   ,#{menu_id}
+			   		</if>
+			      </if>
+				)
+	</insert>
+	
+	<update id="updateMenu" parameterType="menuVO">
+		UPDATE menu	
+		SET menu_name = #{menu_name}
+		   ,menu_auth = #{menu_auth}
+		   ,menu_url = #{menu_url}
+		   ,menu_info = #{menu_info}
+		   ,menu_modify_user = #{menu_modify_user}
+		   ,menu_modify_dttm = sysdate()
+		WHERE menu_id = #{menu_id}
+	</update>
+	
+	<update id="updateLowerMenuAuth" parameterType="menuVO">
+		UPDATE menu	
+		SET menu_auth = #{menu_auth}
+		WHERE menu_depth#{menu_level} = #{menu_id}
+	</update>
+	
+	<delete id="deleteMenu" parameterType="menuVO">
+		DELETE FROM menu
+		WHERE menu_id = #{menu_id}
+			<if test="menu_level != 3">
+				OR menu_depth#{menu_level} = #{menu_id}
+			</if>
+	</delete>
+</mapper>
