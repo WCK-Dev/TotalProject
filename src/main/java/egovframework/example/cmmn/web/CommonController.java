@@ -1,5 +1,7 @@
 package egovframework.example.cmmn.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -7,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.example.board.service.UserVO;
 import egovframework.example.cmmn.service.CommonService;
@@ -67,9 +69,9 @@ public class CommonController {
 		
 		commonService.updateMenu(mvo);
 		
-		if(mvo.getMenu_level() != 3) {
+		/*if(mvo.getMenu_level() != 3) {
 			commonService.updateLowerMenuAuth(mvo);
-		}
+		}*/
 		
 		return "redirect:/managementMenu.do";
 	}
@@ -80,5 +82,12 @@ public class CommonController {
 		commonService.deleteMenu(mvo);
 		
 		return "redirect:/managementMenu.do";
+	}
+	
+	@RequestMapping(value="checkLowerMenu.do", method=RequestMethod.POST)
+	@ResponseBody
+	public List<MenuVO> checkLowerMenu(MenuVO mvo) {
+		
+		return commonService.checkLowerMenu(mvo);
 	}
 }

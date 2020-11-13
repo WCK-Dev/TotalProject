@@ -21,7 +21,7 @@
 		var menu_refLevel = $("#level"+menu_ref).val();
 		
 		
-		if(menu_refLevel != undefined){
+		if(menu_refLevel != undefined && !$("#menu_ref").attr("disabled")){
 			$("#menu_reflevel").val(menu_refLevel);
 		}
 		
@@ -36,6 +36,34 @@
 		}
 		else {
 			$("#MenuForm").submit();
+		}
+		
+	}
+	
+	function checkLowerMenu(menu_id){
+		
+		if($("#menu_lv_modify").prop("checked")) {
+			$.ajax({
+				type : 'POST',
+				url : "checkLowerMenu.do",
+				async : false,
+				dataType : "json",
+				data : {"menu_id": menu_id},
+				
+				success : function (result) {
+					console.log(result);
+					
+					if(result.length == 0) {
+						$('#menu_ref').attr('disabled', false);
+					} else {
+						alert("하위메뉴가 존재하는 메뉴는 상위메뉴를 변경할 수 없습니다.\r\n먼저 하위메뉴를 처리한 후 시도하세요");
+						$("#menu_lv_modify").prop("checked", false);
+					}
+				}
+			}); // ajax End
+			
+		} else {
+			$('#menu_ref').attr('disabled', true);
 		}
 		
 	}
@@ -54,11 +82,14 @@
 				<td colspan="3"><input type="text" id="menu_name" name="menu_name" maxlength="30" placeholder="새로운 메뉴명을 입력해주세요" class="form-control" value="${menuInfo.menu_name }" ></td>
 			</tr>
 			<tr>
-				<td><h5>상위메뉴</h5></td>
 				<td>
-					<input type="hidden" id="menu_level" name="menu_level" value="${menuInfo.menu_level }">
+					<h5>상위메뉴</h5>
+					변경하기 <input type="checkbox" id="menu_lv_modify" value="0" onchange="checkLowerMenu(${menuInfo.menu_id })">
+				</td>
+				<td>
+					<input type="hidden" id="menu_reflevel" name="menu_reflevel" value="0">
 					<select name="menu_ref" id="menu_ref" class="browser-default custom-select" disabled="disabled">
-						<option value="0">없음</option>
+						<option value="-1">없음</option>
 						<c:forEach items="${menuListAll }" var="menu">
 							<c:if test="${menu.menu_level != 3 && menu.menu_id != menuInfo.menu_id}">
 								<option value="${menu.menu_id }" <c:if test="${menu.menu_id == menuInfo.menu_depth1 || menu.menu_id == menuInfo.menu_depth2 }">selected</c:if>>
@@ -97,7 +128,7 @@
 		</table>
 		
 		<div class="panel-footer float-right">
-			<button type="button" class="btn btn-primary" onclick="testValidation()">메뉴항목 추가</button>
+			<button type="button" class="btn btn-primary" onclick="testValidation()">메뉴항목 변경</button>
 		</div>
 		</form>
 	</div>

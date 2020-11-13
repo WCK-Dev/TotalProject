@@ -20,7 +20,6 @@
 		var menu_ref = $("#menu_ref option:selected").val();
 		var menu_refLevel = $("#level"+menu_ref).val();
 		
-		
 		if(menu_refLevel != undefined){
 			$("#menu_reflevel").val(menu_refLevel);
 		}

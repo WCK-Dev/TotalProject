@@ -40,7 +40,7 @@ function checkKeyword(){
 	<c:forEach items="${showMenuList }" var="menu">
 		<c:if test="${menu.menu_level == 1 }">
 			<div class="btn-group">
-			  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+			  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" onclick="location.href='${menu.menu_url}'">
 			   	${menu.menu_name }
 			  </button>
 			  <div class="dropdown-menu">
@@ -57,15 +57,6 @@ function checkKeyword(){
 			</div>
 		</c:if>
 	</c:forEach>
-	
-	<!--  -->
-	<%-- <a href='serveyList.do'><b>설문조사</b> &nbsp;&nbsp;&nbsp;</a>
-	<a href='galleryMain.do'><b>갤러리</b> &nbsp;&nbsp;&nbsp;</a>
-	<c:if test="${sessionScope.user.admin_YN != 'Y' }">
-		<a href='checkListMain.do'><b>체크리스트</b> &nbsp;&nbsp;&nbsp;</a>
-	</c:if>
-	<a href='baseballList.do'><b>숫자야구게임</b> &nbsp;&nbsp;&nbsp;</a> --%>
-	
 </div>
 
 <hr>

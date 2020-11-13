@@ -18,5 +18,6 @@ public interface CommonService {
 	
 	int insertMenu(MenuVO mvo);
 	
+	List<MenuVO> checkLowerMenu(MenuVO mvo);
 	
 }

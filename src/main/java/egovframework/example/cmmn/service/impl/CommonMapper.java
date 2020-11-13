@@ -23,4 +23,6 @@ public interface CommonMapper {
 	int nextMenuId();
 	
 	int insertMenu(MenuVO mvo);
+	
+	List<MenuVO> checkLowerMenu(MenuVO mvo);
 }

@@ -114,6 +114,11 @@
 			<mvc:mapping path="/selectUserLog.do"/>
 			<mvc:mapping path="/selectUserAnswer.do"/>
 			
+			<mvc:mapping path="/managementMenu.do"/>
+			<mvc:mapping path="/createMenu.do"/>
+			<mvc:mapping path="/modifyMenu.do"/>
+			<mvc:mapping path="/deleteMenu.do"/>
+			
 			<ref bean="adminAuthInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

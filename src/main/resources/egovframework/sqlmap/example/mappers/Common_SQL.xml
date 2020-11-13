@@ -113,6 +113,25 @@
 		   ,menu_info = #{menu_info}
 		   ,menu_modify_user = #{menu_modify_user}
 		   ,menu_modify_dttm = sysdate()
+		   <if test="menu_ref == -1">
+		   ,menu_level = 1
+		   ,menu_depth1 = #{menu_id}
+		   ,menu_depth2 = NULL
+		   ,menu_depth3 = NULL
+		   </if>
+		   
+		   <if test="menu_ref > 0">
+		   ,menu_level = (SELECT x.menu_level + 1 FROM (SELECT m.menu_level FROM menu m WHERE menu_id = #{menu_ref}) x)
+		   ,menu_depth1 = (SELECT x.menu_depth1 FROM (SELECT m.menu_depth1 FROM menu m WHERE menu_id = #{menu_ref}) x)
+		   </if>
+	   	   <if test="menu_reflevel == 1">
+	   	   ,menu_depth2 = #{menu_id}
+	   	   </if>
+	   	   <if test="menu_reflevel == 2">
+	   	   ,menu_depth2 = (SELECT x.menu_depth2 FROM (SELECT m.menu_depth2 FROM menu m WHERE menu_id = #{menu_ref}) x)
+	   	   ,menu_depth3 = #{menu_id}
+		   </if>
+		   
 		WHERE menu_id = #{menu_id}
 	</update>
 	
@@ -129,4 +148,20 @@
 				OR menu_depth#{menu_level} = #{menu_id}
 			</if>
 	</delete>
+	
+	<select id="checkLowerMenu" parameterType="menuVO" resultType="menuVO">
+		SELECT menu_id
+			  ,menu_name
+			  ,menu_create_user
+			  ,menu_create_dttm
+			  ,menu_auth
+			  ,menu_info
+			  ,menu_url
+			  ,menu_level
+			  ,menu_depth1
+			  ,menu_depth2
+			  ,menu_depth3
+		FROM menu
+		WHERE menu_id != #{menu_id} AND (menu_depth1 = #{menu_id} OR menu_depth2 = #{menu_id})
+	</select>
 </mapper>

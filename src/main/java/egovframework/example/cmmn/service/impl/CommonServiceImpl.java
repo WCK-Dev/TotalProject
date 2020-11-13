@@ -65,4 +65,8 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl implements Common
 		return commonDAO.insertMenu(mvo);
 	}
 	
+	@Override
+	public List<MenuVO> checkLowerMenu(MenuVO mvo) {
+		return commonDAO.checkLowerMenu(mvo);
+	}
 }

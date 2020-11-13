@@ -13,6 +13,9 @@
 <title>게시판 관리</title>
 <%@include file="../cmmn/common_top.jsp"%>
 
+<!-- drag&drop JS-->
+<script type="text/javascript"src="${pageContext.request.contextPath }/js/jquery.tablednd.js"></script>
+
 <script type="text/javascript">
 
 	$(function(){ 
